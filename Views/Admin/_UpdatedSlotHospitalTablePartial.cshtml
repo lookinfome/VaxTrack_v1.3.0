@@ -1,0 +1,14 @@
+@model IEnumerable<v1Remastered.Dto.AdminDetailsDto_HospitalsList>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.HospitalId</td>
+        <td>@item.HospitalName</td>
+        <td>@item.HospitalAvailableSlots</td>
+        <td>
+            <input type="number" id="increaseSlots_@item.HospitalId" class="admin-slot-update-input" />
+            <button type="button" id="increaseSlots" onclick="increaseSlots(@item.HospitalId)" class="admin-slot-update-submit">Update Slots</button>
+        </td>
+    </tr>
+}

@@ -1,0 +1,150 @@
+@model v1Remastered.Dto.UserDetailsDto_UserProfileEdit;
+
+@{
+    ViewBag.pageTitle = "edit profile".ToUpper();
+    ViewBag.pageDesc = "let us update your info ";
+    var currMonthYear = DateTime.Now.ToString("yyyy-MM-dd");
+}
+
+<div class="container">
+
+    @* 0th row *@
+    @if(!string.IsNullOrEmpty(ViewBag.UserAuthenticityStatus))
+    {
+        <div class="row">
+            <div id="userNotAuthenticMsg" style="padding:none; box-shadow: 0px 1px 10px tomato;" class="alert alert-danger text-center">
+                <span> @ViewBag.UserAuthenticityStatus </span>
+                <i class="fas fa-user-secret"></i>
+            </div>
+        </div>
+    }
+    
+    @if(!string.IsNullOrEmpty(ViewBag.UserProfileUpdateInvalidInputMsg))
+    {
+        <div class="row">
+            <div id="userInvalidInputMsg" style="padding:none; box-shadow: 0px 1px 10px tomato;" class="alert alert-danger text-center">
+                <span> @ViewBag.UserProfileUpdateInvalidInputMsg </span>
+            </div>
+        </div>
+    }
+    
+
+    @* 1st row *@
+    <div class="row justify-content-center mt-5">
+
+        <div class="col col-lg-3 col-md-6 col-sm-12">
+
+            <div class="page-title text-center">
+                <h3> @ViewBag.pageTitle </h3>
+                <span style="font-size: 16px; color: gold;">
+                    @ViewBag.pageDesc <i style="margin-left: 5px;" class="icon-edit fas fa-user-edit"></i>
+                </span>
+            </div>
+
+            <div class="user-edit-profile-form">
+                @using(Html.BeginForm("UserProfileEdit", "UserProfile", FormMethod.Post, new { id = "userEditForm", enctype = "multipart/form-data" }))
+                {
+                    @* phone number *@
+                    <div class="">
+                        @Html.TextBoxFor(model => model.UserPhone, new { @style="width:100%;", @class = "mt-4 user-edit-profile-input", placeholder = "Phone Number"})
+                        @Html.ValidationMessageFor(model => model.UserPhone, null, new { @class = "mx-2 validation-msg" }, null)
+                    </div>
+                 
+                    @* user birthdate *@
+                    <div class="">
+                        @Html.LabelFor(model=>model.UserBirthdate,"Date of Birth", new {@style="color:white", @class="mt-4"})
+                        @Html.TextBoxFor(model => model.UserBirthdate, new { @style="width:100%;", type = "date", max = currMonthYear, @class = "user-edit-profile-input", placeholder = "mm/dd/yyyy"})
+                        @Html.ValidationMessageFor(model => model.UserBirthdate, null, new { @class = "mx-2 validation-msg" }, null)
+                    </div>
+
+                    @* image *@
+                    <div class="">
+                        @Html.LabelFor(m => m.ProfilePicture, "Upload Profile Picture", new {@style="color:gray", @class="mt-4"}) 
+                        <input type="file" name="ProfilePicture" class="form-control register-input" />
+                        @Html.ValidationMessageFor(m => m.ProfilePicture, null, new { @class = "mx-2 validation-msg" }, null)
+                    </div>
+
+
+                    @* hidden password field *@
+                    <div class="">
+                        @Html.HiddenFor(model => model.UserPassword, new { @class = "user-edit-profile-input", id = "passwordField",  placeholder ="Confirm Your Password" })
+                    </div>
+
+                    @* submit *@
+                    <div class="text-left">
+                        <input type="submit" class="mt-4 user-edit-profile-submit" onclick="confirmPassword()" value="Update" />
+                    </div>
+                    
+                }
+
+            </div>
+
+            @* action buttons *@
+            <div class="mt-1 d-flex justify-content-between">
+                <a style="color:#14e9de;" href="javascript:void(0);" onclick="resetForm()">Reset</a>
+                <a style="color:gold" href="javascript:void(0);" onclick="window.history.back();" class="">Go Back</a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts{
+
+    @* confirm password *@
+    <script type="text/javascript">
+        function confirmPassword() {
+            var password = prompt("Please enter your password to confirm:");
+            if (password != null && password != "") {
+                document.getElementById("passwordField").value = password;
+                document.getElementById("userEditForm").submit();
+            }
+            else
+            {
+                alert("Password confirmation is required to proceed.");
+            }
+        }
+    </script>
+
+    @* form input reset *@
+    <script>
+        function resetForm() {
+            document.getElementById('userEditForm').reset();
+        }
+    </script>
+    
+    @* display user authenticate message *@
+    <script>
+        window.onload = function() 
+        {
+            setTimeout(function() 
+            {
+                var welcomeMessage = document.getElementById('userNotAuthenticMsg');
+                if (welcomeMessage) {
+                    welcomeMessage.style.display = 'none';
+                }
+            }, 5000); // 5000 milliseconds = 5 seconds
+        };
+    </script>
+
+    @* display invalid input message *@
+    <script>
+        window.onload = function()
+        {
+            setTimeout(function()
+            {
+                var userInvalidInputMsg = document.getElementById('userInvalidInputMsg');
+                if(userInvalidInputMsg) {
+                    userInvalidInputMsg.style.display = 'none';
+                }
+            }, 5000);
+        }
+    </script>
+
+    @* toggle submit button *@
+    
+
+
+}

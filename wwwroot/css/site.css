@@ -1,0 +1,359 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  background-image: linear-gradient(rgba(68, 68, 56, 0.5), rgba(68, 68, 56, 0.5)),url("../assets/homepage-bg-1.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+/* navbar */
+.logout-submit {
+  background-color: transparent;
+  color: white;
+  border: none;
+  margin-top: 7px;
+}
+
+/* home page */
+
+.app-name {
+  color: white;
+}
+
+.app-version {
+  color:aqua;
+  font-size: 15px;
+  font-weight: 500;
+  text-shadow: 0px 1px 10px lightcyan;
+}
+
+.app-desc-head, .app-desc-body {
+  color: white;
+}
+
+.app-desc-body p {
+  font-size: 20px;
+  width: 50%;
+  margin: 0px auto 0px auto;
+}
+
+.btn-signin, .btn-signup {
+  padding: 5px 10px 5px 10px;
+  font-size: 15px;
+  font-weight: 400;
+  border-radius: 20px;
+  text-decoration: none;
+  color: black;
+  transition: 0.5s ease-in-out;
+}
+
+.btn-signin {
+  border: 1px solid springgreen;
+  background-color: springgreen;
+}
+
+.btn-signin:hover {
+  color: black;
+  border: 1px solid lime;
+  background-color: lime;
+  box-shadow: 0px 1px 10px lime;
+}
+
+.btn-signup {
+  border: 1px solid #FCF55F;
+  background-color: #FCF55F;
+}
+
+.btn-signup:hover {
+  color: black;
+  border: 1px solid #FFEA00;
+  background-color:#FFEA00;
+  box-shadow: 0px 1px 10px #FFEA00;
+}
+
+/* page: login page, register page, slot book page */
+.page-title {
+  color: white;
+}
+
+/* input: login page, register page, slot book page */
+.login-input,
+.register-input,
+.book-form-input,
+.user-edit-profile-input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid gainsboro;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* login page */
+.login-input:focus {
+  border-color: lime;
+  box-shadow: 0px 1px 10px lime;
+  outline: none;
+}
+
+.login-submit {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  background-color: gray;
+  transition: 0.5s ease-in-out;
+}
+
+.login-submit:hover {
+  border: 1px solid lime;
+  background-color: lime;
+  box-shadow: 0px 1px 10px lime;
+}
+
+.icon-smile {
+  color: lime;
+  border-radius: 50%;
+  box-shadow: 0px 1px 10px lime;
+}
+
+/* register page */
+.register-input:focus {
+  border-color: yellow;
+  box-shadow: 0px 1px 10px yellow;
+  outline: none;
+}
+
+.register-submit {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  background-color: gray;
+  transition: 0.5s ease-in-out;
+}
+
+.register-submit:hover {
+  border: 1px solid yellow;
+  background-color: yellow;
+  box-shadow: 0px 1px 10px yellow;
+}
+
+.icon-handshake {
+  color: yellow;
+  border-radius: 50%;
+  text-shadow: 0px 1px 10px yellow;
+}
+
+.icon-clock, .icon-camp {
+  color: cyan;
+  border-radius: 50%;
+  text-shadow: 0px 1px 10px cyan;
+}
+
+/* slot book form page */
+
+/* v2 */
+
+.booking-hospital-list {
+  color: white;
+  border-radius: 10px 10px 0px 0px;
+  background-color: rgba(52, 215, 236, 0.4);
+}
+
+.book-form-input:hover {
+  border-color: cyan;
+  box-shadow: 0px 1px 10px cyan;
+  outline: none;
+}
+
+/* v1 */
+
+.book-form-submit {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  background-color: gray;
+  transition: 0.5s ease-in-out;
+}
+
+.book-form-submit:hover {
+  border: 1px solid aquamarine;
+  background-color: aqua;
+  box-shadow: 0px 1px 10px aqua;
+}
+
+.action-link {
+  color: white;
+}
+
+.action-link a {
+  text-decoration: none;
+}
+
+.validation-msg {
+  color: red;
+}
+
+
+/* user profile page css */
+
+.user-profile-details, .user-personal-details, .user-vaccine-details, .user-booking-details {
+  color: white;
+}
+
+.user-identity-details, .user-vaccine-details, .user-personal-details , .user-booking-details {
+  padding: 20px 25px 20px 25px;
+  border-radius: 10px;
+  box-shadow: 0px 1px 10px gainsboro;
+  background-color: rgba(4, 27, 27, 0.3);
+}
+
+.user-edit-profile-link {
+  padding: 10px;
+  color: black;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.5s ease-in-out;
+  background-color: goldenrod;
+}
+
+.user-edit-profile-link:hover {
+  color: black;
+  background-color: gold;
+  box-shadow: 0px 1px 10px gold;
+}
+
+.slot-book-submit {
+  padding: 10px;
+  color: black;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.5s ease-in-out;
+  background-color: aquamarine;
+}
+
+.slot-book-submit:hover {
+  color: black;
+  background-color: aqua;
+  box-shadow: 0px 1px 10px aquamarine;
+}
+
+/* user profile edit form */
+.icon-edit {
+  color: gold;
+  text-shadow: 0px 1px 10px gold;
+}
+
+.user-edit-profile-submit {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  background-color: gray;
+  transition: 0.5s ease-in-out;
+}
+
+.user-edit-profile-submit:hover {
+  border: 1px solid gold;
+  background-color: gold;
+  box-shadow: 0px 1px 10px gold;
+}
+
+.user-edit-profile-input:focus {
+  border-color: gold;
+  box-shadow: 0px 1px 10px gold;
+  outline: none;
+}
+
+/* admin page css */
+
+.admin-desc, .admin-action h5 {
+  color: white;
+}
+
+.admin-desc-content, .admin-action-panel-head, .admin-app-stats-head {
+  padding: 10px;
+  color: orange;
+  border-radius: 10px;
+  background-color: rgba(9, 12, 12, 0.3);
+  box-shadow: 0px 1px 10px white;
+}
+
+.admin-action-panel-head, .admin-app-stats-head {
+  color:lawngreen;
+}
+
+.icon-jet, .icon-analytics {
+  color: sandybrown;
+  rotate: -45deg;
+  margin-left: 10px;
+  text-shadow: 0px 1px 10px orange;
+}
+
+.action-panel-1, .action-panel-2 {
+  color: white;
+}
+
+.action-approve-table thead {
+  background-color: rgba(253, 239, 81, 0.7);
+}
+
+.action-approve-table tbody {
+  background-color: rgba(245, 245, 220, 0.7);
+}
+
+.admin-approve-table {
+  color: black;
+  border-radius: 10px 10px 0px 0px;
+  background-color: rgba(252, 245, 95, 0.7);
+}
+
+.admin-update-hospitals {
+  color: white;
+  border-radius: 10px 10px 0px 0px;
+  background-color: rgba(52, 215, 236, 0.4);
+}
+
+.admin-slot-update-input {
+  width: 50px;
+  border-radius: 5px;
+  border: 1px solid gainsboro;
+  outline: none;
+}
+
+.admin-slot-update-submit {
+  border: 1px solid lightseagreen;
+  box-shadow: 0px 1px 2px lightseagreen;
+  background-color: lightseagreen;
+  border-radius: 10px;
+  transition: 0.5s ease-in-out;
+}
+
+.admin-slot-update-submit:hover {
+  border: 1px solid yellowgreen;
+  background-color: yellowgreen;
+  box-shadow: 0px 1px 2px lightgreen;
+}
+
+
+

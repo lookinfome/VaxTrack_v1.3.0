@@ -1,0 +1,22 @@
+@model IEnumerable<v1Remastered.Dto.AdminDetailsDto_UserWithPendingApproval>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.Username</td>
+        <td>@item.UserId</td>
+        <td>@item.BookingId</td>
+        <td>@item.Dose1Date (<b>@item.D1HospitalName</b>)</td>
+        <td>@item.Dose2Date (<b>@item.D2HospitalName</b>)</td>
+        @if(@item.UserVaccinationStatus == 0)
+        {
+            <td>Not Vaccinated</td>
+            <td><button class="btn btn-sm btn-danger">Approve</button></td>
+        }
+        else
+        {
+            <td>Vaccinated</td>
+            <td><button class="btn btn-sm btn-success disabled">Approved</button></td>
+        }
+    </tr>
+}

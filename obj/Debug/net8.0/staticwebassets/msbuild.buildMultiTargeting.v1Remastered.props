@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\v1Remastered.props" />
+</Project>

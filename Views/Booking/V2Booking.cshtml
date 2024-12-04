@@ -1,0 +1,225 @@
+@model v1Remastered.Dto.BookingDetailsDto_V2SlotBook
+
+@{
+    ViewBag.pageTitle1 = "book slot".ToUpper();
+    ViewBag.pageDesc1 = "and get ready to defeat the COVID-19 ";
+
+    ViewBag.pageTitle2 = "available hospital list".ToUpper();
+    ViewBag.pageDesc2 = "select as per your convenience ";
+    var lowerLimitd1 = DateTime.Now.ToString("yyyy-MM-dd");
+
+    var dose1BookingDate = ((DateTime)ViewBag.Dose1BookingDate).ToString("yyyy-MM-dd");
+}
+
+<style>
+
+    .v2-book-form-label {
+        color: white;
+    }
+
+</style>
+
+
+<div class="container">
+
+    @if(!string.IsNullOrEmpty(ViewBag.BookingStatusMsg))
+    {
+        <div>
+            <div style="padding: none; box-shadow: 0px 1px 10px yellow;" id="bookingmsg" class="alert alert-warning text-center" role="alert">
+                @ViewBag.BookingStatusMsg
+                <i class="fas fa-exclamation"></i>
+            </div>
+        </div>
+    }
+
+    <div class="row justify-content-center">
+
+        @*  booking form *@
+
+        <div class="col col-lg-3">
+
+            <div class="page-title text-center">
+                <h3> @ViewBag.pageTitle1 </h3>
+                <span style="font-size: 16px; color: cyan;">
+                    @ViewBag.pageDesc1 <i class="icon-clock far fa-clock"></i>
+                </span>
+            </div>
+
+            <div class="mt-5">
+                @* if dose 1 is not approved *@
+                @if(ViewBag.IsD1Approved == false)
+                {
+                    @using (Html.BeginForm("V2Booking", "Booking", FormMethod.Post))
+                    {
+                        @* dose 1 date *@
+                        <div>
+                            @Html.LabelFor(model => model.Dose1BookDate, "Dose 1 Date", new { @class = "v2-book-form-label" })
+                            @Html.TextBoxFor(model => model.Dose1BookDate, new { @style = "width:100%;", type = "date", @class = "book-form-input", min = lowerLimitd1, id = "Dose1Date" })
+                            @Html.ValidationMessageFor(model => model.Dose1BookDate, null, new { @class = "validation-msg" }, null)
+                        </div>
+
+                        @* hospital details *@
+                        <div>
+                            @Html.LabelFor(model => model.HospitalName, "Hospital Name", new { @class = "v2-book-form-label mt-3" })
+                            @Html.TextBoxFor(model => model.HospitalName, new { @readonly = "readonly", @style = "width:100%;", @class = "book-form-input", id = "HospitalNameD1", placeholder = "select available hospital from list" })
+                            @Html.ValidationMessageFor(model => model.HospitalName, null, new { @class = "validation-msg" }, null)
+                        </div>
+
+                        @* submit *@
+                        <input type="submit" value="Book Slot" class="book-form-submit mt-4" />
+                    }
+                }
+                @* dose 2 booking *@
+                else
+                {
+                    @using (Html.BeginForm("V2Booking", "Booking", FormMethod.Post))
+                    {
+                        @* dose 2 date *@
+                        <div>
+                            @Html.LabelFor(model => model.Dose2BookDate, "Dose 2 Date", new { @class = "v2-book-form-label" })
+                            @Html.TextBoxFor(model => model.Dose2BookDate, new { @style = "width:100%;", type = "date", @class = "book-form-input", min = lowerLimitd1, id = "Dose2BookDate" })
+                            @Html.ValidationMessageFor(model => model.Dose2BookDate, null, new { @class = "validation-msg" }, null)
+                        </div>
+
+                        @* hospital details *@
+                        <div>
+                            @Html.LabelFor(model => model.HospitalName, "Hospital Name", new { @class = "v2-book-form-label mt-3" })
+                            @Html.TextBoxFor(model => model.HospitalName, new { @readonly = "readonly", @style = "width:100%;", @class = "book-form-input", id = "HospitalNameD2", placeholder = "select available hospital from list" })
+                            @Html.ValidationMessageFor(model => model.HospitalName, null, new { @class = "validation-msg" }, null)
+                        </div>
+
+                        @* submit *@
+                        <input type="submit" value="Book Slot" class="book-form-submit mt-4" />
+                    }
+                }
+            </div>
+
+            @* action buttons *@
+            <div class="mt-1 mb-4 d-flex justify-content-end">
+                <a style="color:aqua" href="javascript:void(0);" onclick="window.history.back();" class="">Go Back</a>
+            </div>
+
+        </div>
+
+        @* hospital list *@
+
+        <div class="mx-1 col col-lg-7">
+
+            <div class="page-title text-center">
+                <h3> @ViewBag.pageTitle2 </h3>
+                <span style="font-size: 16px; color: cyan;">
+                    @ViewBag.pageDesc2 <i class="icon-camp fas fa-campground"></i>
+                </span>
+            </div>
+
+            <div class="mt-5">
+                @if(ViewBag.AvailableHospitalsLit.Count > 0)
+                {
+                    <div style="overflow-y: auto; border-bottom: 1px solid cyan;">
+                        <table class="booking-hospital-list table table-hover">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>Hospital Name</th>
+                                    <th>Available Slots</th>
+                                    <th>Hospital Location</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hospitalTableBody">
+                                    @foreach(var record in ViewBag.AvailableHospitalsLit)
+                                    {
+                                        <tr class="text-center">
+                                            <td>@record.HospitalName</td>
+                                            <td>@record.HospitalAvailableSlots</td>
+                                            <td>@record.HospitalLocation</td>
+                                        </tr>
+                                    }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else 
+                {
+                    <div class="text-center mt-5">
+                        <p class="mt-4" style="color: white;"> No slots are available right now :(  </p>
+                    </div>
+                }
+
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+@section Scripts{
+
+    <script>
+        window.onload = function() {
+            setTimeout(function() {
+                var welcomeMessage = document.getElementById('bookingmsg');
+                if (welcomeMessage) {
+                    welcomeMessage.style.display = 'none';
+                }
+            }, 5000); // 5000 milliseconds = 5 seconds
+        };
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setDose2MinDate();
+        });
+
+        function setDose2MinDate() {
+            var d1bookdate = '@dose1BookingDate'; // Ensure this is treated as a string
+            var dose2DateInput = document.getElementById('Dose2BookDate');
+            if (dose2DateInput) {
+                dose2DateInput.min = d1bookdate;
+                dose2DateInput.value = ""; // Reset the second dose date input
+            }
+        }
+    </script>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const tableBody = document.getElementById('hospitalTableBody');
+
+        tableBody.addEventListener('click', function(event) {
+            const targetRow = event.target.closest('tr');
+            if (targetRow) {
+                // Remove 'selected' class from all rows
+                const rows = tableBody.getElementsByTagName('tr');
+                for (let row of rows) {
+                    row.classList.remove('selected');
+                }
+
+                // Add 'selected' class to the clicked row
+                targetRow.classList.add('selected');
+
+                // Get the hospital name from the clicked row
+                const hospitalName = targetRow.cells[0].innerText;
+                console.log('Selected Hospital:', hospitalName);
+
+                // Set the hospital name to the appropriate text field
+                const textFieldD1 = document.getElementById('HospitalNameD1');
+                const textFieldD2 = document.getElementById('HospitalNameD2');
+
+            if (textFieldD1) {
+                textFieldD1.value = hospitalName;
+                console.log('textFieldD1 after assignment: ', textFieldD1.value);
+            }
+            if (textFieldD2) {
+                textFieldD2.value = hospitalName;
+                console.log('textFieldD2 after assignment: ', textFieldD2.value);
+            }
+
+            }
+        });
+    });
+    </script>
+}

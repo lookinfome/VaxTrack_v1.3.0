@@ -1,0 +1,28 @@
+﻿@{
+
+}
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+
+        <!-- app title -->
+        <div class="app-desc-head text-center">
+            <h1> @ViewBag.appName for the India</h1>
+        </div>
+
+        <!-- app desc -->
+        <div class="app-desc-body mt-3 text-center">
+            <p> @ViewBag.appDescription </p>
+        </div>
+
+        <!-- action links -->
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="mt-5 text-center">
+                <a href="@Url.Action("LoginUser", "Account")" class="btn-signin">Sign In</a>
+                <a href="@Url.Action("RegisterUser", "Account")" class="mx-2 btn-signup">Sign Up</a>
+            </div>
+        }
+
+    </div>
+</div>
