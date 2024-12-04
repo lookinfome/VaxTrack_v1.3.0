@@ -1,7 +1,7 @@
 @model v1Remastered.Dto.UserDetailsDto_Register;
 
 @{
-    ViewBag.pageTitle = "Registeration Page".ToUpper();
+    ViewBag.pageTitle = "Registeration".ToUpper();
     ViewBag.pageDesc = "join our community and fight with us";
     var currMonthYear = DateTime.Now.ToString("yyyy-MM-dd");
 }
@@ -21,9 +21,9 @@
 
         <div class="col col-lg-3 col-md-6 col-sm-12">
 
-            <div class="page-title text-center">
-                <h3> @ViewBag.pageTitle </h3>
-                <span style="font-size: 16px; color: yellow;">
+            <div class="register-content text-center">
+                <h3 class="register-title-content"> @ViewBag.pageTitle </h3>
+                <span class="register-body-content">
                     @ViewBag.pageDesc <i class="icon-handshake mx-2 fas fa-handshake"></i>
                 </span>
             </div>
@@ -93,7 +93,7 @@
                 }
 
                 <div class="action-link mt-3 d-flex">
-                    <p>Or already registered?</p>
+                    <p class="register-action-content ">Or already registered?</p>
                     <a style="color: lime;" class="mx-2" href="@Url.Action("LoginUser", "Account")">SignIn</a>
                 </div>
                 
@@ -169,17 +169,13 @@
 
 
     <script>
-
-        <script>
-            window.onload = function() {
-                setTimeout(function() {
-                    var welcomeMessage = document.getElementById('registrationFailMsg');
-                    if (welcomeMessage) {
-                        welcomeMessage.style.display = 'none';
-                    }
-                }, 5000); // 5000 milliseconds = 5 seconds
-            };
-        </script>
-
+        window.onload = function() {
+            setTimeout(function() {
+                var welcomeMessage = document.getElementById('registrationFailMsg');
+                if (welcomeMessage) {
+                    welcomeMessage.style.display = 'none';
+                }
+            }, 5000); // 5000 milliseconds = 5 seconds
+        };
     </script>
 }

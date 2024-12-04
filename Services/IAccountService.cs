@@ -116,6 +116,10 @@ namespace v1Remastered.Services
                 }
                 userDetails.ProfilePicturePath = "/assets/" + uniqueFileName;
             }
+            else 
+            {
+                userDetails.ProfilePicturePath = "/assets/default-0.png";
+            }
 
 
             // save record to DB and update DB

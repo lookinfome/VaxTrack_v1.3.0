@@ -27,93 +27,73 @@ namespace v1Remastered.Controllers
         [HttpGet("LoginUser")]
         public IActionResult LoginUser()
         {
-            return View();
+            return PartialView("_LoginUserPartial");
         }
 
         [HttpPost("LoginUser")]
         public IActionResult LoginUser(UserDetailsDto_Login submittedDetails)
         {
-            // if model is valid
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                // fetch user id post logging in
                 string userId = _accountService.LoginUser(submittedDetails);
-
-                // if login successfull
-                if(!string.IsNullOrEmpty(userId))
+                if (!string.IsNullOrEmpty(userId))
                 {
-                    // fetch user name
                     string userName = _userProfileService.FetchUserName(userId);
-
-                    // fetch user role
                     string userRole = _userProfileService.FetchUserRoleById(userId);
 
-                    // if user is not admin
-                    if(userRole.ToLower() == "user")
+                    if (userRole.ToLower() == "user")
                     {
                         TempData["userLoginMsgSuccess"] = $"Welcome again, {userName}";
-                        return RedirectToAction("UserProfile", "UserProfile", new {userid = submittedDetails.UserId});
+                        return Json(new { success = true, redirectUrl = Url.Action("UserProfile", "UserProfile", new { userid = submittedDetails.UserId }) });
                     }
-
-                    // if user is admin
                     else
                     {
                         TempData["userAdminMsgSuccess"] = $"Welcome again admin, {userName}";
-                        return RedirectToAction("AdminPage", "Admin", new {userid = submittedDetails.UserId});
+                        return Json(new { success = true, redirectUrl = Url.Action("AdminPage", "Admin", new { userid = submittedDetails.UserId }) });
                     }
-
                 }
-
-                // if login failed
                 else
                 {
-                    return View(submittedDetails);
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    return PartialView("_LoginUserPartial", submittedDetails);
                 }
-
             }
-
-            // if model is not valid
             else
             {
-                return View(submittedDetails);
+                return PartialView("_LoginUserPartial", submittedDetails);
             }
         }
+
 
         [HttpGet("RegisterUser")]
         public IActionResult RegisterUser()
         {
             ViewBag.SignUpFailedMsg = TempData["SignUpFailedMsg"];
-            return View();
+            return PartialView("_RegisterUserPartial");
         }
 
         [HttpPost("RegisterUser")]
         public IActionResult RegisterUser(UserDetailsDto_Register submittedDetails)
         {
-        
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                // Task<string> userId1 = _accountService.RegisterUser(submittedDetails);
-
-
-
-                string userId= _accountService.RegisterUser(submittedDetails);
-
-                if(!string.IsNullOrEmpty(userId))
+                string userId = _accountService.RegisterUser(submittedDetails);
+                if (!string.IsNullOrEmpty(userId))
                 {
                     string username = _userProfileService.FetchUserName(userId);
 
-                    TempData["SignUpSuccessMsg"] = $"Welcom user, {username}";
-                    return RedirectToAction("UserProfile", "UserProfile", new {userid = submittedDetails.UserId});
+                    TempData["SignUpSuccessMsg"] = $"Welcome user, {username}";
+                    return Json(new { success = true, redirectUrl = Url.Action("UserProfile", "UserProfile", new { userid = userId }) });
                 }
                 else
                 {
-                    TempData["SignUpFailedMsg"] = $"Oops somthing went wrong, but don't worry and try again";
-                    return View(submittedDetails);
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    return PartialView("_RegisterUserPartial", submittedDetails);
                 }
             }
             else
             {
-                return View(submittedDetails);
+                return PartialView("_RegisterUserPartial", submittedDetails);
             }
         }
     

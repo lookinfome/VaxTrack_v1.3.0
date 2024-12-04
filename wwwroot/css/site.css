@@ -19,7 +19,7 @@ html {
 
 body {
   margin-bottom: 60px;
-  background-image: linear-gradient(rgba(68, 68, 56, 0.5), rgba(68, 68, 56, 0.5)),url("../assets/homepage-bg-1.jpg");
+  background-color: #2A3335;
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -27,15 +27,6 @@ body {
 }
 
 /* navbar */
-.logout-submit {
-  background-color: transparent;
-  color: white;
-  border: none;
-  margin-top: 7px;
-}
-
-/* home page */
-
 .app-name {
   color: white;
 }
@@ -47,70 +38,41 @@ body {
   text-shadow: 0px 1px 10px lightcyan;
 }
 
-.app-desc-head, .app-desc-body {
+.logout-submit {
+  background-color: transparent;
+  color: white;
+  border: none;
+  margin-top: 7px;
+}
+
+/* page: home */
+
+.home-title-content, .home-body-content {
   color: white;
 }
 
-.app-desc-body p {
+.home-body-content p {
   font-size: 20px;
   width: 50%;
   margin: 0px auto 0px auto;
 }
 
-.btn-signin, .btn-signup {
-  padding: 5px 10px 5px 10px;
-  font-size: 15px;
-  font-weight: 400;
-  border-radius: 20px;
-  text-decoration: none;
-  color: black;
-  transition: 0.5s ease-in-out;
+
+
+
+/* page: login */
+.login-title-content, .login-body-content {
+  color: #9BEC00;
+  font-weight: 450;
 }
 
-.btn-signin {
-  border: 1px solid springgreen;
-  background-color: springgreen;
+.login-action-content {
+  color: #B9FFF8;
 }
 
-.btn-signin:hover {
-  color: black;
-  border: 1px solid lime;
-  background-color: lime;
-  box-shadow: 0px 1px 10px lime;
-}
-
-.btn-signup {
-  border: 1px solid #FCF55F;
-  background-color: #FCF55F;
-}
-
-.btn-signup:hover {
-  color: black;
-  border: 1px solid #FFEA00;
-  background-color:#FFEA00;
-  box-shadow: 0px 1px 10px #FFEA00;
-}
-
-/* page: login page, register page, slot book page */
-.page-title {
-  color: white;
-}
-
-/* input: login page, register page, slot book page */
-.login-input,
-.register-input,
-.book-form-input,
-.user-edit-profile-input {
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid gainsboro;
-  background-color: rgba(255, 255, 255, 0.7);
-}
-
-/* login page */
 .login-input:focus {
-  border-color: lime;
-  box-shadow: 0px 1px 10px lime;
+  border-color: #9BEC00;
+  box-shadow: 0px 1px 10px #9BEC00;
   outline: none;
 }
 
@@ -129,21 +91,30 @@ body {
   box-shadow: 0px 1px 10px lime;
 }
 
-.icon-smile {
-  color: lime;
+.icon-wink {
+  color: #9BEC00;
   border-radius: 50%;
-  box-shadow: 0px 1px 10px lime;
+  box-shadow: 0px 0px 10px #9BEC00;
 }
 
-/* register page */
+/* page: register */
+.register-title-content, .register-body-content {
+  color: #FFD369;
+  font-weight: 450;
+}
+
+.register-action-content {
+  color: #B9FFF8;
+}
+
 .register-input:focus {
-  border-color: yellow;
-  box-shadow: 0px 1px 10px yellow;
+  border-color: #FFD369;
+  box-shadow: 0px 1px 10px #FFD369;
   outline: none;
 }
 
 .register-submit {
-  width: 100%;
+  width: 50%;
   padding: 10px;
   border-radius: 10px;
   border: 1px solid gray;
@@ -158,16 +129,23 @@ body {
 }
 
 .icon-handshake {
-  color: yellow;
+  color: #FFD369;
   border-radius: 50%;
-  text-shadow: 0px 1px 10px yellow;
+  text-shadow: 0px 1px 10px #FFD369;
 }
 
-.icon-clock, .icon-camp {
-  color: cyan;
-  border-radius: 50%;
-  text-shadow: 0px 1px 10px cyan;
+
+/* form inputs: login, register, slot book */
+.login-input,
+.register-input,
+.book-form-input,
+.user-edit-profile-input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid gainsboro;
+  background-color: rgba(255, 255, 255, 0.7);
 }
+
 
 /* slot book form page */
 
@@ -183,6 +161,12 @@ body {
   border-color: cyan;
   box-shadow: 0px 1px 10px cyan;
   outline: none;
+}
+
+.icon-clock, .icon-camp {
+  color: cyan;
+  border-radius: 50%;
+  text-shadow: 0px 1px 10px cyan;
 }
 
 /* v1 */

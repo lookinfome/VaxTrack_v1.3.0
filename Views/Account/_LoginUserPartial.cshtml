@@ -1,0 +1,54 @@
+@model v1Remastered.Dto.UserDetailsDto_Login
+
+@{
+    ViewBag.pageTitle = "Login".ToUpper();
+    ViewBag.pageDesc = "an let us welcome you back ";
+
+    var userNotFound = @ViewBag.UserNotFound as string;
+    var currMonthYear = DateTime.Now.ToString("yyyy-MM-dd");
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col col-lg-3 col-md-6 col-sm-12">
+
+        <!-- login view: title, description, alert message -->
+        <div class="login-content text-center">
+            <h3 class="login-title-content"> @ViewBag.pageTitle </h3>
+            <span class="login-body-content">
+                @ViewBag.pageDesc <i class="icon-wink far fa-smile-wink"></i>
+            </span>
+
+            @if(!string.IsNullOrEmpty(userNotFound))
+            {
+                <div class="alert alert-danger text-center mt-3" role="alert">
+                    @userNotFound
+                    <b> <i class="fas fa-exclamation-triangle"></i> </b>
+                </div>
+            }
+
+        </div>
+
+        <!-- login view: form -->
+        <div class="login-form mt-3">
+            @using(Html.BeginForm("LoginUser", "Account", FormMethod.Post, new { id = "loginForm" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <!-- userid -->
+                <div>
+                    @Html.TextBoxFor(model => model.UserId, new { @style = "width: 100%;", @class = "login-input", placeholder = "Username" })
+                    @Html.ValidationMessageFor(model => model.UserId, null, new { @class = "mx-2 validation-msg" })
+                </div>
+
+                <!-- password -->
+                <div class="mt-2">
+                    @Html.PasswordFor(model => model.UserPassword, new { @style = "width: 100%;", @class = "login-input", placeholder = "Password" })
+                    @Html.ValidationMessageFor(model => model.UserPassword, null, new { @class = "mx-2 validation-msg" })
+                </div>
+
+                <!-- submit -->
+                <button type="submit" class="mt-3 login-submit">Sign In</button>
+            }
+        </div>
+    </div>
+</div>

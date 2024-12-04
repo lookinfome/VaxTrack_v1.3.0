@@ -3,26 +3,99 @@
 }
 
 <div class="container">
+
+    <!-- home page: title and description -->
+
     <div class="row justify-content-center mt-5">
 
         <!-- app title -->
-        <div class="app-desc-head text-center">
+        <div class="home-title-content text-center">
             <h1> @ViewBag.appName for the India</h1>
         </div>
 
         <!-- app desc -->
-        <div class="app-desc-body mt-3 text-center">
+        <div class="home-body-content mt-3 text-center">
             <p> @ViewBag.appDescription </p>
         </div>
 
-        <!-- action links -->
+    </div>
+
+    <!-- home page: actions liks -->
+
+    <div class="row">
+
         @if (!User.Identity.IsAuthenticated)
         {
-            <div class="mt-5 text-center">
-                <a href="@Url.Action("LoginUser", "Account")" class="btn-signin">Sign In</a>
-                <a href="@Url.Action("RegisterUser", "Account")" class="mx-2 btn-signup">Sign Up</a>
+            <div class="home-action-links mt-5 text-center">
+                <button id="home-btn-signin" class="btn btn-sm btn-success">Sign In</button>
+                <button id="home-btn-signup" class="btn btn-sm btn-warning">Sign Up</button>
             </div>
         }
 
     </div>
+
+    <!-- home page: forms -->
+
+    <div id="home-action-body" class="row">
+        <!-- space for partial view -->
+    </div>
+
 </div>
+
+
+@section Scripts{
+
+    @* 
+        load:   login and register partial view
+        submit: login and register form 
+    *@
+    <script>
+        $(document).ready(function(){
+            $(document).on('click', '#home-btn-signin', function() {
+                $.ajax({
+                    url: '@Url.Action("LoginUser", "Account")',
+                    type: 'GET',
+                    success: function(data) {
+                        $('#home-action-body').html(data);
+                    },
+                    error: function(response) {
+                        alert("Error loading login form.");
+                    }
+                });
+            });
+
+            $(document).on('click', '#home-btn-signup', function() {
+                $.ajax({
+                    url: '@Url.Action("RegisterUser", "Account")',
+                    type: 'GET',
+                    success: function(data) {
+                        $('#home-action-body').html(data);
+                    },
+                    error: function(response) {
+                        alert("Error loading sign-up form.");
+                    }
+                });
+            });
+
+            $(document).on('submit', 'form', function(event) {
+                event.preventDefault();
+                var form = $(this);
+                $.ajax({
+                    url: form.attr('action'),
+                    type: form.attr('method'),
+                    data: form.serialize(),
+                    success: function(data) {
+                        if (data.success) {
+                            window.location.href = data.redirectUrl;
+                        } else {
+                            $('#home-action-body').html(data);
+                        }
+                    },
+                    error: function(response) {
+                        alert("Error submitting form.");
+                    }
+                });
+            });
+        });
+    </script>
+}
