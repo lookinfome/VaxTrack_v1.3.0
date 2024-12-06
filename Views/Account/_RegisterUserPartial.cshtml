@@ -7,13 +7,14 @@
     var currMonthYear = DateTime.Now.ToString("yyyy-MM-dd");
 }
 
-<div class="row justify-content-center mt-5">
-    <div class="col col-lg-6 col-md-12 col-sm-12">
+<div style="" class="row justify-content-center mt-5">
+    <div class="col col-lg-6 col-md-10 col-sm-12">
+        
         <!-- register page: title, description, alert message -->
         <div class="register-content text-center">
             <h3 class="register-title-content"> @ViewBag.pageTitle </h3>
             <span class="register-body-content">
-                @ViewBag.pageDesc <i class="icon-handshake mx-2 fas fa-handshake"></i>
+                @ViewBag.pageDesc <i class="icon-handshake mx-1 fas fa-handshake"></i>
             </span>
 
             @if (!string.IsNullOrEmpty(signUpFailedMsg))
@@ -25,12 +26,12 @@
         </div>
 
         <!-- register form: form -->
-        <div class="register-form">
+        <div style="" class="register-form">
             @using (Html.BeginForm("RegisterUser", "Account", FormMethod.Post, new { enctype = "multipart/form-data", id = "registrationForm" }))
             {
                 @Html.AntiForgeryToken()
 
-                <div class="d-flex justify-content-between mt-3">
+                <div class="d-flex justify-content-between mt-2">
                     @* user name *@
                     <div>
                         @Html.TextBoxFor(model => model.UserName, new { @style = "width:100%;", @class = "register-input", placeholder = "Full Name" }) <br>
@@ -43,30 +44,48 @@
                         @Html.ValidationMessageFor(model => model.UserUid, null, new { @class = "validation-msg" }, null)
                     </div>
 
-                    @* user phone number *@
-                    <div class="">
-                        @Html.TextBoxFor(model => model.UserPhone, new { @style = "width:100%;", @class = "register-input", placeholder = "Phone Number" }) <br>
-                        @Html.ValidationMessageFor(model => model.UserPhone, null, new { @class = "validation-msg" }, null)
-                    </div>
                 </div>
 
                 <div class="d-flex justify-content-between mt-2">
+                    
                     @* birthdate *@
                     <div class="">
-                        @Html.LabelFor(model => model.UserBirthdate, "Date of Birth", new { @style = "color:white", @class = "" })
+                        @Html.LabelFor(model => model.UserBirthdate, "Date of Birth", new { @style = "color:white;", @class = "" })
                         @Html.TextBoxFor(model => model.UserBirthdate, new { @style = "width:100%;", type = "date", max = currMonthYear, @class = "register-input", placeholder = "mm/dd/yyyy" }) <br>
                         @Html.ValidationMessageFor(model => model.UserBirthdate, null, new { @class = "validation-msg" }, null)
                     </div>
 
-                    @* image *@
+                    @* user phone number *@
                     <div class="">
+                        @Html.TextBoxFor(model => model.UserPhone, new { @style = "width:100%; margin-top: 25px;", @class = "register-input", placeholder = "Phone Number" }) <br>
+                        @Html.ValidationMessageFor(model => model.UserPhone, null, new { @class = "validation-msg" }, null)
+                    </div>
+
+                    @* image *@
+                    @* <div class="">
                         @Html.LabelFor(m => m.ProfilePicture, "Upload Profile Picture", new { @style = "color:white", @class = "" })
                         <input type="file" name="ProfilePicture" class="form-control register-input" /> <br>
                         @Html.ValidationMessageFor(m => m.ProfilePicture, null, new { @class = "validation-msg" }, null)
+                    </div> *@
+                </div>
+
+                <div class="d-flex justify-content-between mt-2">
+                    @* password *@
+                    <div class="text-center">
+                        @Html.PasswordFor(model => model.UserPassword, new { @style = "width:100%;", @class = "register-input", placeholder = "Password", id = "Password" }) <br>
+                        <span id="passwordStrength" class="validation-msg"></span>
+                        @Html.ValidationMessageFor(model => model.UserPassword, null, new { @class = "validation-msg" }, null)
+                    </div>
+
+                    @* confirm password *@
+                    <div class="text-center">
+                        @Html.PasswordFor(model => model.UserConfirmPassword, new { @style = "width:100%;", @class = "register-input", placeholder = "Confirm Password", id = "ConfirmPassword" }) <br>
+                        @Html.ValidationMessageFor(model => model.UserConfirmPassword, null, new { @class = "validation-msg" }, null)
                     </div>
                 </div>
 
                 <div class="">
+
                     @* gender *@
                     <div style="color: white;" class="text-center mt-4">
                         @Html.RadioButtonFor(model => model.UserGender, "M", new { @class = "" }) Male
@@ -76,94 +95,30 @@
                         @Html.ValidationMessageFor(model => model.UserGender, null, new { @class = "validation-msg" }, null)
                     </div>
 
-                    @* password *@
+                    @* submit *@
                     <div class="text-center mt-1">
-                        @Html.PasswordFor(model => model.UserPassword, new { @style = "width:50%;", @class = "register-input", placeholder = "Password", id = "Password" }) <br>
-                        <span id="passwordStrength" class="validation-msg"></span>
-                        @Html.ValidationMessageFor(model => model.UserPassword, null, new { @class = "validation-msg" }, null)
+                        <button type="submit" class="mt-3 register-submit">Sign In</button>
                     </div>
 
-                    @* confirm password *@
-                    <div class="text-center m-1">
-                        @Html.PasswordFor(model => model.UserConfirmPassword, new { @style = "width:50%;", @class = "register-input", placeholder = "Confirm Password", id = "ConfirmPassword" }) <br>
-                        @Html.ValidationMessageFor(model => model.UserConfirmPassword, null, new { @class = "validation-msg" }, null)
-                    </div>
                 </div>
 
-                <div class="text-center mt-3">
-                    <button type="submit" class="mt-3 register-submit">Sign In</button>
-                </div>
+                
 
-                <!-- submit -->
             }
         </div>
     </div>
 </div>
 
 
-@section Scripts {
-
-    @* to check password strength and validate form execution *@
+@section Scripts{
     <script>
-        $(document).ready(function() {
-            $('#Password').on('input', function () {
-                var password = this.value;
-                var strengthLabel = $('#passwordStrength');
-                var strength = getPasswordStrength(password);
-                strengthLabel.text(strength);
-                strengthLabel.css('color', getStrengthColor(strength));
-            });
-
-            function getPasswordStrength(password) {
-                var strength = "Weak";
-                var regexes = [
-                    /[A-Z]/, // Uppercase
-                    /[0-9]/, // Digit
-                    /[^A-Za-z0-9]/, // Non-alphanumeric
-                    /.{6,}/ // At least 6 characters
-                ];
-
-                var passedTests = regexes.reduce((acc, regex) => acc + regex.test(password), 0);
-
-                switch (passedTests) {
-                    case 4:
-                        strength = "Highly Strong";
-                        break;
-                    case 3:
-                        strength = "Strong";
-                        break;
-                    case 2:
-                        strength = "Moderate";
-                        break;
-                    default:
-                        strength = "Weak";
+        window.onload = function() {
+            setTimeout(function() {
+                var welcomeMessage = document.getElementById('registrationFailMsg');
+                if (welcomeMessage) {
+                    welcomeMessage.style.display = 'none';
                 }
-
-                return strength;
-            }
-
-            function getStrengthColor(strength) {
-                switch (strength) {
-                    case "Highly Strong":
-                        return "lime";
-                    case "Strong":
-                        return "lightgreen";
-                    case "Moderate":
-                        return "orange";
-                    case "Weak":
-                    default:
-                        return "red";
-                }
-            }
-
-            $('#registrationForm').on('submit', function (e) {
-                var password = $('#Password').val();
-                var confirmPassword = $('#ConfirmPassword').val();
-                if (password !== confirmPassword) {
-                    e.preventDefault();
-                    alert('Passwords do not match.');
-                }
-            });
-        });
+            }, 5000); // 5000 milliseconds = 5 seconds
+        };
     </script>
 }

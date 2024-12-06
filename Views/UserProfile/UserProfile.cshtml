@@ -10,10 +10,14 @@
     Uid.Substring(9, 3));
 }
 
+<style>
+    body {color: #FFF6E9;}
+</style>
+
 
 <div class="container">
 
-    @* -1st row *@
+    @* 0th row *@
     @* welcome message *@
     @if(!string.IsNullOrEmpty(ViewBag.WelcomeMessage))
     {
@@ -48,13 +52,14 @@
     }
     
 
-    @* 0th row *@
-    
-    <div class="row justify-content-center mt-5">
-        <div class="col col-lg-6 col-md-12 col-sm-12 d-flex justify-content-between user-identity-details">
 
-            @* user identity details *@
-            <h3 style="color: white;"> 
+
+    @* 1st row: identity details *@
+    <div class="row justify-content-center mt-3">
+        <div style="border-bottom: 1px solid #E6E9AF;" class="user-details-identity col col-lg-6 col-md-12 col-sm-12 d-flex justify-content-between">
+            
+            @* user name *@
+            <h3> 
                 @if(@Model.UserRole == false)
                 {
                     <i class="fas fa-user"></i>
@@ -65,31 +70,33 @@
                 } 
                 @Model.Username 
             </h3>
-            <h3 style="color: white;"> <i class="fas fa-id-badge"></i> @Model.UserId </h3>
+
+            @* user id *@
+            <h3> 
+                <i class="fas fa-id-badge"></i> 
+                @Model.UserId 
+            </h3>
+
         </div>
     </div>
 
-    @* 1st row *@
+    @* 2nd row: personal details *@
+    <div class="user-details-personal row justify-content-center mt-5">
+        <div class="col col-lg-8 col-md-12 col-sm-12 justify-content-center">
 
-    <div class="row justify-content-center mt-5">
-
-        @* 1st row, 1st col *@
-        @* personal details and vaccination details *@
-
-        <div class="col col-lg-4 col-md-6 col-sm-6">
-
-            @* 1st row, 1st col, 1st row *@
-            
-            @* personal details *@
-            <div class="user-personal-details">
+            @* section header *@
+            <div>
                 <h5 class=""> <i class="fas fa-user"></i> Personal Details </h5>
+            </div>
 
-                @* user gender and contact *@
-                <div class="d-flex justify-content-between mt-4">
-
+            @* personal details and profile picture *@
+            <div class="d-flex justify-content-between">
+                @* personal details *@
+                <div class="mt-4">
+                    
                     @* user gender *@
-                    <div style="text-align: left;>
-                        <span style=" font-weight: 600;"> <i class="fas fa-venus-mars"></i> Gender <br> </span>
+                    <div style=">
+                        <span style=" font-weight: 600;"> <i class="fas fa-venus-mars"></i> Gender: </span>
                         @if (Model.UserGender == "M")
                         {
                             <span><b>Male</b></span>
@@ -105,261 +112,253 @@
                     </div>
 
                     @* user contact *@
-                    <div style="text-align: right;">
-                        <span style=" font-weight: 600;"> <i class="fas fa-phone"></i> Contact <br> </span>
+                    <div style="">
+                        <span style=" font-weight: 600;"> <i class="fas fa-phone"></i> Contact: </span>
                         <b>@Model.UserPhone</b>
                     </div>
 
-                </div>
-
-                @* user unique id and birthdate *@
-                <div class="d-flex justify-content-between mt-4">
                     @* user unique id *@
-                    <div style="text-align: left;>
-                        <span style="font-weight: 600;"> <i class="fas fa-id-card"></i> Unique ID <br> </span>
+                    <div style="">
+                        <span style="font-weight: 600;"> <i class="fas fa-id-card"></i> Unique ID: </span>
                         <b>@FormattedUid</b>
                     </div>
 
                     @* user birthdate *@
-                    <div style="text-align: right;">
+                    <div style="">
                         <span style="font-weight: 600;">
-                            <i class="fas fa-birthday-cake"></i> Date of Birth <br>
+                            <i class="fas fa-birthday-cake"></i> Date of Birth:
                         </span>
                         @Model.UserBirthdate.ToString("yyyy-MM-dd")
                     </div>
-                </div>
-            </div>
-
-            @* 1st row, 1st col, 2nd row *@
-
-            @* vaccination details *@
-            <div class="user-vaccine-details mt-5">
-                <h5 class=""> <i class="fas fa-notes-medical"></i> Vaccination Details </h5>
-            
-                @* user vaccination id and vaccination status *@
-                <div class="d-flex justify-content-between mt-4">
-                    @* user vaccinaion id *@
-                    <div style="text-align: left;">
-                        <span style="font-weight: 600;">
-                            <i style="color: yellow; text-shadow: 0px 1px 10px yellow;" class="fas fa-bookmark"></i> Vaccination ID <br>
-                        </span>
-                        @Model.UserVaccineDetails.UserVaccinationId
-                    </div>
-
-                    @* user vaccination status *@
-                    <div style="text-align: right;">
-                        <span style="font-weight: 600; ">
-                            @if (Model.UserVaccineDetails.UserVaccinationStatus.ToLower() == "vaccinated")
-                            {
-                                <i style="color:lime; text-shadow: 0px 1px 10px lime;" class="fas fa-wifi"></i>
-                            }
-                            else if (Model.UserVaccineDetails.UserVaccinationStatus.ToLower() == "partially vaccinated")
-                            {
-                                <i style="color:yellow; text-shadow: 0px 1px 20px yellow;" class="fas fa-wifi"></i>
-                            }
-                            else
-                            {
-                                <i style="color:red; text-shadow: 0px 1px 20px red;" class="fas fa-wifi"></i>
-                            }
-                            Vaccination Status <br>
-                        </span>
-                        @Model.UserVaccineDetails.UserVaccinationStatus
-                    </div>
-                </div>
-
-                @* user dose 1 date and dose 2 date *@
-                <div class="d-flex justify-content-between mt-4">
-                    @* user dose 1 approval date *@
-                    <div style="text-align: left;">
-                        <span style="font-weight: 600;">
-                            @if (Model.UserBookingDetails.Dose1ApproveDate == DateTime.MinValue)
-                            {
-                                <i style="color: red; text-shadow: 0px 1px 10px red;" class="fas fa-exclamation"></i>
-                            }
-                            else
-                            {
-                                <i style="color: lime; text-shadow: 0px 1px 10px lime;" class="fas fa-check"></i>
-                            }
-                            Dose 1 Approve
-                        </span>
-                        <br>
-                        @if (Model.UserBookingDetails.Dose1ApproveDate == DateTime.MinValue)
-                        {
-                            <p>NA</p>
-                        }
-                        else
-                        {
-                            @Model.UserBookingDetails.Dose1ApproveDate.ToString("yyyy-MM-dd")
-                        }
-                    </div>
-
-                    @* user dose 2 approval date *@
-                    <div style="text-align: right;">
-                        <span style="font-weight: 600;">
-                            @if (Model.UserBookingDetails.Dose2ApproveDate == DateTime.MinValue)
-                            {
-                                <i style="color: red; text-shadow: 0px 1px 10px red;" class="fas fa-exclamation"></i>
-                            }
-                            else
-                            {
-                                <i style="color: lime; text-shadow: 0px 1px 10px lime;" class="fas fa-check"></i>
-                            }
-                            Dose 2 Approve
-                        </span>
-                        <br>
-                        @if (Model.UserBookingDetails.Dose2ApproveDate == DateTime.MinValue)
-                        {
-                            <p>NA</p>
-                        }
-                        else
-                        {
-                            @Model.UserBookingDetails.Dose2ApproveDate.ToString("yyyy-MM-dd")
-                        }
-                    </div>
-                </div>
-            
-            </div>
-
-        </div>
-
-
-        @* 1st row, 2nd col *@
-        @* booking details *@
-
-
-        <div class="col col-lg-4 col-md-6 col-sm-6">
-
-            <div>
-                @if (!string.IsNullOrEmpty(Model.ProfilePicturePath))
-                {
-                    <div class="mb-4"
-                        style="
-                            border: 2px solid gainsboro;
-                            width: max-content;
-                            border-radius: 40%;
-                            box-shadow: 0px 1px 10px gainsboro; 
-                        "   
-                    >
-                        <img style="border-radius: 40%; width: 200px; height: 200px;" src="../@Model.ProfilePicturePath" alt="Profile Picture"/>
-                    </div>
-                }
-                else
-                {
-                    <div class="mb-2">
-                        <span style="color: white;">No profile picture uploaded</span>
-                    </div>
-                }
-            </div>
-
-            
-            <div class="user-booking-details">
                 
-                <h5> <i class="fas fa-book-medical"></i> Booking Details </h5>
-
-                <div class="mt-4">
-                    
-                    @* user booking id *@
-                    <div>
-                        <span>
-                            <i style="color: yellow; text-shadow: 0px 1px 10px yellow;" class="fas fa-bookmark"></i>
-                            Booking ID : @if(string.IsNullOrEmpty(Model.UserBookingDetails.BookingId)){ <span>NA</span> } else { @Model.UserBookingDetails.BookingId }
-                        </span>
-                    </div>
-
-                    @* dose 1 date *@
-                    <div class="mt-2">
-                        <span style="font-weight: 600;">
-                            <i class="fas fa-calendar-alt"></i> Dose 1 Date :
-                            @if (Model.UserBookingDetails.Dose1BookDate == DateTime.MinValue)
-                            {
-                                <span>NA</span>
-                            }
-                            else
-                            {
-                                @Model.UserBookingDetails.Dose1BookDate.ToString("yyyy-MM-dd")
-                            }
-                        </span>
-                    </div>
-
-                    @* dose 1 vaccine center *@
-                    <div class="mt-2">
-                        <span style="font-weight: 600;">
-                            <i class="fas fa-hospital"></i> Dose 1 Center Name : @ViewBag.D1HospitalName
-                        </span>
-                        @* @Model.UserBookingDetails.D1HospitalId *@
-                        
-                    </div>
-
-                    @* dose 1 slot number *@
-                    <div class="mt-2">
-                        <span style="font-weight: 600;">
-                            <i class="fas fa-sort-numeric-up"></i> Dose 1 Slot Number :
-                            @if (Model.UserBookingDetails.D1SlotNumber == -1)
-                            {
-                                <span>NA</span>
-                            }
-                            else
-                            {
-                                @Model.UserBookingDetails.D1SlotNumber
-                            }
-                        </span>
-                    </div>
-
-                    @* dose 2 date *@
-                    <div class="mt-2">
-                        <span style="font-weight: 600;">
-                            <i class="fas fa-calendar-alt"></i> Dose 2 Date :
-                            @if (Model.UserBookingDetails.Dose1BookDate == DateTime.MinValue)
-                            {
-                                <span>NA</span>
-                            }
-                            else
-                            {
-                                @Model.UserBookingDetails.Dose1BookDate.ToString("yyyy-MM-dd")
-                            }
-                        </span>
-                    </div>
-
-                    @* dose 2 center *@
-                    <div class="mt-2">
-                        <span style="font-weight: 600;">
-                            <i class="fas fa-hospital"></i> Dose 2 Center Name : @ViewBag.D2HospitalName
-                        </span>
-                        @* @Model.UserBookingDetails.D2HospitalId *@
-                    </div>
-
-                    @* dose 2 vaccine center *@
-                    <div class="mt-2">
-                        <span style="font-weight: 600;">
-                            <i class="fas fa-sort-numeric-up"></i> Dose 2 Slot Number :
-                            @if (Model.UserBookingDetails.D2SlotNumber == -1)
-                            {
-                                <span>NA</span>
-                            }
-                            else
-                            {
-                                @Model.UserBookingDetails.D2SlotNumber
-                            }
-                        </span>
-                    </div>
-
                 </div>
 
-            </div>            
+                @* profile picture *@
+                <div>
+                    @if (!string.IsNullOrEmpty(Model.ProfilePicturePath))
+                    {
+                        <div class="">
+                            <img class="user-profile-img" style="width: 150px; height: 150px;" src="../@Model.ProfilePicturePath" alt="Profile Picture"/>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-2">
+                            <span style="color: white;">No profile picture uploaded</span>
+                        </div>
+                    }
+                </div>
+            </div>
 
         </div>
-
     </div>
 
-    @* 2nd row *@
-    @* user profile edit and slot booking link *@
-    
-    <div class="mt-5 text-center">
+    @* 3rd row: vaccination details *@
+    <div class="user-details-vaccination row justify-content-center mt-3">
+        <div class="col col-lg-8 col-md-12 col-sm-12 justify-content-center">
+
+            @* section header *@
+            <div>
+                <h5 class=""> <i class="fas fa-notes-medical"></i> Vaccination Details </h5>
+            </div>
+            
+            @* vaccination details *@
+            <div class="mt-3 d-flex justify-content-between">
+                @* user vaccinaion id *@
+                <div style="">
+                    <span style="font-weight: 600;">
+                        <i style="color: yellow; text-shadow: 0px 1px 10px yellow;" class="fas fa-bookmark"></i> Vaccination ID <br>
+                    </span>
+                    @Model.UserVaccineDetails.UserVaccinationId
+                </div>
+
+                 @* user vaccination status *@
+                <div style="">
+                    <span style="font-weight: 600; ">
+                        @if (Model.UserVaccineDetails.UserVaccinationStatus.ToLower() == "vaccinated")
+                        {
+                            <i style="color:lime; text-shadow: 0px 1px 10px lime;" class="fas fa-wifi"></i>
+                        }
+                        else if (Model.UserVaccineDetails.UserVaccinationStatus.ToLower() == "partially vaccinated")
+                        {
+                            <i style="color:yellow; text-shadow: 0px 1px 20px yellow;" class="fas fa-wifi"></i>
+                        }
+                        else
+                        {
+                            <i style="color:red; text-shadow: 0px 1px 20px red;" class="fas fa-wifi"></i>
+                        }
+                        Vaccination Status <br>
+                    </span>
+                    @Model.UserVaccineDetails.UserVaccinationStatus
+                </div>
+
+                @* user dose 1 approval date *@
+                <div style="">
+                    <span style="font-weight: 600;">
+                        @if (Model.UserBookingDetails.Dose1ApproveDate == DateTime.MinValue)
+                        {
+                            <i style="color: red; text-shadow: 0px 1px 10px red;" class="fas fa-exclamation"></i>
+                        }
+                        else
+                        {
+                            <i style="color: lime; text-shadow: 0px 1px 10px lime;" class="fas fa-check"></i>
+                        }
+                        Dose 1 Approve
+                    </span>
+                    <br>
+                    @if (Model.UserBookingDetails.Dose1ApproveDate == DateTime.MinValue)
+                    {
+                        <p>NA</p>
+                    }
+                    else
+                    {
+                        @Model.UserBookingDetails.Dose1ApproveDate.ToString("yyyy-MM-dd")
+                    }
+                </div>
+
+                @* user dose 2 approval date *@
+                <div style="">
+                    <span style="font-weight: 600;">
+                        @if (Model.UserBookingDetails.Dose2ApproveDate == DateTime.MinValue)
+                        {
+                            <i style="color: red; text-shadow: 0px 1px 10px red;" class="fas fa-exclamation"></i>
+                        }
+                        else
+                        {
+                            <i style="color: lime; text-shadow: 0px 1px 10px lime;" class="fas fa-check"></i>
+                        }
+                        Dose 2 Approve
+                    </span>
+                    <br>
+                    @if (Model.UserBookingDetails.Dose2ApproveDate == DateTime.MinValue)
+                    {
+                        <p>NA</p>
+                    }
+                    else
+                    {
+                        @Model.UserBookingDetails.Dose2ApproveDate.ToString("yyyy-MM-dd")
+                    }
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    @* 4th row: booking details *@
+    <div class="user-details-booking row justify-content-center mt-3">
+        <div class="col col-lg-8 col-md-12 col-sm-12 justify-content-center">
+
+            @* section header *@
+            <div>
+                <h5 class=""> <i class="fas fa-book-medical"></i> Booking Details </h5>
+            </div>
+
+            @* booking details *@
+            <div class="mt-3">
+                @* user booking id *@
+                <div>
+                    <span>
+                        <i style="color: yellow; text-shadow: 0px 1px 10px yellow;" class="fas fa-bookmark"></i>
+                        Booking ID : @if(string.IsNullOrEmpty(Model.UserBookingDetails.BookingId)){ <span>NA</span> } else { @Model.UserBookingDetails.BookingId }
+                    </span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <div>
+                        @* dose 1 date *@
+                        <div class="mt-2">
+                            <span style="font-weight: 600;">
+                                <i class="fas fa-calendar-alt"></i> Dose 1 Date :
+                                @if (Model.UserBookingDetails.Dose1BookDate == DateTime.MinValue)
+                                {
+                                    <span>NA</span>
+                                }
+                                else
+                                {
+                                    @Model.UserBookingDetails.Dose1BookDate.ToString("yyyy-MM-dd")
+                                }
+                            </span>
+                        </div>
+
+                        @* dose 1 vaccine center *@
+                        <div class="mt-2">
+                            <span style="font-weight: 600;">
+                                <i class="fas fa-hospital"></i> Dose 1 Center Name : @ViewBag.D1HospitalName
+                            </span>
+                            @* @Model.UserBookingDetails.D1HospitalId *@
+                            
+                        </div>
+
+                        @* dose 1 slot number *@
+                        <div class="mt-2">
+                            <span style="font-weight: 600;">
+                                <i class="fas fa-sort-numeric-up"></i> Dose 1 Slot Number :
+                                @if (Model.UserBookingDetails.D1SlotNumber == -1)
+                                {
+                                    <span>NA</span>
+                                }
+                                else
+                                {
+                                    @Model.UserBookingDetails.D1SlotNumber
+                                }
+                            </span>
+                        </div>
+                    </div>
+
+                    <div>
+                        @* dose 2 date *@
+                        <div class="mt-2">
+                            <span style="font-weight: 600;">
+                                <i class="fas fa-calendar-alt"></i> Dose 2 Date :
+                                @if (Model.UserBookingDetails.Dose1BookDate == DateTime.MinValue)
+                                {
+                                    <span>NA</span>
+                                }
+                                else
+                                {
+                                    @Model.UserBookingDetails.Dose1BookDate.ToString("yyyy-MM-dd")
+                                }
+                            </span>
+                        </div>
+
+                        @* dose 2 center *@
+                        <div class="mt-2">
+                            <span style="font-weight: 600;">
+                                <i class="fas fa-hospital"></i> Dose 2 Center Name : @ViewBag.D2HospitalName
+                            </span>
+                            @* @Model.UserBookingDetails.D2HospitalId *@
+                        </div>
+
+                        @* dose 2 vaccine center *@
+                        <div class="mt-2">
+                            <span style="font-weight: 600;">
+                                <i class="fas fa-sort-numeric-up"></i> Dose 2 Slot Number :
+                                @if (Model.UserBookingDetails.D2SlotNumber == -1)
+                                {
+                                    <span>NA</span>
+                                }
+                                else
+                                {
+                                    @Model.UserBookingDetails.D2SlotNumber
+                                }
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+    </div>
+
+    @* 5th row: action buttons *@
+    <div class="text-center mt-5">
         
+        @* button: edit user profile *@
         <a class="user-edit-profile-link" href="@Url.Action("UserProfileEdit", "UserProfile", new {userid = Model.UserId})">Edit Profile</a>
 
-
-        @* slot book *@
+        @* button: slot book *@
         @if (string.IsNullOrEmpty(Model.UserBookingDetails.BookingId) && Model.UserBookingDetails.Dose1BookDate == DateTime.MinValue)
         {
             // enable slot booking button: dose 1
@@ -371,23 +370,24 @@
             <a class="slot-book-submit" href="@Url.Action("V2Booking", "Booking", new { userid = Model.UserId })">Book Slot 2</a>
         }
 
-        @* @if(Model.UserBookingDetails.Dose2BookDate != DateTime.MinValue & Model.UserBookingDetails.Dose2ApproveDate == DateTime.MinValue)
-        {
-            // enable edit slot book button
-            <a class="slot-book-submit" href="@Url.Action("V2BookingEdit", "Booking", new {userid = Model.UserId})">Edit Booked Slot 2</a>
-        }
-
-        @if(Model.UserBookingDetails.Dose1BookDate != DateTime.MinValue & Model.UserBookingDetails.Dose1ApproveDate == DateTime.MinValue)
-        {
-            // enable edit slot book button
-            <a class="slot-book-submit" href="@Url.Action("V2BookingEdit", "Booking", new {userid = Model.UserId})">Edit Booked Slot 1</a>
-        } *@
-
-
-
     </div>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @section Scripts{
@@ -400,26 +400,18 @@
                     welcomeMessage.style.display = 'none';
                 }
             }, 5000); // 5000 milliseconds = 5 seconds
-        };
-    </script>
 
-    <script>
-        window.onload = function() {
             setTimeout(function() {
-                var welcomeMessage = document.getElementById('updateStatusMsg');
-                if (welcomeMessage) {
-                    welcomeMessage.style.display = 'none';
+                var updateStatusMsg = document.getElementById('updateStatusMsg');
+                if (updateStatusMsg) {
+                    updateStatusMsg.style.display = 'none';
                 }
             }, 5000); // 5000 milliseconds = 5 seconds
-        };
-    </script>
 
-    <script>
-        window.onload = function() {
             setTimeout(function() {
-                var welcomeMessage = document.getElementById('bookingStatusMsg');
-                if (welcomeMessage) {
-                    welcomeMessage.style.display = 'none';
+                var bookingStatusMsg = document.getElementById('bookingStatusMsg');
+                if (bookingStatusMsg) {
+                    bookingStatusMsg.style.display = 'none';
                 }
             }, 5000); // 5000 milliseconds = 5 seconds
         };

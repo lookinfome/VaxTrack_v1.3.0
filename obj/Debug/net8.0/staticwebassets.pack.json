@@ -25,8 +25,24 @@
       "PackagePath": "staticwebassets\\assets\\ce90c099-b6af-40b1-aad8-adad55c75df2_img-1.jpg"
     },
     {
+      "Id": "C:\\Users\\vivek.kumar162\\VaxTrack_v1.3.0\\VaxTrack_v1.3.0\\wwwroot\\assets\\default-0.png",
+      "PackagePath": "staticwebassets\\assets\\default-0.png"
+    },
+    {
       "Id": "C:\\Users\\vivek.kumar162\\VaxTrack_v1.3.0\\VaxTrack_v1.3.0\\wwwroot\\assets\\homepage-bg-1.jpg",
       "PackagePath": "staticwebassets\\assets\\homepage-bg-1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\vivek.kumar162\\VaxTrack_v1.3.0\\VaxTrack_v1.3.0\\wwwroot\\assets\\india.png",
+      "PackagePath": "staticwebassets\\assets\\india.png"
+    },
+    {
+      "Id": "C:\\Users\\vivek.kumar162\\VaxTrack_v1.3.0\\VaxTrack_v1.3.0\\wwwroot\\assets\\man.png",
+      "PackagePath": "staticwebassets\\assets\\man.png"
+    },
+    {
+      "Id": "C:\\Users\\vivek.kumar162\\VaxTrack_v1.3.0\\VaxTrack_v1.3.0\\wwwroot\\assets\\woman.png",
+      "PackagePath": "staticwebassets\\assets\\woman.png"
     },
     {
       "Id": "C:\\Users\\vivek.kumar162\\VaxTrack_v1.3.0\\VaxTrack_v1.3.0\\wwwroot\\css\\site.css",

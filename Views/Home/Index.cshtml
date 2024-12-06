@@ -10,7 +10,10 @@
 
         <!-- app title -->
         <div class="home-title-content text-center">
-            <h1> @ViewBag.appName for the India</h1>
+            <h1> 
+                @ViewBag.appName for the India 
+                <img style="margin-top:-10px; height: 30px; width: 30px;" src="../assets/india.png" alt="">
+            </h1>
         </div>
 
         <!-- app desc -->
@@ -27,8 +30,8 @@
         @if (!User.Identity.IsAuthenticated)
         {
             <div class="home-action-links mt-5 text-center">
-                <button id="home-btn-signin" class="btn btn-sm btn-success">Sign In</button>
-                <button id="home-btn-signup" class="btn btn-sm btn-warning">Sign Up</button>
+                <button id="home-btn-signin" class="home-btn-signin">Sign In</button>
+                <button id="home-btn-signup" class="home-btn-signup">Sign Up</button>
             </div>
         }
 
@@ -57,6 +60,24 @@
                     type: 'GET',
                     success: function(data) {
                         $('#home-action-body').html(data);
+                        var btnSignup = document.getElementById('home-btn-signup');
+                        btnSignup.style.color = '#FFFFFF'; // text color: white
+                        btnSignup.style.backgroundColor = 'rgba(0,0,0,0)'; // bg color: none
+                        btnSignup.addEventListener('mouseover', function() {
+                            btnSignup.style.color = '#FFEA20';
+                        });
+                        btnSignup.addEventListener('mouseout', function() {
+                            if (!btnSignup.classList.contains('active')) {
+                                btnSignup.style.color = '#FFFFFF';
+                            }
+                        });
+
+                        var btnSignin = document.getElementById('home-btn-signin');
+                        btnSignin.style.color = '#9BEC00';
+                        btnSignin.style.backgroundColor = 'rgba(0,0,0,0.3)';
+                        btnSignin.style.padding = '10px'; 
+                        btnSignin.style.borderRadius = '10%';
+                        btnSignin.classList.add('active');
                     },
                     error: function(response) {
                         alert("Error loading login form.");
@@ -70,6 +91,24 @@
                     type: 'GET',
                     success: function(data) {
                         $('#home-action-body').html(data);
+                        var btnSignin = document.getElementById('home-btn-signin');
+                        btnSignin.style.color = '#FFFFFF';
+                        btnSignin.style.backgroundColor = 'rgba(0,0,0,0)';
+                        btnSignin.addEventListener('mouseover', function() {
+                            btnSignin.style.color = '#9BEC00';
+                        });
+                        btnSignin.addEventListener('mouseout', function() {
+                            if (!btnSignin.classList.contains('active')) {
+                                btnSignin.style.color = '#FFFFFF';
+                            }
+                        });
+
+                        var btnSignup = document.getElementById('home-btn-signup');
+                        btnSignup.style.color = '#FFEA20';
+                        btnSignup.style.backgroundColor = 'rgba(0,0,0,0.3)';
+                        btnSignup.style.padding = '10px'; 
+                        btnSignup.style.borderRadius = '10%';
+                        btnSignup.classList.add('active');
                     },
                     error: function(response) {
                         alert("Error loading sign-up form.");
@@ -96,6 +135,67 @@
                     }
                 });
             });
+        });
+    </script>
+
+    <script>
+        $(document).on('input', '#Password', function () {
+            var password = this.value;
+            var strengthLabel = $('#passwordStrength');
+            var strength = getPasswordStrength(password);
+            strengthLabel.text(strength);
+            strengthLabel.css('color', getStrengthColor(strength));
+        });
+
+        function getPasswordStrength(password) {
+            var strength = "Weak";
+            var regexes = [
+                /[A-Z]/, // Uppercase
+                /[0-9]/, // Digit
+                /[^A-Za-z0-9]/, // Non-alphanumeric
+                /.{6,}/ // At least 6 characters
+            ];
+
+            var passedTests = regexes.reduce((acc, regex) => acc + regex.test(password), 0);
+
+            switch (passedTests) {
+                case 4:
+                    strength = "Highly Strong";
+                    break;
+                case 3:
+                    strength = "Strong";
+                    break;
+                case 2:
+                    strength = "Moderate";
+                    break;
+                default:
+                    strength = "Weak";
+            }
+
+            return strength;
+        }
+
+        function getStrengthColor(strength) {
+            switch (strength) {
+                case "Highly Strong":
+                    return "lime";
+                case "Strong":
+                    return "lightgreen";
+                case "Moderate":
+                    return "orange";
+                case "Weak":
+                default:
+                    return "red";
+            }
+        }
+
+        $(document).on('submit', '#registrationForm', function (e) {
+            var password = $('#Password').val();
+            var confirmPassword = $('#ConfirmPassword').val();
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                alert('Passwords do not match.');
+            }
         });
     </script>
 }

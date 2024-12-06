@@ -24,6 +24,9 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
+  font-family: "Geist Mono", monospace;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
 /* navbar */
@@ -57,10 +60,25 @@ body {
   margin: 0px auto 0px auto;
 }
 
+.home-btn-signin, .home-btn-signup {
+  border: none;
+  color: white;
+  padding: 10px;
+  font-size: 20px;
+  background: none;
+  position: relative;
+  transition: color 0.5s ease-in-out;
+}
 
+.home-btn-signin:hover {
+  color: #9BEC00;
+}
 
+.home-btn-signup:hover {
+  color: #FFEA20;
+}
 
-/* page: login */
+/* page: login partial */
 .login-title-content, .login-body-content {
   color: #9BEC00;
   font-weight: 450;
@@ -97,7 +115,7 @@ body {
   box-shadow: 0px 0px 10px #9BEC00;
 }
 
-/* page: register */
+/* page: register partial */
 .register-title-content, .register-body-content {
   color: #FFD369;
   font-weight: 450;
@@ -134,7 +152,6 @@ body {
   text-shadow: 0px 1px 10px #FFD369;
 }
 
-
 /* form inputs: login, register, slot book */
 .login-input,
 .register-input,
@@ -144,6 +161,50 @@ body {
   border-radius: 10px;
   border: 1px solid gainsboro;
   background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* page: user profile */
+.user-details-identity h3,
+.user-details-personal h5,
+.user-details-vaccination h5,
+.user-details-booking h5 {
+  color: #E6E9AF;
+}
+
+.user-profile-img {
+  margin-top: -10px;
+  border-radius: 50%;
+}
+
+
+.user-edit-profile-link {
+  padding: 10px;
+  color: black;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.5s ease-in-out;
+  background-color: goldenrod;
+}
+
+.user-edit-profile-link:hover {
+  color: black;
+  background-color: gold;
+  box-shadow: 0px 1px 10px gold;
+}
+
+.slot-book-submit {
+  padding: 10px;
+  color: black;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.5s ease-in-out;
+  background-color: aquamarine;
+}
+
+.slot-book-submit:hover {
+  color: black;
+  background-color: aqua;
+  box-shadow: 0px 1px 10px aquamarine;
 }
 
 
@@ -198,49 +259,6 @@ body {
   color: red;
 }
 
-
-/* user profile page css */
-
-.user-profile-details, .user-personal-details, .user-vaccine-details, .user-booking-details {
-  color: white;
-}
-
-.user-identity-details, .user-vaccine-details, .user-personal-details , .user-booking-details {
-  padding: 20px 25px 20px 25px;
-  border-radius: 10px;
-  box-shadow: 0px 1px 10px gainsboro;
-  background-color: rgba(4, 27, 27, 0.3);
-}
-
-.user-edit-profile-link {
-  padding: 10px;
-  color: black;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: 0.5s ease-in-out;
-  background-color: goldenrod;
-}
-
-.user-edit-profile-link:hover {
-  color: black;
-  background-color: gold;
-  box-shadow: 0px 1px 10px gold;
-}
-
-.slot-book-submit {
-  padding: 10px;
-  color: black;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: 0.5s ease-in-out;
-  background-color: aquamarine;
-}
-
-.slot-book-submit:hover {
-  color: black;
-  background-color: aqua;
-  box-shadow: 0px 1px 10px aquamarine;
-}
 
 /* user profile edit form */
 .icon-edit {

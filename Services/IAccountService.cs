@@ -92,6 +92,8 @@ namespace v1Remastered.Services
         private bool SaveNewUserDetails(UserDetailsDto_Register submittedDetails)
         {
 
+            Console.WriteLine($"-------------------- Account Service: Save New User Details: {submittedDetails.ProfilePicture} --------------------");
+
             // map details to user details model
             UserDetailsModel userDetails = new UserDetailsModel()
             {
@@ -118,7 +120,18 @@ namespace v1Remastered.Services
             }
             else 
             {
-                userDetails.ProfilePicturePath = "/assets/default-0.png";
+                if(submittedDetails.UserGender.ToUpper() == "M")
+                {
+                    userDetails.ProfilePicturePath = "/assets/man.png";
+                }
+                else if(submittedDetails.UserGender.ToUpper() == "F")
+                {
+                    userDetails.ProfilePicturePath = "/assets/woman.png";
+                }
+                else 
+                {
+                    userDetails.ProfilePicturePath = "/assets/default-0.png";
+                }
             }
 
 

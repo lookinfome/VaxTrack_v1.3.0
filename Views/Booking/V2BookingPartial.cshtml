@@ -1,0 +1,43 @@
+@model v1Remastered.Dto.BookingDetailsDto_V2SlotBook
+
+@{
+    ViewBag.pageTitle1 = "book slot".ToUpper();
+    ViewBag.pageDesc1 = "and get ready to defeat the COVID-19 ";
+
+    ViewBag.pageTitle2 = "available hospital list".ToUpper();
+    ViewBag.pageDesc2 = "select as per your convenience ";
+    var lowerLimitd1 = DateTime.Now.ToString("yyyy-MM-dd");
+
+    var dose1BookingDate = ((DateTime)ViewBag.Dose1BookingDate).ToString("yyyy-MM-dd");
+}
+
+@if(!string.IsNullOrEmpty(ViewBag.BookingStatusMsg))
+{
+    <div>
+        <div style="padding: none; box-shadow: 0px 1px 10px yellow;" id="bookingmsg" class="alert alert-warning text-center" role="alert">
+            @ViewBag.BookingStatusMsg
+            <i class="fas fa-exclamation"></i>
+        </div>
+    </div>
+}
+
+
+
+
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setDose2MinDate();
+        });
+
+        function setDose2MinDate() {
+            var d1bookdate = '@dose1BookingDate'; // Ensure this is treated as a string
+            var dose2DateInput = document.getElementById('Dose2BookDate');
+            if (dose2DateInput) {
+                dose2DateInput.min = d1bookdate;
+                dose2DateInput.value = ""; // Reset the second dose date input
+            }
+        }
+    </script>
+}
