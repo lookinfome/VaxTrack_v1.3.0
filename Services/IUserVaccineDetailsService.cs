@@ -12,11 +12,12 @@ namespace v1Remastered.Services
         // exposed to: account service
         public bool SaveNewUserVaccinationDetails(string userid);
 
+        // exposed to: user profile service
+        public UserVaccineDetailsDto_VaccineDetails FetchUserVaccinationDetails(string userid);
+
         // exposed to: booking service
         public string FetchUserVaccinationID(string userid);
 
-        // exposed to: user profile service
-        public UserVaccineDetailsDto_VaccineDetails FetchUserVaccinationDetails(string userid);
     }
 
     public class UserVaccineDetailsService : IUserVaccineDetailsService

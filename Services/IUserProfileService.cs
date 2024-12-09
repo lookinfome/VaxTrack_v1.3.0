@@ -25,7 +25,7 @@ namespace v1Remastered.Services
         // exposed to: user profile controller
         public Dictionary<string, string> FetchAdditionalUserDetails(UserDetailsDto_UserProfile userProfileDetails);
 
-        // exposed to: 
+        // exposed to: account controller
         public string FetchUserRoleById(string userid);
 
         // exposed to: account controller
@@ -153,7 +153,6 @@ namespace v1Remastered.Services
 
             return additionalUserDetails;
         }
-
 
         public string FetchUserRoleById(string userid)
         {

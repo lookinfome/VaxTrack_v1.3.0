@@ -37,9 +37,6 @@ namespace v1Remastered.Controllers
                 {
                     TempData["UnauthorizedAction"] = "Hey hey hey, you can't really do that... ";
                     return RedirectToAction("Index", "Home");
-
-                    // await _authService.LogoutUserAsync();
-                    // return RedirectToAction("LoginUser", "Account");
                 }
 
                 // fetch hospital details

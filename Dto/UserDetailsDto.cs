@@ -53,22 +53,6 @@ namespace v1Remastered.Dto
 
     }
 
-    public class UserDetailsDto_UserProfileEdit
-    {
-        [DataType(DataType.Date)]
-        public DateTime UserBirthdate { get; set; } = DateTime.MinValue;
-
-        [DataType(DataType.PhoneNumber)]
-        [Phone(ErrorMessage = "Invalid phone number")]
-        [StringLength(10, ErrorMessage = "Phone number cannot be longer than 10 digits")]
-        [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits")]
-        public string UserPhone { get; set; } = "";
-
-        public IFormFile? ProfilePicture { get; set; }
-
-        public string UserPassword {get; set;}="";
-    }
-
     public class UserDetailsDto_UserProfile
     {
         [Required(ErrorMessage = "User ID is required")]
@@ -106,5 +90,20 @@ namespace v1Remastered.Dto
         public string ProfilePicturePath { get; set; } = "";
     }
 
+    // currently not in use
+    public class UserDetailsDto_UserProfileEdit
+    {
+        [DataType(DataType.Date)]
+        public DateTime UserBirthdate { get; set; } = DateTime.MinValue;
 
+        [DataType(DataType.PhoneNumber)]
+        [Phone(ErrorMessage = "Invalid phone number")]
+        [StringLength(10, ErrorMessage = "Phone number cannot be longer than 10 digits")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits")]
+        public string UserPhone { get; set; } = "";
+
+        public IFormFile? ProfilePicture { get; set; }
+
+        public string UserPassword {get; set;}="";
+    }
 }

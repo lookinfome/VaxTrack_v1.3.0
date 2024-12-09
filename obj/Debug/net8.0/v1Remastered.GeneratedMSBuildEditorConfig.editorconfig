@@ -18,14 +18,6 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\vivek.kumar162\VaxTrack_v1.3.0\VaxTrack_v1.3.0
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/vivek.kumar162/VaxTrack_v1.3.0/VaxTrack_v1.3.0/Views/Account/LoginUser.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpblVzZXIuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/vivek.kumar162/VaxTrack_v1.3.0/VaxTrack_v1.3.0/Views/Account/RegisterUser.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3RlclVzZXIuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/vivek.kumar162/VaxTrack_v1.3.0/VaxTrack_v1.3.0/Views/Account/_LoginUserPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxfTG9naW5Vc2VyUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
