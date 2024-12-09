@@ -72,37 +72,9 @@ namespace v1Remastered.Controllers
             return PartialView("_RegisterUserPartial");
         }
 
-        [HttpPost("RegisterUser1")]
-        public IActionResult RegisterUser1(UserDetailsDto_Register submittedDetails)
-        {
-            Console.WriteLine($"-------------------- Account Controller: Register User: {submittedDetails.ProfilePicture} --------------------");
-
-            if (ModelState.IsValid)
-            {
-                string userId = _accountService.RegisterUser(submittedDetails);
-                if (!string.IsNullOrEmpty(userId))
-                {
-                    string username = _userProfileService.FetchUserName(userId);
-
-                    TempData["SignUpSuccessMsg"] = $"Welcome user, {username}";
-                    return Json(new { success = true, redirectUrl = Url.Action("UserProfile", "UserProfile", new { userid = userId }) });
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return PartialView("_RegisterUserPartial", submittedDetails);
-                }
-            }
-            else
-            {
-                return PartialView("_RegisterUserPartial", submittedDetails);
-            }
-        }
-
         [HttpPost("RegisterUser")]
         public IActionResult RegisterUser(UserDetailsDto_Register submittedDetails)
         {
-            Console.WriteLine($"-------------------- Account Controller: Register User: {submittedDetails.ProfilePicture?.FileName} --------------------");
 
             if (ModelState.IsValid)
             {

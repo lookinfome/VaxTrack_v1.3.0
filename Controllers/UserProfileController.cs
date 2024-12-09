@@ -11,12 +11,14 @@ namespace v1Remastered.Controllers
     public class UserProfileController : Controller
     {
         private readonly IAuthService _authService;
+        private readonly IBookingService _bookingService;
         private readonly IUserProfileService _userProfileService;
         private readonly UserManager<AppUserIdentityModel> _userManager;
-        public UserProfileController(IAuthService authService, IUserProfileService userProfileService, UserManager<AppUserIdentityModel> userManager)
+        public UserProfileController(IAuthService authService, IBookingService bookingService, IUserProfileService userProfileService, UserManager<AppUserIdentityModel> userManager)
         {
             _authService = authService;
             _userManager = userManager;
+            _bookingService = bookingService;
             _userProfileService = userProfileService;
         }
 
@@ -33,14 +35,21 @@ namespace v1Remastered.Controllers
                 // if user's record not found
                 if (loggedInUser == null || loggedInUser.UserName != userid)
                 {
-                    await _authService.LogoutUserAsync();
-                    return RedirectToAction("LoginUser", "Account");
+                    TempData["UnauthorizedAction"] = "Hey hey hey, you can't really do that... ";
+                    return RedirectToAction("Index", "Home");
+
+                    // await _authService.LogoutUserAsync();
+                    // return RedirectToAction("LoginUser", "Account");
                 }
 
                 // fetch hospital details
                 UserDetailsDto_UserProfile userProfileDetails = _userProfileService.FetchUserProfileDetails(userid);
                 ViewBag.D1HospitalName = _userProfileService.FetchAdditionalUserDetails(userProfileDetails)["D1HospitalName"];
                 ViewBag.D2HospitalName = _userProfileService.FetchAdditionalUserDetails(userProfileDetails)["D2HospitalName"];
+
+                // slot booking details
+                ViewBag.IsD1Booked = _bookingService.IsD1Booked(userid, userProfileDetails.UserBookingDetails.BookingId);
+                ViewBag.IsD2Booked = _bookingService.IsD2Booked(userid, userProfileDetails.UserBookingDetails.BookingId);
 
                 // welcome message: login
                 if(!string.IsNullOrEmpty(TempData["userLoginMsgSuccess"]?.ToString()))
@@ -55,9 +64,14 @@ namespace v1Remastered.Controllers
                 }
 
                 // update message: edit profile
-                if(!string.IsNullOrEmpty(TempData["userProfileUpdateMsg"]?.ToString()))
+                if(!string.IsNullOrEmpty(TempData["userProfileUpdateSuccessMsg"]?.ToString()))
                 {
-                    ViewBag.UserProfileUpdateMsg = TempData["userProfileUpdateMsg"];
+                    ViewBag.UserProfileUpdateSuccessMsg = TempData["userProfileUpdateSuccessMsg"];
+                }
+
+                if(!string.IsNullOrEmpty(TempData["userProfileUpdateErrorMsg"]?.ToString()))
+                {
+                    ViewBag.UserProfileUpdateErrorMsg = TempData["userProfileUpdateErrorMsg"];
                 }
 
                 // update message: slot booking
@@ -76,49 +90,65 @@ namespace v1Remastered.Controllers
             return View("~/Views/UserProfile/UserProfileError.cshtml");
         }
 
-        [HttpGet("{userid}/Edit")]
-        public async Task<IActionResult> UserProfileEdit(string userid)
-        {
-            if (!string.IsNullOrEmpty(userid))
-            {
 
-                // fetch user details from asp-net-user table for authentication
-                var loggedInUser = await _userManager.GetUserAsync(User);
-
-                // if user's recor not found
-                if (loggedInUser == null || loggedInUser.UserName != userid)
-                {
-                    await _authService.LogoutUserAsync();
-                    return RedirectToAction("LoginUser", "Account");
-                }
-
-                return View();
-            }
-            return View("~/Views/UserProfile/UserProfileError.cshtml");
-        }
-
+        [Authorize]
         [HttpPost("{userid}/Edit")]
-        public IActionResult UserProfileEdit(UserDetailsDto_UserProfileEdit submittedDetails, [FromRoute] string userid)
+        public async Task<IActionResult> UserProfileEdit(string userid, string phoneNumber, string dateOfBirth, IFormFile profileImage, string password)
         {
-            string userPassword = string.IsNullOrEmpty(submittedDetails.UserPassword) ? "" : submittedDetails.UserPassword;
 
-            // fetch user authentic state
+            // fetch user details from asp-net-user table for authentication
+            var loggedInUser = await _userManager.GetUserAsync(User);
+
+            // if user's record not found
+            if (loggedInUser == null || loggedInUser.UserName != userid)
+            {
+                TempData["UnauthorizedAction"] = "Hey hey hey, you can't really do that... ";
+                return RedirectToAction("Index", "Home");
+
+                // await _authService.LogoutUserAsync();
+                // return RedirectToAction("LoginUser", "Account");
+            }
+
+            // Convert dateOfBirth string to DateTime
+            DateTime _dateOfBirth;
+            if (!string.IsNullOrEmpty(dateOfBirth))
+            {
+                _dateOfBirth = DateTime.Parse(dateOfBirth);
+            }
+            else
+            {
+                _dateOfBirth = DateTime.MinValue;
+            }
+
+            // Add your logic to handle the form submission here
+
+            string userPassword = string.IsNullOrEmpty(password) ? "" : password;
+
             bool isUserAuthentic = _authService.CheckUserAuthenticity(userid, userPassword).Result;
 
-            if(isUserAuthentic)
+            if (isUserAuthentic)
             {
-                bool result = _userProfileService.UpdateUserProfile(userid, submittedDetails.UserPhone, submittedDetails.UserBirthdate, submittedDetails.ProfilePicture);
+                bool result = _userProfileService.UpdateUserProfile(userid, phoneNumber, _dateOfBirth, profileImage);
                 string userName = _userProfileService.FetchUserName(userid);
 
-                TempData["userProfileUpdateMsg"] = $"{userName}'s profile have been updated successfully";
+                TempData["userProfileUpdateSuccessMsg"] = $"{userName}'s profile have been updated successfully";
 
-                return result ? RedirectToAction("UserProfile", "UserProfile", new { userid = userid }) : View();
+                if(result)
+                {
+                    TempData["userProfileUpdateSuccessMsg"] = $"{userName}'s profile have been updated successfully";
+                    return RedirectToAction("UserProfile", "UserProfile", new { userid = userid });
+                }
+                else 
+                {
+                    // Redirect or return a view as needed
+                    TempData["userProfileUpdateErrorMsg"] = $"Oops something went wrong";
+                    return RedirectToAction("UserProfile", "UserProfile", new { userid = userid });
+                }
             }
 
-            TempData["userAuthenticityStatus"] = "Wrong password, user needs to authenticate themselves first";
-            ViewBag.UserAuthenticityStatus = TempData["userAuthenticityStatus"];
-            return View();
-
+            // Redirect or return a view as needed
+            TempData["userProfileUpdateErrorMsg"] = $"Incorrect password, hence update failed.";
+            return RedirectToAction("UserProfile", "UserProfile", new { userid = userid });
         }
 
 

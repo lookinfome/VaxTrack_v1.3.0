@@ -1,6 +1,8 @@
 @model v1Remastered.Dto.UserDetailsDto_UserProfile
 
 @{
+    var currMonthYear = DateTime.Now.ToString("yyyy-MM-dd");
+
     @* format UID *@
     string Uid = @Model.UserUid;
     string FormattedUid = string.Format("{0}-{1}-{2}-{3}",
@@ -18,7 +20,7 @@
 <div class="container">
 
     @* 0th row *@
-    @* welcome message *@
+    @* alert messages *@
     @if(!string.IsNullOrEmpty(ViewBag.WelcomeMessage))
     {
         <div class="row">
@@ -31,12 +33,22 @@
         </div>
     }
 
-    @if(!string.IsNullOrEmpty(ViewBag.UserProfileUpdateMsg))
+    @if(!string.IsNullOrEmpty(ViewBag.UserProfileUpdateSuccessMsg))
     {
         <div class="row">
             <div id="updateStatusMsg" style="padding:none; box-shadow: 0px 1px 10px lime;" class="alert alert-success text-center">
-                <b> @ViewBag.UserProfileUpdateMsg </b>
+                <b> @ViewBag.UserProfileUpdateSuccessMsg </b>
                 <i class="far fa-smile"></i> 
+            </div>
+        </div>
+    }
+
+    @if(!string.IsNullOrEmpty(ViewBag.UserProfileUpdateErrorMsg))
+    {
+        <div class="row">
+            <div id="updateStatusMsg" style="padding:none; box-shadow: 0px 1px 10px lime;" class="alert alert-danger text-center">
+                <b> @ViewBag.UserProfileUpdateErrorMsg </b>
+                <i class="far fa-frown"></i>
             </div>
         </div>
     }
@@ -356,41 +368,159 @@
     <div class="text-center mt-5">
         
         @* button: edit user profile *@
-        <a class="user-edit-profile-link" href="@Url.Action("UserProfileEdit", "UserProfile", new {userid = Model.UserId})">Edit Profile</a>
+        @* <a class="user-edit-profile-link" href="@Url.Action("UserProfileEdit", "UserProfile", new {userid = Model.UserId})">Edit Profile</a> *@
 
-        @* button: slot book *@
-        @if (string.IsNullOrEmpty(Model.UserBookingDetails.BookingId) && Model.UserBookingDetails.Dose1BookDate == DateTime.MinValue)
+        <button type="button" class="user-edit-profile-button" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+            Edit Profile
+        </button>
+
+        @* button: book slots *@
+        @if(ViewBag.IsD1Booked == false)
         {
             // enable slot booking button: dose 1
-            <a class="slot-book-submit" href="@Url.Action("V2Booking", "Booking", new { userid = Model.UserId })">Book Slot 1</a>
+            @* <a style="text-decoration: none;" class="slot-book-submit" href="@Url.Action("V2Booking", "Booking", new { userid = Model.UserId })">Book Slot 1</a> *@
+        
+            <button type="button" class="slot-book-submit" data-bs-toggle="modal" data-bs-target="#dose1Book">
+                Book Slot 1
+            </button>
+        
         }
-        else if (Model.UserBookingDetails.Dose1BookDate != DateTime.MinValue && Model.UserBookingDetails.Dose1ApproveDate != DateTime.MinValue && Model.UserBookingDetails.Dose2BookDate == DateTime.MinValue)
+        else if(ViewBag.IsD1Booked == true && ViewBag.IsD2Booked == false)
         {
             // enable slot booking button: dose 2
-            <a class="slot-book-submit" href="@Url.Action("V2Booking", "Booking", new { userid = Model.UserId })">Book Slot 2</a>
+            @* <a style="text-decoration: none;" class="slot-book-submit" href="@Url.Action("V2Booking", "Booking", new { userid = Model.UserId })">Book Slot 2</a> *@
+        
+            <button type="button" class="slot-book-submit" data-bs-toggle="modal" data-bs-target="#dose2Book">
+                Book Slot 2
+            </button>
+
+        }
+        else
+        {
+            // think
         }
 
+        
+
     </div>
+
+    @* 6th row: modals *@
+
+        <div>
+            <!-- edit form -->
+            <div class="modal fade" id="editProfileModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Edit Profile</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="UserProfileForm">
+                                <div class="mb-3">
+                                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                                    <input type="text" class="form-control user-edit-profile-input" id="phoneNumber" name="phoneNumber" maxlength="10" pattern="\d{10}">
+                                    <div class="invalid-feedback">
+                                        Please enter a valid 10-digit phone number.
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="dateOfBirth" class="form-label">Date of Birth</label>
+                                    <input type="date" class="form-control user-edit-profile-input" id="dateOfBirth" name="dateOfBirth" max="@currMonthYear">
+                                    <div class="invalid-feedback">
+                                        Please enter a valid date of birth.
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="profileImage" class="form-label">Profile Image</label>
+                                    <input type="file" class="form-control user-edit-profile-input" id="profileImage" name="profileImage" accept="image/*">
+                                    <div class="invalid-feedback">
+                                        Please upload a valid image file.
+                                    </div>
+                                </div>
+                                <button type="button" class="user-edit-profile-submit" id="saveChangesButton">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- confirm password -->
+            <div class="modal fade" id="editProfileModal2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Confirm Changes</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="PasswordConfirmForm" method="post" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control user-edit-profile-input" id="password" name="password" required>
+                                    <div class="invalid-feedback">
+                                        Please enter your password to confirm changes.
+                                    </div>
+                                </div>
+                                <input type="hidden" id="hiddenPhoneNumber" name="phoneNumber">
+                                <input type="hidden" id="hiddenDateOfBirth" name="dateOfBirth">
+                                <input type="file" style="display: none;" id="hiddenProfileImage" name="profileImage">
+                                <button type="submit" class="user-edit-profile-submit">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    @* 7th row: dose booking *@
+    <div id="slot-booking" class="d-flex justify-content-center mt-3">
+
+    </div>
+
+
 
 </div>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 @section Scripts{
+
+    <script>
+        document.getElementById('saveChangesButton').addEventListener('click', function() {
+        var phoneNumber = document.getElementById('phoneNumber').value;
+        var dateOfBirth = document.getElementById('dateOfBirth').value;
+        var profileImage = document.getElementById('profileImage').files[0];
+
+        if (phoneNumber || dateOfBirth || profileImage) {
+            // Set hidden fields in the second form
+            document.getElementById('hiddenPhoneNumber').value = phoneNumber;
+            document.getElementById('hiddenDateOfBirth').value = dateOfBirth;
+
+            if (profileImage) {
+                var hiddenProfileImageInput = document.getElementById('hiddenProfileImage');
+                hiddenProfileImageInput.files = document.getElementById('profileImage').files;
+            }
+
+            // Extract the user ID from the URL
+            var url = window.location.href;
+            var userId = url.substring(url.lastIndexOf('/') + 1);
+
+            // Set the form action dynamically
+            var form = document.getElementById('PasswordConfirmForm');
+            form.action = '/UserProfile/' + userId + '/Edit';
+
+            var modal = new bootstrap.Modal(document.getElementById('editProfileModal2'));
+            modal.show();
+        } else {
+            alert('Please provide at least one input.');
+        }
+    });
+    </script>
+
+
     
     <script>
         window.onload = function() {

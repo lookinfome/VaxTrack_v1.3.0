@@ -50,10 +50,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1VwZGF0ZWRTbG90SG9zcGl0YWxUYWJsZVBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/vivek.kumar162/VaxTrack_v1.3.0/VaxTrack_v1.3.0/Views/Booking/Booking.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xCb29raW5nLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/vivek.kumar162/VaxTrack_v1.3.0/VaxTrack_v1.3.0/Views/Booking/BookingError.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xCb29raW5nRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -62,8 +58,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xWMkJvb2tpbmcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/vivek.kumar162/VaxTrack_v1.3.0/VaxTrack_v1.3.0/Views/Booking/V2BookingPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xWMkJvb2tpbmdQYXJ0aWFsLmNzaHRtbA==
+[C:/Users/vivek.kumar162/VaxTrack_v1.3.0/VaxTrack_v1.3.0/Views/Booking/_BookingErrorPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xfQm9va2luZ0Vycm9yUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/vivek.kumar162/VaxTrack_v1.3.0/VaxTrack_v1.3.0/Views/Home/Index.cshtml]
@@ -92,10 +88,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/vivek.kumar162/VaxTrack_v1.3.0/VaxTrack_v1.3.0/Views/UserProfile/UserProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclByb2ZpbGVcVXNlclByb2ZpbGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/vivek.kumar162/VaxTrack_v1.3.0/VaxTrack_v1.3.0/Views/UserProfile/UserProfileEdit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclByb2ZpbGVcVXNlclByb2ZpbGVFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/vivek.kumar162/VaxTrack_v1.3.0/VaxTrack_v1.3.0/Views/UserProfile/UserProfileError.cshtml]

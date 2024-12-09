@@ -16,14 +16,14 @@ namespace v1Remastered.Services
         // exposed to: admin service, admin controller
         public List<HospitalDetailsModel> FetchHospitalsList();
 
-        // exposed to: booking service, booking controller
-        public List<HospitalDetailsDto_HospitalDetails> FetchAvailableHospitalsList();
-
-        // exposed to: booking service, admin service
+        // exposed to: admin service
         public HospitalDetailsModel FetchHospitalDetailsById(string hospitalId);
 
         // exposed to: booking service
         public string FetchHospitalIdyName(string hospitalName);
+
+        // exposed to: booking service, booking controller
+        public List<HospitalDetailsDto_HospitalDetails> FetchAvailableHospitalsList();
     }
 
     public class HospitalService : IHospitalService

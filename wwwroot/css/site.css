@@ -176,39 +176,86 @@ body {
   border-radius: 50%;
 }
 
-
-.user-edit-profile-link {
+.user-edit-profile-button {
+  border: none;
   padding: 10px;
   color: black;
   border-radius: 10px;
   text-decoration: none;
   transition: 0.5s ease-in-out;
-  background-color: goldenrod;
+  background-color: #FFD369;
 }
 
-.user-edit-profile-link:hover {
+.user-edit-profile-button:hover {
   color: black;
-  background-color: gold;
-  box-shadow: 0px 1px 10px gold;
+  background-color: #FFD369;
+  box-shadow: 0px 1px 10px #FFD369;
 }
 
 .slot-book-submit {
   padding: 10px;
   color: black;
   border-radius: 10px;
-  text-decoration: none;
-  transition: 0.5s ease-in-out;
+  border: none;
   background-color: aquamarine;
+  transition: 0.5s ease-in-out;
 }
 
 .slot-book-submit:hover {
   color: black;
   background-color: aqua;
+  border: none;
   box-shadow: 0px 1px 10px aquamarine;
 }
 
+/* modal: user edit */
+
+#editProfileModal, #editProfileModal2 {
+  color: #FFD369;
+}
+
+#editProfileModal .modal-content, #editProfileModal2 .modal-content {
+  background-color: #2A3335;
+  box-shadow: 0px 0px 5px gainsboro;
+}
+
+.user-edit-profile-input:focus {
+  border-color: #FFD369;
+  box-shadow: 0px 1px 10px #FFD369;
+  outline: none;
+}
+
+.user-edit-profile-submit {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  background-color: gray;
+  transition: 0.5s ease-in-out;
+}
+
+.user-edit-profile-submit:hover {
+  border: 1px solid gold;
+  background-color: gold;
+  box-shadow: 0px 1px 10px gold;
+}
 
 /* slot book form page */
+
+/* v3 */
+.book-form-submit {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  background-color: gray;
+  transition: 0.5s ease-in-out;
+}
+
+.book-form-submit:hover {
+  border: 1px solid aquamarine;
+  background-color: aqua;
+  box-shadow: 0px 1px 10px aqua;
+}
 
 /* v2 */
 
@@ -232,20 +279,7 @@ body {
 
 /* v1 */
 
-.book-form-submit {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid gray;
-  background-color: gray;
-  transition: 0.5s ease-in-out;
-}
 
-.book-form-submit:hover {
-  border: 1px solid aquamarine;
-  background-color: aqua;
-  box-shadow: 0px 1px 10px aqua;
-}
 
 .action-link {
   color: white;
@@ -266,26 +300,9 @@ body {
   text-shadow: 0px 1px 10px gold;
 }
 
-.user-edit-profile-submit {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid gray;
-  background-color: gray;
-  transition: 0.5s ease-in-out;
-}
 
-.user-edit-profile-submit:hover {
-  border: 1px solid gold;
-  background-color: gold;
-  box-shadow: 0px 1px 10px gold;
-}
 
-.user-edit-profile-input:focus {
-  border-color: gold;
-  box-shadow: 0px 1px 10px gold;
-  outline: none;
-}
+
 
 /* admin page css */
 

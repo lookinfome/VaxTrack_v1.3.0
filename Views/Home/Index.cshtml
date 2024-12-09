@@ -8,6 +8,15 @@
 
     <div class="row justify-content-center mt-5">
 
+        @if(!string.IsNullOrEmpty(ViewBag.unauthorizedAction))
+        {
+            <div style="box-shadow: 0px 1px 10px #FFD369;" class="alert alert-warning" role="alert">
+                @ViewBag.unauthorizedAction
+                <i class="fas fa-user-secret"></i>
+            </div>
+        }
+
+
         <!-- app title -->
         <div class="home-title-content text-center">
             <h1> 

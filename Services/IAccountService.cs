@@ -63,11 +63,8 @@ namespace v1Remastered.Services
             // save user details in DB
             if(!string.IsNullOrEmpty(result.Result.ToString()) && result.Result.ToString() == submittedDetails.UserId)
             {
-                Console.WriteLine($"-----------From Register User: {result.Result.ToString()}----------------");
 
                 bool isUserDetailsSaved = SaveNewUserDetails(submittedDetails);
-
-                Console.WriteLine($"-----------From Register User Post Save New User Details: {isUserDetailsSaved}----------------");
 
                 bool isUserVaccineDetailsSaved = isUserDetailsSaved ? _userVaccineDetailsService.SaveNewUserVaccinationDetails(submittedDetails.UserId) : false;
 
@@ -91,8 +88,6 @@ namespace v1Remastered.Services
         // utility method: save new user record
         private bool SaveNewUserDetails(UserDetailsDto_Register submittedDetails)
         {
-
-            Console.WriteLine($"-------------------- Account Service: Save New User Details: {submittedDetails.ProfilePicture} --------------------");
 
             // map details to user details model
             UserDetailsModel userDetails = new UserDetailsModel()
@@ -138,8 +133,6 @@ namespace v1Remastered.Services
             // save record to DB and update DB
             _v1RemDb.UserDetails.Add(userDetails);
             int userDetailsSavedStatus = _v1RemDb.SaveChanges();
-
-            Console.WriteLine($"---------user db saved status :: {userDetailsSavedStatus}----------");
 
             return userDetailsSavedStatus > 0;
         }
