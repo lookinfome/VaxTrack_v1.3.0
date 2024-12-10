@@ -210,16 +210,18 @@ body {
 
 /* modal: user edit */
 
-#editProfileModal, #editProfileModal2 {
-  color: #FFD369;
-}
-
-#editProfileModal .modal-content, #editProfileModal2 .modal-content {
+#editProfileModal .modal-content, 
+#editProfileModal2 .modal-content, 
+#dose1Book .modal-content {
   background-color: #2A3335;
   box-shadow: 0px 0px 5px gainsboro;
 }
 
-.user-edit-profile-input:focus {
+#editProfileModal, #editProfileModal2 {
+  color: #FFD369;
+}
+
+.user-edit-profile-input:hover, .user-edit-profile-input:focus {
   border-color: #FFD369;
   box-shadow: 0px 1px 10px #FFD369;
   outline: none;
@@ -240,10 +242,19 @@ body {
   box-shadow: 0px 1px 10px gold;
 }
 
-/* slot book form page */
+/* modal: slot book */
+#dose1Book {
+  color: aqua;
+}
 
-/* v3 */
+.book-form-input:hover, .book-form-input:focus {
+  border-color: cyan;
+  box-shadow: 0px 1px 10px cyan;
+  outline: none;
+}
+
 .book-form-submit {
+  width: 100%;
   padding: 10px;
   border-radius: 10px;
   border: 1px solid gray;
@@ -257,29 +268,18 @@ body {
   box-shadow: 0px 1px 10px aqua;
 }
 
-/* v2 */
 
-.booking-hospital-list {
-  color: white;
-  border-radius: 10px 10px 0px 0px;
-  background-color: rgba(52, 215, 236, 0.4);
-}
-
-.book-form-input:hover {
-  border-color: cyan;
-  box-shadow: 0px 1px 10px cyan;
-  outline: none;
-}
-
+/* not in use right now */
 .icon-clock, .icon-camp {
   color: cyan;
   border-radius: 50%;
   text-shadow: 0px 1px 10px cyan;
 }
 
-/* v1 */
-
-
+.icon-edit {
+  color: gold;
+  text-shadow: 0px 1px 10px gold;
+}
 
 .action-link {
   color: white;
@@ -294,17 +294,7 @@ body {
 }
 
 
-/* user profile edit form */
-.icon-edit {
-  color: gold;
-  text-shadow: 0px 1px 10px gold;
-}
-
-
-
-
-
-/* admin page css */
+/* page: admin dashboard */
 
 .admin-desc, .admin-action h5 {
   color: white;

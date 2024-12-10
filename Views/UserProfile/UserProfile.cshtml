@@ -150,7 +150,7 @@
                     @if (!string.IsNullOrEmpty(Model.ProfilePicturePath))
                     {
                         <div class="">
-                            <img class="user-profile-img" style="width: 150px; height: 150px;" src="../@Model.ProfilePicturePath" alt="Profile Picture"/>
+                            <img class="user-profile-img" style="box-shadow:0px 0px 10px gainsboro; width: 150px; height: 150px;" src="../@Model.ProfilePicturePath" alt="Profile Picture"/>
                         </div>
                     }
                     else
@@ -368,8 +368,6 @@
     <div class="text-center mt-5">
         
         @* button: edit user profile *@
-        @* <a class="user-edit-profile-link" href="@Url.Action("UserProfileEdit", "UserProfile", new {userid = Model.UserId})">Edit Profile</a> *@
-
         <button type="button" class="user-edit-profile-button" data-bs-toggle="modal" data-bs-target="#editProfileModal">
             Edit Profile
         </button>
@@ -377,102 +375,161 @@
         @* button: book slots *@
         @if(ViewBag.IsD1Booked == false)
         {
-            // enable slot booking button: dose 1
-            @* <a style="text-decoration: none;" class="slot-book-submit" href="@Url.Action("V2Booking", "Booking", new { userid = Model.UserId })">Book Slot 1</a> *@
-        
-            <button type="button" class="slot-book-submit" data-bs-toggle="modal" data-bs-target="#dose1Book">
-                Book Slot 1
-            </button>
-        
+            @if(ViewBag.AvailableHospitalLocations.Count > 0)
+            {
+
+                // enable slot booking button: dose 1
+                <button type="button" class="slot-book-submit" data-bs-toggle="modal" data-bs-target="#dose1Book">
+                    Book Slot 1
+                </button>
+            }
+            else
+            {
+                <br> 
+                <button type="button" disabled  style="border-radius: 10px;" class="mt-3 btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#dose1Book">
+                    <span style="font-size: 15px;">No Slots Available Now</span>
+                </button>
+            }
+            
         }
         else if(ViewBag.IsD1Booked == true && ViewBag.IsD2Booked == false)
         {
-            // enable slot booking button: dose 2
-            @* <a style="text-decoration: none;" class="slot-book-submit" href="@Url.Action("V2Booking", "Booking", new { userid = Model.UserId })">Book Slot 2</a> *@
-        
-            <button type="button" class="slot-book-submit" data-bs-toggle="modal" data-bs-target="#dose2Book">
-                Book Slot 2
-            </button>
+            @if(ViewBag.AvailableHospitalLocations.Count > 0)
+            {
+                // enable slot booking button: dose 2
+                <button type="button" class="slot-book-submit" data-bs-toggle="modal" data-bs-target="#dose2Book">
+                    Book Slot 2
+                </button>
+            }
+            else
+            {
+                <br> 
+                <button type="button" disabled  style="border-radius: 10px;" class="mt-3 btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#dose2Book">
+                    <span style="font-size: 15px;">No Slots Available Now</span>
+                </button>
+            }
 
         }
         else
         {
-            // think
+            //
+            <br> 
+            <button type="button" disabled  style="border-radius: 10px;" class="mt-3 btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#dose2Book">
+                <span style="font-size: 15px;">Waiting for booked dose approval</span>
+            </button>
         }
-
-        
 
     </div>
 
     @* 6th row: modals *@
-
-        <div>
-            <!-- edit form -->
-            <div class="modal fade" id="editProfileModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Edit Profile</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="UserProfileForm">
-                                <div class="mb-3">
-                                    <label for="phoneNumber" class="form-label">Phone Number</label>
-                                    <input type="text" class="form-control user-edit-profile-input" id="phoneNumber" name="phoneNumber" maxlength="10" pattern="\d{10}">
-                                    <div class="invalid-feedback">
-                                        Please enter a valid 10-digit phone number.
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="dateOfBirth" class="form-label">Date of Birth</label>
-                                    <input type="date" class="form-control user-edit-profile-input" id="dateOfBirth" name="dateOfBirth" max="@currMonthYear">
-                                    <div class="invalid-feedback">
-                                        Please enter a valid date of birth.
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="profileImage" class="form-label">Profile Image</label>
-                                    <input type="file" class="form-control user-edit-profile-input" id="profileImage" name="profileImage" accept="image/*">
-                                    <div class="invalid-feedback">
-                                        Please upload a valid image file.
-                                    </div>
-                                </div>
-                                <button type="button" class="user-edit-profile-submit" id="saveChangesButton">Save Changes</button>
-                            </form>
-                        </div>
+    
+    @* modal: user profile edit *@
+    <div>
+        <!-- edit form -->
+        <div class="modal fade" id="editProfileModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Edit Profile</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                </div>
-            </div>
-
-            <!-- confirm password -->
-            <div class="modal fade" id="editProfileModal2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Confirm Changes</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="PasswordConfirmForm" method="post" enctype="multipart/form-data">
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control user-edit-profile-input" id="password" name="password" required>
-                                    <div class="invalid-feedback">
-                                        Please enter your password to confirm changes.
-                                    </div>
+                    <div class="modal-body">
+                        <form id="UserProfileForm">
+                            <div class="mb-3">
+                                <label for="phoneNumber" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control user-edit-profile-input" id="phoneNumber" name="phoneNumber" maxlength="10" pattern="\d{10}">
+                                <div class="invalid-feedback">
+                                    Please enter a valid 10-digit phone number.
                                 </div>
-                                <input type="hidden" id="hiddenPhoneNumber" name="phoneNumber">
-                                <input type="hidden" id="hiddenDateOfBirth" name="dateOfBirth">
-                                <input type="file" style="display: none;" id="hiddenProfileImage" name="profileImage">
-                                <button type="submit" class="user-edit-profile-submit">Submit</button>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="dateOfBirth" class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control user-edit-profile-input" id="dateOfBirth" name="dateOfBirth" max="@currMonthYear">
+                                <div class="invalid-feedback">
+                                    Please enter a valid date of birth.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="profileImage" class="form-label">Profile Image</label>
+                                <input type="file" class="form-control user-edit-profile-input" id="profileImage" name="profileImage" accept="image/*">
+                                <div class="invalid-feedback">
+                                    Please upload a valid image file.
+                                </div>
+                            </div>
+                            <button type="button" class="user-edit-profile-submit" id="saveChangesButton">Save Changes</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- confirm password -->
+        <div class="modal fade" id="editProfileModal2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Confirm Changes</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="PasswordConfirmForm" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control user-edit-profile-input" id="password" name="password" required>
+                                <div class="invalid-feedback">
+                                    Please enter your password to confirm changes.
+                                </div>
+                            </div>
+                            <input type="hidden" id="hiddenPhoneNumber" name="phoneNumber">
+                            <input type="hidden" id="hiddenDateOfBirth" name="dateOfBirth">
+                            <input type="file" style="display: none;" id="hiddenProfileImage" name="profileImage">
+                            <button type="submit" class="user-edit-profile-submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* modal: slot booking: dose 1 *@
+    <div>
+        <div class="modal" id="dose1Book" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Book Dose 1 Slot</h5> <br>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="SlotBookForm" method="post" enctype="multipart/form-data">
+                            <label for="Dose1BookDate">Dose 1 Date</label>
+                            <input type="date" class="form-control book-form-input" min="@currMonthYear" name="dose1Date" id="Dose1BookDate">
+
+                            <label class="mt-2" for="HospitalLocationD1">Hospital Location</label>
+                            <select class="form-control book-form-input" name="hospitalLocation" id="HospitalLocationD1">
+                                <option value="">Select Hospital Location</option>
+                                @foreach(var location in ViewBag.AvailableHospitalLocations)
+                                {
+                                    <option value="@location">@location</option>
+                                }
+                            </select>
+
+                            <label class="mt-2" for="HospitalIdD1">Hospital Name</label>
+                            <select class="form-control book-form-input" name="hospitalId" id="HospitalIdD1">
+                                <option value="">Select Hospital Name</option>
+                            </select>
+
+                            <button type="submit" id="SaveSlotBookFormD1" class="book-form-submit mt-3">Book Slot</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* modal: slot booking: dose 2 *@
+    
 
     @* 7th row: dose booking *@
     <div id="slot-booking" class="d-flex justify-content-center mt-3">
@@ -487,6 +544,58 @@
 
 
 @section Scripts{
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#HospitalLocationD1').change(function() {
+                var selectedLocation = $(this).val();
+                if (selectedLocation) {
+                    $.ajax({
+                        url: '@Url.Action("AvailableHospitalsByLocation", "UserProfile")',
+                        type: 'GET',
+                        data: { hospitalLocation: selectedLocation },
+                        success: function(data) {
+                            // console.log(data); Log the JSON data to the console
+                            var hospitalDropdown = $('#HospitalIdD1');
+                            hospitalDropdown.empty();
+                            hospitalDropdown.append('<option value="">Select Hospital Name</option>');
+                            $.each(data, function(index, hospital) {
+                                hospitalDropdown.append('<option value="' + hospital.hospitalId + '">' + hospital.hospitalName + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#HospitalIdD1').empty();
+                    $('#HospitalIdD1').append('<option value="">Select Hospital Name</option>');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        document.getElementById('SaveSlotBookFormD1').addEventListener('click', function(event) {
+            // Get the values from the form inputs
+            var dose1Date = document.getElementById('Dose1BookDate').value;
+            var hospitalLocation = document.getElementById('HospitalLocationD1').value;
+            var hospitalId = document.getElementById('HospitalIdD1').value;
+
+            if(dose1Date && hospitalLocation && hospitalId) {
+                // Extract the user ID from the URL
+                var url = window.location.href;
+                var userId = url.substring(url.lastIndexOf('/') + 1);
+                alert(userId);
+
+                // Set the form action dynamically
+                var form = document.getElementById('SlotBookForm');
+                form.action = '/Booking/v2/' + userId;
+            } else {
+                event.preventDefault();
+                alert('Please provide all inputs.');
+            }
+        });
+    </script>
+
 
     <script>
         document.getElementById('saveChangesButton').addEventListener('click', function() {

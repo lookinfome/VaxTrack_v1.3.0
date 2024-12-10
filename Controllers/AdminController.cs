@@ -30,8 +30,8 @@ namespace v1Remastered.Controllers
             // check user autheticity and role
             if (loggedInUser == null || !await _userManager.IsInRoleAsync(loggedInUser, "admin"))
             {
-                await _authService.LogoutUserAsync();
-                return RedirectToAction("LoginUser", "Account");
+                TempData["UnauthorizedAction"] = "Hey hey hey, you can't really do that... ";
+                return RedirectToAction("Index", "Home");
             }
 
             // users list with pending approval

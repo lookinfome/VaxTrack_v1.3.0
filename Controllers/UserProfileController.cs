@@ -12,13 +12,15 @@ namespace v1Remastered.Controllers
     {
         private readonly IAuthService _authService;
         private readonly IBookingService _bookingService;
+        private readonly IHospitalService _hospitalService;
         private readonly IUserProfileService _userProfileService;
         private readonly UserManager<AppUserIdentityModel> _userManager;
-        public UserProfileController(IAuthService authService, IBookingService bookingService, IUserProfileService userProfileService, UserManager<AppUserIdentityModel> userManager)
+        public UserProfileController(IAuthService authService, IHospitalService hospitalService, IBookingService bookingService, IUserProfileService userProfileService, UserManager<AppUserIdentityModel> userManager)
         {
             _authService = authService;
             _userManager = userManager;
             _bookingService = bookingService;
+            _hospitalService = hospitalService;
             _userProfileService = userProfileService;
         }
 
@@ -43,11 +45,12 @@ namespace v1Remastered.Controllers
                 UserDetailsDto_UserProfile userProfileDetails = _userProfileService.FetchUserProfileDetails(userid);
                 ViewBag.D1HospitalName = _userProfileService.FetchAdditionalUserDetails(userProfileDetails)["D1HospitalName"];
                 ViewBag.D2HospitalName = _userProfileService.FetchAdditionalUserDetails(userProfileDetails)["D2HospitalName"];
+                ViewBag.AvailableHospitalLocations = _hospitalService.FetchAvailableHospitalLocations();
 
                 // slot booking details
                 ViewBag.IsD1Booked = _bookingService.IsD1Booked(userid, userProfileDetails.UserBookingDetails.BookingId);
                 ViewBag.IsD2Booked = _bookingService.IsD2Booked(userid, userProfileDetails.UserBookingDetails.BookingId);
-
+                
                 // welcome message: login
                 if(!string.IsNullOrEmpty(TempData["userLoginMsgSuccess"]?.ToString()))
                 {
@@ -148,6 +151,12 @@ namespace v1Remastered.Controllers
             return RedirectToAction("UserProfile", "UserProfile", new { userid = userid });
         }
 
+        [HttpGet]
+        public JsonResult AvailableHospitalsByLocation(string hospitalLocation)
+        {
+            var fetchedDetails = _hospitalService.FetchAvailableHospitalsByLocation(hospitalLocation);
+            return Json(fetchedDetails);
+        }
 
     }
 

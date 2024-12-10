@@ -3,7 +3,7 @@
 ## New Addition
 - NA
 
-## Updates
+## Updates (refer 'notes' section for more)
 - UI Update: Home Page - completed
 - UI Update: SignIn Page - completed
 - UI Update: SignUp Page - completed
@@ -20,7 +20,9 @@
 - removed independent login page
 - removed independent registration page
 - removed independent user profile edit page 
+- removed slot booking page 
 - added partial login view on home page
 - added partial registration view on home page
-- add user profile edit modal on user profile page
+- added user profile edit modal on user profile page
+- added slot booking modal on user profile page
 - performed css cleanup 

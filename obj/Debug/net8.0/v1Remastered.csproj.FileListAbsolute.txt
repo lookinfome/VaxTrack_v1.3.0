@@ -713,3 +713,7 @@ C:\Users\vivek.kumar162\VaxTrack_v1.3.0\VaxTrack_v1.3.0\obj\Debug\net8.0\refint\
 C:\Users\vivek.kumar162\VaxTrack_v1.3.0\VaxTrack_v1.3.0\obj\Debug\net8.0\v1Remastered.pdb
 C:\Users\vivek.kumar162\VaxTrack_v1.3.0\VaxTrack_v1.3.0\obj\Debug\net8.0\v1Remastered.genruntimeconfig.cache
 C:\Users\vivek.kumar162\VaxTrack_v1.3.0\VaxTrack_v1.3.0\obj\Debug\net8.0\ref\v1Remastered.dll
+C:\Users\vivek.kumar162\VaxTrack_v1.3.0\VaxTrack_v1.3.0\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\vivek.kumar162\VaxTrack_v1.3.0\VaxTrack_v1.3.0\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\vivek.kumar162\VaxTrack_v1.3.0\VaxTrack_v1.3.0\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\vivek.kumar162\VaxTrack_v1.3.0\VaxTrack_v1.3.0\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll

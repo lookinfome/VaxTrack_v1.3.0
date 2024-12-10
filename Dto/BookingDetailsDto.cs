@@ -3,11 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace v1Remastered.Dto
 {
-    public class BookingDetailsDto_SlotBook
-    {
-        public DateTime Dose1BookDate {get; set;} = DateTime.MinValue;
-        public DateTime Dose2BookDate {get; set;} = DateTime.MinValue;
-    }
 
     public class BookingDetailsDto_V2SlotBook
     {
@@ -29,6 +24,13 @@ namespace v1Remastered.Dto
         public int D2SlotNumber {get; set;} = -1;
         public DateTime Dose1ApproveDate {get; set;} = DateTime.MinValue;
         public DateTime Dose2ApproveDate {get; set;} = DateTime.MinValue;
+    }
+
+    // not in use
+    public class BookingDetailsDto_SlotBook
+    {
+        public DateTime Dose1BookDate {get; set;} = DateTime.MinValue;
+        public DateTime Dose2BookDate {get; set;} = DateTime.MinValue;
     }
 
 }

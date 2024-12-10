@@ -17,6 +17,8 @@ namespace v1Remastered.Services
         // exposed to: booking controller, user profile service
         public BookingDetailsDto_UserBookingDetails FetchBookingDetails(string userid);
 
+        // exposed to: user profile controller
+        public bool SaveNewBookingDetails(string userId, DateTime dose1Date, string hospitalId);
         
     }
 
@@ -66,9 +68,8 @@ namespace v1Remastered.Services
             var fetchedDetails = _v1RemDb.BookingDetails.FirstOrDefault(record=>record.UserId == userId && record.BookingId == bookingId);
             if(fetchedDetails != null)
             {
-                return fetchedDetails.Dose1BookDate == DateTime.MinValue && fetchedDetails.Dose1ApproveDate == DateTime.MinValue; 
+                return fetchedDetails.Dose1BookDate != DateTime.MinValue; 
             }
-
             return false;
         }
 
@@ -79,16 +80,74 @@ namespace v1Remastered.Services
             if(fetchedDetails != null)
             {
                 bool d1Status = IsD1Booked(userId, bookingId);
-                if(d1Status)
+                if(d1Status && fetchedDetails.Dose1ApproveDate != DateTime.MinValue)
                 {
-                    return fetchedDetails.Dose2BookDate == DateTime.MinValue && fetchedDetails.Dose2ApproveDate == DateTime.MinValue;
+                    return fetchedDetails.Dose2BookDate != DateTime.MinValue;
                 }
 
-                return false;
+                return true;
             }
 
             return false;
         }
+    
+        // service method: to save new booking details
+        public bool SaveNewBookingDetails(string userId, DateTime dose1Date, string hospitalId)
+        {
+            int availableSlot = -1;
+            BookingDetailsModel bookingDetails = new BookingDetailsModel();
+            HospitalDetailsModel hospitalDetails = _hospitalService.FetchHospitalDetailsById(hospitalId);
+
+            if (hospitalDetails != null) 
+            {
+                availableSlot = hospitalDetails.HospitalAvailableSlots;
+            }
+
+            // map booking id
+            bookingDetails.BookingId = GenerateBookingId(userId); 
+
+            // map user id
+            bookingDetails.UserId = userId;
+
+            // map user vaccination id
+            bookingDetails.UserVaccinationId = _userVaccineDeailsService.FetchUserVaccinationID(userId);
+
+            // map dose 1 date
+            bookingDetails.Dose1BookDate = dose1Date;
+
+            // map hospital id
+            bookingDetails.D1HospitalId = hospitalId;
+
+            // map available details
+            bookingDetails.D1SlotNumber = availableSlot;
+
+            // save and update db
+            _v1RemDb.BookingDetails.Add(bookingDetails);
+            int saveBookingStatus = _v1RemDb.SaveChanges();
+
+            if(saveBookingStatus > 0)
+            {
+                hospitalDetails.HospitalAvailableSlots = availableSlot - 1;
+                _v1RemDb.HospitalDetails.Update(hospitalDetails);
+                int updateHospitalStatus = _v1RemDb.SaveChanges();
+
+                return updateHospitalStatus > 0;
+            }
+            else
+            {
+                return false; // booking failed
+            }
+        }
+
+        // utility method: generate new booking id
+        private string GenerateBookingId(string userid)
+        {
+            Random rnd = new Random();
+            int randomNum = rnd.Next(100,1000);
+
+            return $"{userid}_B{randomNum}";
+        }
+    
     } 
 
 }

@@ -18,15 +18,39 @@ namespace v1Remastered.Controllers
         }
 
         [Authorize]
-        [HttpGet("v2/{userid}")]
-        public IActionResult V2Booking([FromRoute] string userid)
+        [HttpPost("v2/{userid}")]
+        public IActionResult V2Booking(string userId, DateTime dose1Date, string hospitalId)
         {
-            return Ok("Hit successfull");
 
-            // return message page
-            // ViewBag.BookingErrorMsg = $"{userid} - already booked both slots";
-            // return PartialView("_BookingErrorPartial");
+            if(!string.IsNullOrEmpty(userId) && !string.IsNullOrEmpty(dose1Date.ToString()) && !string.IsNullOrEmpty(hospitalId))
+            {
+                // check for existing booking record
+                var fetchedDetails = _bookingService.FetchBookingDetails(userId);
 
+                // if record not found
+                if(string.IsNullOrEmpty(fetchedDetails.BookingId))
+                {
+                    bool isSlotBooked = _bookingService.SaveNewBookingDetails(userId, dose1Date, hospitalId);
+
+                    if(isSlotBooked)
+                    {
+                        TempData["BookingStatusMsg"] = $"Booking successfull, see you soon at the vaccination center";
+                    }
+                }
+                return RedirectToAction("UserProfile", "UserProfile", new { userId = userId });
+            }
+            else
+            {
+                return Ok($"--------- Dose 1 is already booked for user: {userId} ---------");
+            }
+
+        }
+
+        [Authorize]
+        [HttpPost("v2/{userid}/Update")]
+        public IActionResult V2BookingUpdate(string userId, DateTime dose1Date, string hospitalId)
+        {   
+            return Ok();
         }
 
         
