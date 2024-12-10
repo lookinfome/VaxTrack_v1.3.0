@@ -17,8 +17,11 @@ namespace v1Remastered.Services
         // exposed to: booking controller, user profile service
         public BookingDetailsDto_UserBookingDetails FetchBookingDetails(string userid);
 
-        // exposed to: user profile controller
+        // exposed to: booking controller
         public bool SaveNewBookingDetails(string userId, DateTime dose1Date, string hospitalId);
+
+        // exposed to: booking controller
+        public bool UpdateBookingDetails(string userId, DateTime dose1Date, string hospitalId); 
         
     }
 
@@ -118,7 +121,7 @@ namespace v1Remastered.Services
             // map hospital id
             bookingDetails.D1HospitalId = hospitalId;
 
-            // map available details
+            // map available slot
             bookingDetails.D1SlotNumber = availableSlot;
 
             // save and update db
@@ -136,6 +139,52 @@ namespace v1Remastered.Services
             else
             {
                 return false; // booking failed
+            }
+        }
+
+        // service method: to update dose 2 booking details
+        public bool UpdateBookingDetails(string userId, DateTime dose2Date, string hospitalId)
+        {
+            int availableSlot = -1;
+            BookingDetailsModel bookingDetails = _v1RemDb.BookingDetails.FirstOrDefault(record=>record.UserId == userId);
+            HospitalDetailsModel hospitalDetails = _hospitalService.FetchHospitalDetailsById(hospitalId);
+
+            if (hospitalDetails != null) 
+            {
+                availableSlot = hospitalDetails.HospitalAvailableSlots;
+            }
+
+            if(bookingDetails != null)
+            {
+                // map dose 1 date
+                bookingDetails.Dose2BookDate = dose2Date;
+
+                // map hospital id
+                bookingDetails.D2HospitalId = hospitalId;
+
+                // map available slot
+                bookingDetails.D2SlotNumber = availableSlot;
+
+                // save and update db
+                _v1RemDb.BookingDetails.Update(bookingDetails);
+                int updateBookingStatus = _v1RemDb.SaveChanges();
+
+                if(updateBookingStatus > 0)
+                {
+                    hospitalDetails.HospitalAvailableSlots = availableSlot - 1;
+                    _v1RemDb.HospitalDetails.Update(hospitalDetails);
+                    int updateHospitalStatus = _v1RemDb.SaveChanges();
+
+                    return updateHospitalStatus > 0;
+                }
+                else
+                {
+                    return false; // booking failed
+                }
+            }
+            else
+            {
+                return false; // no record found
             }
         }
 

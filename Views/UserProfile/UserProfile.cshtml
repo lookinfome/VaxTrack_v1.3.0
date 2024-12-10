@@ -529,7 +529,41 @@
     </div>
 
     @* modal: slot booking: dose 2 *@
-    
+    <div>
+        <div class="modal" id="dose2Book" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Book Dose 2 Slot</h5> <br>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="SlotBookFormD2" method="post" enctype="multipart/form-data">
+                            <label for="Dose2BookDate">Dose 2 Date</label>
+                            <input type="date" class="form-control book-form-input" min="@currMonthYear" name="dose2Date" id="Dose2BookDate">
+
+                            <label class="mt-2" for="HospitalLocationD2">Hospital Location</label>
+                            <select class="form-control book-form-input" name="hospitalLocation" id="HospitalLocationD2">
+                                <option value="">Select Hospital Location</option>
+                                @foreach(var location in ViewBag.AvailableHospitalLocations)
+                                {
+                                    <option value="@location">@location</option>
+                                }
+                            </select>
+
+                            <label class="mt-2" for="HospitalIdD2">Hospital Name</label>
+                            <select class="form-control book-form-input" name="hospitalId" id="HospitalIdD2">
+                                <option value="">Select Hospital Name</option>
+                            </select>
+
+                            <button type="submit" id="SaveSlotBookFormD2" class="book-form-submit mt-3">Book Slot</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @* 7th row: dose booking *@
     <div id="slot-booking" class="d-flex justify-content-center mt-3">
@@ -546,6 +580,8 @@
 @section Scripts{
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    @* dose 1 slot booking JS *@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#HospitalLocationD1').change(function() {
@@ -584,7 +620,6 @@
                 // Extract the user ID from the URL
                 var url = window.location.href;
                 var userId = url.substring(url.lastIndexOf('/') + 1);
-                alert(userId);
 
                 // Set the form action dynamically
                 var form = document.getElementById('SlotBookForm');
@@ -596,7 +631,59 @@
         });
     </script>
 
+    @* dose 2 slot booking JS *@
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#HospitalLocationD2').change(function() {
+                var selectedLocation = $(this).val();
+                if (selectedLocation) {
+                    $.ajax({
+                        url: '@Url.Action("AvailableHospitalsByLocation", "UserProfile")',
+                        type: 'GET',
+                        data: { hospitalLocation: selectedLocation },
+                        success: function(data) {
+                            // console.log(data); Log the JSON data to the console
+                            var hospitalDropdown = $('#HospitalIdD2');
+                            hospitalDropdown.empty();
+                            hospitalDropdown.append('<option value="">Select Hospital Name</option>');
+                            $.each(data, function(index, hospital) {
+                                hospitalDropdown.append('<option value="' + hospital.hospitalId + '">' + hospital.hospitalName + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#HospitalIdD1').empty();
+                    $('#HospitalIdD1').append('<option value="">Select Hospital Name</option>');
+                }
+            });
+        });
+    </script>
 
+    <script>
+        document.getElementById('SaveSlotBookFormD2').addEventListener('click', function(event) {
+            // Get the values from the form inputs
+            var dose2Date = document.getElementById('Dose2BookDate').value;
+            var hospitalLocation = document.getElementById('HospitalLocationD2').value;
+            var hospitalId = document.getElementById('HospitalIdD2').value;
+
+            if(dose2Date && hospitalLocation && hospitalId) {
+                // Extract the user ID from the URL
+                var url = window.location.href;
+                var userId = url.substring(url.lastIndexOf('/') + 1);
+
+                // Set the form action dynamically
+                var form = document.getElementById('SlotBookFormD2');
+                form.action = '/Booking/v2/' + userId + '/Update';
+            } else {
+                event.preventDefault();
+                alert('Please provide all inputs.');
+            }
+        });
+    </script>
+
+
+
+    @* user edit profile JS *@
     <script>
         document.getElementById('saveChangesButton').addEventListener('click', function() {
         var phoneNumber = document.getElementById('phoneNumber').value;
@@ -630,7 +717,7 @@
     </script>
 
 
-    
+    @* alert messages JS *@
     <script>
         window.onload = function() {
             setTimeout(function() {

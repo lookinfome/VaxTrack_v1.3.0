@@ -212,7 +212,8 @@ body {
 
 #editProfileModal .modal-content, 
 #editProfileModal2 .modal-content, 
-#dose1Book .modal-content {
+#dose1Book .modal-content,
+#dose2Book .modal-content {
   background-color: #2A3335;
   box-shadow: 0px 0px 5px gainsboro;
 }
@@ -243,7 +244,7 @@ body {
 }
 
 /* modal: slot book */
-#dose1Book {
+#dose1Book, #dose2Book {
   color: aqua;
 }
 
