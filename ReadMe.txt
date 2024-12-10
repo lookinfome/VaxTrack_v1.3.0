@@ -9,7 +9,7 @@
 - UI Update: SignUp Page - completed
 - UI Update: User Profile Page - completed
 - UI Update: User Edit Profile Page - completed
-- UI Update: Slot Book Page
+- UI Update: Slot Book Page - completed
 - UI Update: Admin Page
 
 ## Fixes
