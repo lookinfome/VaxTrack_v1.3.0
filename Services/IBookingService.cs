@@ -13,6 +13,7 @@ namespace v1Remastered.Services
         // exposed to: user profile controller
         public bool IsD1Booked(string userId, string bookingId);
         public bool IsD2Booked(string userId, string bookingId);
+        public DateTime FetchD1BookedDate(string userId, string bookingId);
 
         // exposed to: booking controller, user profile service
         public BookingDetailsDto_UserBookingDetails FetchBookingDetails(string userid);
@@ -94,6 +95,17 @@ namespace v1Remastered.Services
             return false;
         }
     
+        // service method: to fetch date of dose 1 booking date
+        public DateTime FetchD1BookedDate(string userId, string bookingId)
+        {
+            var fetchedDetails = _v1RemDb.BookingDetails.FirstOrDefault(record=>record.UserId == userId && record.BookingId == bookingId);
+            if(fetchedDetails != null)
+            {
+                return fetchedDetails.Dose1BookDate;
+            }
+            return DateTime.MinValue;
+        }
+        
         // service method: to save new booking details
         public bool SaveNewBookingDetails(string userId, DateTime dose1Date, string hospitalId)
         {

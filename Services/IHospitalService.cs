@@ -10,25 +10,16 @@ namespace v1Remastered.Services
 {
     public interface IHospitalService
     {
-        // exposed to: admin service, user profile service
-        public string FetchHospitalNameById(string hospitalId);
+     
+        // exposed to: user profile controller
+        public List<string> FetchAvailableHospitalLocations();
 
         // exposed to: admin service, admin controller
         public List<HospitalDetailsModel> FetchHospitalsList();
-
-        // exposed to: admin service
         
-        // exposed to: booking service
-        public string FetchHospitalIdyName(string hospitalName);
+        // exposed to: admin service, user profile service
+        public string FetchHospitalNameById(string hospitalId);
 
-        // exposed to: booking service, booking controller
-        public List<HospitalDetailsDto_HospitalDetails> FetchAvailableHospitalsList();
-
-
-        /*******************************************************/
-
-        // exposed to: user profile controller
-        public List<string> FetchAvailableHospitalLocations();
 
         // exposed to: booking service, admin service 
         public HospitalDetailsModel FetchHospitalDetailsById(string hospitalId);
@@ -71,38 +62,7 @@ namespace v1Remastered.Services
             return new List<HospitalDetailsModel>();
         }
 
-        // fetch all available hospitals details
-        public List<HospitalDetailsDto_HospitalDetails> FetchAvailableHospitalsList()
-        {
-            var hospitalList = _v1RemDb.HospitalDetails
-                                .Where(record=>record.HospitalAvailableSlots >= 1)
-                                .Select(record => new HospitalDetailsDto_HospitalDetails 
-                                    {
-                                        HospitalName = record.HospitalName,
-                                        HospitalAvailableSlots = record.HospitalAvailableSlots,
-                                        HospitalLocation = record.HospitalLocation
-                                    }
-                                )
-                                .ToList();
-            if(hospitalList != null)
-            {
-                return hospitalList;
-            }
-            return new List<HospitalDetailsDto_HospitalDetails>();
-        }
-
-        // fetch hospital id by name
-        public string FetchHospitalIdyName(string hospitalName)
-        {
-            var hospitalDetails = _v1RemDb.HospitalDetails.FirstOrDefault(record=>record.HospitalName == hospitalName);
-            if(hospitalDetails != null)
-            {
-                return hospitalDetails.HospitalId;
-            }
-
-            return "";
-        }
-
+   
         // fetch hospital details by id
         public HospitalDetailsModel FetchHospitalDetailsById(string hospitalId)
         {

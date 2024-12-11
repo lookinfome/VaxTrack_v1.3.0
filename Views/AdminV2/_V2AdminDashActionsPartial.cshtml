@@ -1,0 +1,116 @@
+@* tab-body-header *@
+
+
+@* tab-body-content *@
+
+@* users with pending approval *@
+<div class="row mt-5">
+    <div class="admin-status-page-desc">
+        <h5 style="color: white;"> Action: Approve Bookings </h5>
+    </div>
+
+    <div class="admin-users-list-pending-approval" style="overflow-y: auto;">
+        <table class="table table-hover">
+            <thead>
+                <tr class="text-center">
+                    <th>Name</th>
+                    <th>Users Id</th>
+                    <th>Booking Id</th>
+                    <th>Dose 1 Date (Vaccine Center)</th>
+                    <th>Dose 2 Date (Vaccine Center)</th>
+                    <th>Vaccination Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="actionApproveTable"> 
+                @if(ViewBag.UsersListWithPendingApprovals != null && ViewBag.UsersListWithPendingApprovals.Count > 0)
+                {
+                    @foreach(var record in ViewBag.UsersListWithPendingApprovals)
+                    {
+                        <tr class="text-center">
+                            <td>@record.Username</td>
+                            <td>@record.UserId</td>
+                            <td>@record.BookingId</td>
+                            <td>@record.Dose1Date (<b>@record.D1HospitalName</b>)</td>
+                            <td>@record.Dose2Date (<b>@record.D2HospitalName</b>)</td>
+                            <td>
+                                @if(record.UserVaccinationStatus == 0 || record.UserVaccinationStatus == 1)
+                                {
+                                    <span>Pending</span>
+                                }
+                                else
+                                {
+                                    <span>Approved</span>
+                                }
+                            </td>
+                            <td>
+                                @if(record.UserVaccinationStatus == 0 || record.UserVaccinationStatus == 1)
+                                {
+                                    <button id="approveButton" class="approveButton btn btn-sm btn-danger" data-userid="@record.UserId" data-bookingid="@record.BookingId">Approve</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-sm btn-success disabled">Approved</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="text-center">
+                        <td colspan="7">
+                            <h5 style="color:green; text-shadow: 0px 1px 10px yellowgreen;"> no records/slots token approval for now </h5>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* hospital with details *@
+<div class="row mt-4">
+    <div class="admin-status-page-desc">
+        <h5 style="color: white;"> Action: Update Slots </h5>
+    </div>
+
+    <div class="admin-hospitals-list-slot-update" style="overflow-y: auto;">
+        <table class="table table-hover">
+            <thead>
+                <tr class="text-center">
+                    <th>Hospital ID</th>
+                    <th>Hospital Name</th>
+                    <th>Slots Available</th>
+                    <th>Increase Slots</th>
+                </tr>
+            </thead>
+            <tbody id="actionUpdateSlots">
+                @if(ViewBag.FetchedHospitalsDetails.Count > 0)
+                {
+                    @foreach(var record in ViewBag.FetchedHospitalsDetails)
+                    {
+                        <tr class="text-center">
+                            <td>@record.HospitalId</td>
+                            <td>@record.HospitalName</td>
+                            <td>@record.HospitalAvailableSlots</td>
+                            <td>
+                                <input type="number" id="increaseSlots_@record.HospitalId" class="admin-slot-update-input" />
+                                <button type="button" id="increaseSlots" onclick="increaseSlots(@record.HospitalId)" class="admin-slot-update-submit">Update Slots</button>
+                           </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="text-center">
+                        <td colspan="4">
+                            <h5>No hospitals available right now</h5>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

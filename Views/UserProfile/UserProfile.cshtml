@@ -3,6 +3,12 @@
 @{
     var currMonthYear = DateTime.Now.ToString("yyyy-MM-dd");
 
+    DateTime d1BookingDate = (DateTime)ViewBag.D1BookedDate;
+    // Add 30 days
+    DateTime d1BookingDatePlus30 = d1BookingDate.AddDays(30);
+    // Convert to string in the required format
+    var d2BookingDateLowerLimit = d1BookingDatePlus30.ToString("yyyy-MM-dd");
+
     @* format UID *@
     string Uid = @Model.UserUid;
     string FormattedUid = string.Format("{0}-{1}-{2}-{3}",
@@ -383,14 +389,20 @@
                     Book Slot 1
                 </button>
             }
-            else
+            else if(ViewBag.AvailableHospitalLocations.Count <= 0)
             {
                 <br> 
                 <button type="button" disabled  style="border-radius: 10px;" class="mt-3 btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#dose1Book">
                     <span style="font-size: 15px;">No Slots Available Now</span>
                 </button>
             }
-            
+            else
+            {
+                <br> 
+                <button type="button" disabled  style="border-radius: 10px;" class="mt-3 btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#dose2Book">
+                    <span style="font-size: 15px;">Waiting for booked dose approval</span>
+                </button>
+            }
         }
         else if(ViewBag.IsD1Booked == true && ViewBag.IsD2Booked == false)
         {
@@ -401,11 +413,18 @@
                     Book Slot 2
                 </button>
             }
-            else
+            else if(ViewBag.AvailableHospitalLocations.Count <= 0)
             {
                 <br> 
                 <button type="button" disabled  style="border-radius: 10px;" class="mt-3 btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#dose2Book">
                     <span style="font-size: 15px;">No Slots Available Now</span>
+                </button>
+            }
+            else
+            {
+                <br> 
+                <button type="button" disabled  style="border-radius: 10px;" class="mt-3 btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#dose2Book">
+                    <span style="font-size: 15px;">Waiting for booked dose approval</span>
                 </button>
             }
 
@@ -413,10 +432,7 @@
         else
         {
             //
-            <br> 
-            <button type="button" disabled  style="border-radius: 10px;" class="mt-3 btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#dose2Book">
-                <span style="font-size: 15px;">Waiting for booked dose approval</span>
-            </button>
+            
         }
 
     </div>
@@ -540,7 +556,7 @@
                     <div class="modal-body">
                         <form id="SlotBookFormD2" method="post" enctype="multipart/form-data">
                             <label for="Dose2BookDate">Dose 2 Date</label>
-                            <input type="date" class="form-control book-form-input" min="@currMonthYear" name="dose2Date" id="Dose2BookDate">
+                            <input type="date" class="form-control book-form-input" min="@d2BookingDateLowerLimit" name="dose2Date" id="Dose2BookDate">
 
                             <label class="mt-2" for="HospitalLocationD2">Hospital Location</label>
                             <select class="form-control book-form-input" name="hospitalLocation" id="HospitalLocationD2">

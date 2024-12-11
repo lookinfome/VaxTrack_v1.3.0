@@ -1,0 +1,52 @@
+@{
+    string sectionPrefix = "Usage Analytics: ";
+}
+
+<div class="row mt-5">
+
+
+    <div class="admin-status-slot-booking col col-lg-4 col-md-6 col-sm-12">
+        <p class="header"> @sectionPrefix Booking Slots Status </p>
+
+        <div style="width: 250px; height: 250px;">
+            <canvas id="slotBookingChart" style="height: 100%; width: 100%;"></canvas>
+        </div>
+
+        <p class="footer mt-3">
+            <span>Total Users:</span> @ViewBag.TotalUserCount
+        </p>
+
+    </div>
+
+    <div class="admin-status-users-vaccination col col-lg-4 col-md-6 col-sm-12">
+        <p class="header"> @sectionPrefix Users Vaccination Status </p>
+
+        <div style="width: 250px; height: 250px;">
+            <canvas id="slotApproveChart" style="height: 100%; width: 100%;"></canvas>
+        </div>
+
+        <p class="footer mt-3">
+            <span>Total Users:</span> @ViewBag.TotalUserCount
+        </p>
+
+    </div>
+
+
+    <div class="admin-status-users-gender col col-lg-4 col-md-6 col-sm-12">
+        <p class="header"> @sectionPrefix Users Gender Status </p>
+
+        <div style="width: 250px; height: 250px;">
+            <canvas id="userGenderChart" style="height: 100%; width: 100%;"></canvas>
+        </div>
+
+        <p class="footer mt-3">
+            <span>Total Users:</span> @ViewBag.TotalUserCount
+        </p>
+
+    </div>
+
+
+</div>
+
+
+

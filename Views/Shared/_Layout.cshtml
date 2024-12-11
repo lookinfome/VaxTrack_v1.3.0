@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/v1Remastered.styles.css" asp-append-version="true" />
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- google fonts cdn -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
 
     <!-- fontawesome cdn -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
@@ -41,7 +43,7 @@
                                 @if (User.IsInRole("admin"))
                                 {
                                     <li class="nav-item">
-                                        <a class="nav-link text-light" asp-area="" asp-controller="Admin" asp-action="AdminPage" asp-route-userid="@User.Identity.Name">Admin Dashboard</a>
+                                        <a class="nav-link text-light" asp-area="" asp-controller="AdminV2" asp-action="V2AdminPage" asp-route-userid="@User.Identity.Name">Admin Dashboard</a>
                                     </li>
                                 }
                                 

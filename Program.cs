@@ -25,8 +25,8 @@ builder.Services.AddTransient<IBookingService, BookingService>();
 // Add hospital details service
 builder.Services.AddTransient<IHospitalService, HospitalService>();
 
-// Add admin details service
-builder.Services.AddTransient<IAdminService, AdminService>();
+// Add admin details service - V2
+builder.Services.AddTransient<IAdminV2Service, AdminV2Service>();
 
 // Add user feedback service
 builder.Services.AddTransient<IUserFeedbackService, UserFeedbackService>();

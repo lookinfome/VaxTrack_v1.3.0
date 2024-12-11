@@ -294,6 +294,58 @@ body {
   color: red;
 }
 
+/* page: admin v2 dashboard */
+
+.admin-desc-content {
+  text-align: center;
+  padding: 5px 0px 5px 0px;
+  border-top: 2px solid orange;
+  border-bottom: 2px solid orange;
+}
+
+.admin-status-page-desc h5 {
+  width: fit-content;
+  padding: 5px 0px 5px 0px;
+  border-top: 2px solid orange;
+  border-bottom: 1px solid orange;
+}
+
+.admin-usages-btn, .admin-actions-btn {
+  background-color: #FBF8EF;
+}
+
+.admin-users-list-pending-approval table {
+  background-color: #A8CD89;
+}
+
+.admin-users-list-pending-approval table thead {
+  color: #FBF8EF;
+  background-color: #355F2E;
+}
+
+.admin-hospitals-list-slot-update table {
+  background-color: #B1F0F7;
+}
+
+.admin-hospitals-list-slot-update table thead {
+  color: #FBF8EF;
+  background-color: #0A5EB0;
+}
+
+.admin-status-slot-booking, 
+.admin-status-users-gender, 
+.admin-status-users-vaccination {
+  color: white;
+}
+
+
+
+
+
+
+
+
+
 
 /* page: admin dashboard */
 
@@ -301,23 +353,20 @@ body {
   color: white;
 }
 
-.admin-desc-content, .admin-action-panel-head, .admin-app-stats-head {
-  padding: 10px;
-  color: orange;
-  border-radius: 10px;
-  background-color: rgba(9, 12, 12, 0.3);
-  box-shadow: 0px 1px 10px white;
-}
 
-.admin-action-panel-head, .admin-app-stats-head {
-  color:lawngreen;
-}
 
 .icon-jet, .icon-analytics {
   color: sandybrown;
   rotate: -45deg;
-  margin-left: 10px;
+  margin-left: 5px;
   text-shadow: 0px 1px 10px orange;
+}
+
+.admin-action-panel-head, .admin-app-stats-head {
+  color: #9BEC00;
+  padding: 5px 0px 5px 0px;
+  border-top: 2px solid #9BEC00;
+  border-bottom: 2px solid #9BEC00;
 }
 
 .action-panel-1, .action-panel-2 {

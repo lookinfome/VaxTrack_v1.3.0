@@ -49,7 +49,7 @@ namespace v1Remastered.Controllers
                     else
                     {
                         TempData["userAdminMsgSuccess"] = $"Welcome again admin, {userName}";
-                        return Json(new { success = true, redirectUrl = Url.Action("AdminPage", "Admin", new { userid = submittedDetails.UserId }) });
+                        return Json(new { success = true, redirectUrl = Url.Action("V2AdminPage", "AdminV2", new { userid = submittedDetails.UserId }) });
                     }
                 }
                 else

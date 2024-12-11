@@ -16,6 +16,7 @@ namespace v1Remastered.Dto
     {
         public string HospitalId {get; set;} = "";
         public string HospitalName {get; set;} = "";
+        public string HospitalLocation {get; set;} = "";
         public int HospitalAvailableSlots {get; set;} = 0;
     }
 

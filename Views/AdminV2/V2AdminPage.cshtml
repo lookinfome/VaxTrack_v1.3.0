@@ -1,0 +1,269 @@
+@{
+    ViewBag.pageTitle = "admin dashboard".ToUpper();
+    ViewBag.pageDesc = "This page serves as a comprehensive and professional dashboard designed to provide detailed insights into our campaign to combat COVID-19.";
+    
+}
+
+<div class="container">
+
+    @* 0th row: alert messages *@
+    @if(!string.IsNullOrEmpty(ViewBag.LoginMessage))
+    {
+        <div class="row">
+            <div id="LoginMessage" style="padding:none; box-shadow: 0px 1px 10px lime;" class="alert alert-success text-center" role="alert">
+                <span> 
+                    <b> @ViewBag.LoginMessage </b>
+                    <i class="far fa-smile"></i> 
+                </span>
+            </div>
+        </div>
+    }
+
+    @* 1st row: page title and description *@
+    <div class="row justify-content-center mt-5">
+        <div class="col col-lg-6 col-md-10 col-12">
+            <div class="admin-desc">
+                <h3 class="text-center">@ViewBag.pagetitle <i class="icon-analytics fas fa-chart-line"></i></h3>
+                <p class="admin-desc-content mt-4"> 
+                    @ViewBag.pageDesc 
+                    <i class="icon-jet fas fa-fighter-jet"></i>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    @* 2nd row: page tabs *@
+    <div class="row mt-2">
+        <div>
+            <button id="admin-dash-usages" class="btn btn-sm admin-usages-btn">Usage Analytics</button>
+            <button id="admin-dash-actions" class="btn btn-sm admin-actions-btn">Admin Actions</button>
+        </div>
+    </div>
+
+    @* 3rd row: page content *@
+    <div class="row">
+        <div id="admin-dash-content">
+            
+        </div>
+    </div>
+
+    
+
+</div>
+
+
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+    <script>
+        window.onload = function() {
+            setTimeout(function() {
+                var LoginMessage = document.getElementById('LoginMessage');
+                if (LoginMessage) {
+                    LoginMessage.style.display = 'none';
+                }
+            }, 5000); // 5000 milliseconds = 5 seconds
+        };
+    </script>
+
+
+    <script>
+        $(document).ready(function(){
+
+            // approve booked slots
+            $(document).on('click', '.approveButton', function() {
+                var userId = $(this).data('userid');
+                var bookingId = $(this).data('bookingid');
+                $.ajax({
+                    url: '@Url.Action("ApproveSlotBook", "AdminV2")',
+                    type: 'POST',
+                    data: {
+                        userId: userId,
+                        bookingId: bookingId,
+                        // __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() // Include anti-forgery token
+                    },
+                    success: function(data) {
+                        $('#actionApproveTable').html(data);
+                    },
+                    error: function(response) {
+                        alert("Error approving slot booking.");
+                    }
+                });
+            });
+
+            // update hospital slots
+            $(document).on('click', '.admin-slot-update-submit', function() {
+                var hospitalId = $(this).attr('onclick').match(/\d+/)[0];
+                var increaseValue = $('#increaseSlots_HOSP' + hospitalId).val();
+
+                console.log(`hospitalID: ${hospitalId}, increaseValue: ${increaseValue}`);
+
+                $.ajax({
+                    url: '@Url.Action("UpdateSlots", "AdminV2")',
+                    type: 'GET',
+                    data: { 
+                        hospitalId: hospitalId, 
+                        increaseBy: increaseValue,              
+                    },
+                    success: function(data) {
+                        $('#actionUpdateSlots').html(data);
+                    },
+                    error: function() {
+                        alert("An error occurred while increasing slots.");
+                    }
+                });
+            });
+
+            // load usage tab
+            $(document).on('click', '#admin-dash-usages', function() {
+                // Extract the user ID from the URL
+                var url = window.location.href;
+                var userId = url.substring(url.lastIndexOf('/') + 1);
+
+                $.ajax({
+                    url: '/Admin/v2/' + userId + '/admin-usages',
+                    type: 'GET',
+                    success: function(data) {
+                        $('#admin-dash-content').html(data);
+                        var dashUsages = document.getElementById('admin-dash-usages');
+                        var dashActions = document.getElementById('admin-dash-actions');
+
+                        dashUsages.style.background = '#9BEC00';
+                        dashActions.style.background = '#FBF8EF';
+
+                        // slot booking chart
+                        var totalUsersCount = @ViewBag.TotalUserCount;
+                        var totalUserWithSlotBookedCount = @ViewBag.TotalUserWithSlotBookedCount;
+                        var totalUserWithoutSlotBookedCount = totalUsersCount - totalUserWithSlotBookedCount;
+
+                        var ctx0 = document.getElementById('slotBookingChart').getContext('2d');
+                        var slotBookingChart = new Chart(ctx0, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Users with slot booked', 'Users without slot booked'],
+                                datasets: [{
+                                    data: [totalUserWithSlotBookedCount, totalUserWithoutSlotBookedCount],
+                                    backgroundColor: ['limegreen', 'orange']
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                title: {
+                                    display: true,
+                                    text: '',
+                                    fontColor: 'white'
+                                },
+                                legend: {
+                                    labels: {
+                                        fontColor: 'white'
+                                    }
+                                }
+                            }
+                        });
+
+                        // vaccination status chart
+                        var fullyVaccinatedUsersCount = @ViewBag.FullyVaccinatedUsersCount;
+                        var partiallyVaccinatedUsersCount = @ViewBag.PartiallyVaccinatedUsersCount;
+                        var notVaccinatedUsersCount = totalUsersCount - (fullyVaccinatedUsersCount + partiallyVaccinatedUsersCount);
+                        
+                        var ctx1 = document.getElementById('slotApproveChart').getContext('2d');
+                        var slotApproveChart = new Chart(ctx1, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Fully vaccinated', 'Partially vaccinated', 'Not vaccinated'],
+                                datasets: [{
+                                    data: [fullyVaccinatedUsersCount, partiallyVaccinatedUsersCount, notVaccinatedUsersCount],
+                                    backgroundColor: ['blue', 'yellow', 'green']
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                title: {
+                                    display: true,
+                                    text: '',
+                                    fontColor: 'white'
+                                },
+                                legend: {
+                                    labels: {
+                                        fontColor: 'white'
+                                    }
+                                }
+                            }
+                        });
+                        
+                        
+                        // user gender chart
+                        var maleUsersCount = @ViewBag.MaleUsersCount;
+                        var femaleUsersCount = @ViewBag.FemaleUsersCount;
+                        var otherUsersCount =  totalUsersCount - (maleUsersCount + femaleUsersCount);
+
+                        var ctx2 = document.getElementById('userGenderChart').getContext('2d');
+                        var userGenderChart = new Chart(ctx2, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Male', 'Female', 'Others'],
+                                datasets: [{
+                                    data: [maleUsersCount, femaleUsersCount, otherUsersCount],
+                                    backgroundColor: ['tomato', 'seagreen', 'lightgray']
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                title: {
+                                    display: true,
+                                    text: '',
+                                    fontColor: 'white'
+                                },
+                                legend: {
+                                    labels: {
+                                        fontColor: 'white'
+                                    }
+                                }
+                            }
+                        });
+                    },
+                    error: function(response) {
+                        alert("Error loading admin usages.");
+                    }
+                });
+            });
+
+            // load action tab
+            $(document).on('click', '#admin-dash-actions', function() {
+                // Extract the user ID from the URL
+                var url = window.location.href;
+                var userId = url.substring(url.lastIndexOf('/') + 1);
+
+                $.ajax({
+                    url: '/Admin/v2/' + userId + '/admin-actions',
+                    type: 'GET',
+                    success: function(data) {
+                        $('#admin-dash-content').html(data);
+                        var dashUsages = document.getElementById('admin-dash-usages');
+                        var dashActions = document.getElementById('admin-dash-actions');
+
+                        dashActions.style.background = '#9BEC00';
+                        dashUsages.style.background = '#FBF8EF';
+                    },
+                    error: function(response) {
+                        alert("Error loading admin status.");
+                    }
+                });
+            });
+        
+        
+            
+
+        });
+    </script>
+
+
+    
+
+    
+}
