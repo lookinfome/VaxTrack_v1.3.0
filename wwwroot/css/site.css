@@ -296,6 +296,13 @@ body {
 
 /* page: admin v2 dashboard */
 
+.icon-jet, .icon-analytics {
+  color: sandybrown;
+  rotate: -45deg;
+  margin-left: 5px;
+  text-shadow: 0px 1px 10px orange;
+}
+
 .admin-desc-content {
   text-align: center;
   padding: 5px 0px 5px 0px;
@@ -342,77 +349,6 @@ body {
 
 
 
-
-
-
-
-
-/* page: admin dashboard */
-
-.admin-desc, .admin-action h5 {
-  color: white;
-}
-
-
-
-.icon-jet, .icon-analytics {
-  color: sandybrown;
-  rotate: -45deg;
-  margin-left: 5px;
-  text-shadow: 0px 1px 10px orange;
-}
-
-.admin-action-panel-head, .admin-app-stats-head {
-  color: #9BEC00;
-  padding: 5px 0px 5px 0px;
-  border-top: 2px solid #9BEC00;
-  border-bottom: 2px solid #9BEC00;
-}
-
-.action-panel-1, .action-panel-2 {
-  color: white;
-}
-
-.action-approve-table thead {
-  background-color: rgba(253, 239, 81, 0.7);
-}
-
-.action-approve-table tbody {
-  background-color: rgba(245, 245, 220, 0.7);
-}
-
-.admin-approve-table {
-  color: black;
-  border-radius: 10px 10px 0px 0px;
-  background-color: rgba(252, 245, 95, 0.7);
-}
-
-.admin-update-hospitals {
-  color: white;
-  border-radius: 10px 10px 0px 0px;
-  background-color: rgba(52, 215, 236, 0.4);
-}
-
-.admin-slot-update-input {
-  width: 50px;
-  border-radius: 5px;
-  border: 1px solid gainsboro;
-  outline: none;
-}
-
-.admin-slot-update-submit {
-  border: 1px solid lightseagreen;
-  box-shadow: 0px 1px 2px lightseagreen;
-  background-color: lightseagreen;
-  border-radius: 10px;
-  transition: 0.5s ease-in-out;
-}
-
-.admin-slot-update-submit:hover {
-  border: 1px solid yellowgreen;
-  background-color: yellowgreen;
-  box-shadow: 0px 1px 2px lightgreen;
-}
 
 
 
