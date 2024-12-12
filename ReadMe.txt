@@ -32,4 +32,5 @@
 - added user profile edit modal on user profile page
 - added slot booking modal on user profile page
 - added v2 admin page with different tabs promoting seperation and UI friendliness
+- replaced alert messages to toast messages
 - performed css cleanup 
