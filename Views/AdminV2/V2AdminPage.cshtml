@@ -4,20 +4,8 @@
     
 }
 
-<div class="container">
 
-    @* 0th row: alert messages *@
-    @if(!string.IsNullOrEmpty(ViewBag.LoginMessage))
-    {
-        <div class="row">
-            <div id="LoginMessage" style="padding:none; box-shadow: 0px 1px 10px lime;" class="alert alert-success text-center" role="alert">
-                <span> 
-                    <b> @ViewBag.LoginMessage </b>
-                    <i class="far fa-smile"></i> 
-                </span>
-            </div>
-        </div>
-    }
+<div class="container admin-dash">
 
     @* 1st row: page title and description *@
     <div class="row justify-content-center mt-5">
@@ -36,8 +24,8 @@
     @* 2nd row: page tabs *@
     <div class="row mt-2">
         <div>
-            <button id="admin-dash-usages" class="btn btn-sm admin-usages-btn">Usage Analytics</button>
-            <button id="admin-dash-actions" class="btn btn-sm admin-actions-btn">Admin Actions</button>
+            <button id="admin-dash-usages" class="admin-usages-btn">Usage Analytics</button>
+            <button id="admin-dash-actions" class="admin-actions-btn">Admin Actions</button>
         </div>
     </div>
 
@@ -48,7 +36,24 @@
         </div>
     </div>
 
-    
+</div>
+
+@* 4th row: toast messages *@
+<div class="row">
+    @if(!string.IsNullOrEmpty(ViewBag.LoginMessage))
+    {
+        <div id="adminWelcomeMessage" class="toast position-fixed top-0 end-0 m-5" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i style="color: #0E185F;" class="far fa-smile"></i> 
+                <strong style="color: #0E185F;" class="me-auto mx-2">Login Attempt: Success</strong>
+                @* <small>11 mins ago</small> *@
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @ViewBag.LoginMessage
+            </div>
+        </div>
+    }
 
 </div>
 
@@ -58,16 +63,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 
     <script>
-        window.onload = function() {
-            setTimeout(function() {
-                var LoginMessage = document.getElementById('LoginMessage');
-                if (LoginMessage) {
-                    LoginMessage.style.display = 'none';
-                }
-            }, 5000); // 5000 milliseconds = 5 seconds
-        };
+        document.addEventListener('DOMContentLoaded', function () {
+            // Show welcome message toast
+            var _adminWelcomeMessage = document.getElementById('adminWelcomeMessage');
+            if (_adminWelcomeMessage) {
+                var adminWelcomeMessage = new bootstrap.Toast(_adminWelcomeMessage);
+                adminWelcomeMessage.show();
+            }
+        });
     </script>
-
 
     <script>
         $(document).ready(function(){
@@ -261,9 +265,5 @@
 
         });
     </script>
-
-
-    
-
-    
+ 
 }

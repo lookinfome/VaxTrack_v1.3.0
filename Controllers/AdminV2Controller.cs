@@ -80,6 +80,7 @@ namespace v1Remastered.Controllers
 
                 if(_userswWithPendingApproval.Count >= 1)
                 {
+                    TempData["approvalSuccessMsg"] = $"{userId} is now vaccinated";
                     return PartialView("_V2UsersPendingAppovalTablePartial", _userswWithPendingApproval.ToList());
                 }
                 return PartialView("_V2AdminErrorMsgPartial", new List<AdminDetailsDto_UserWithPendingApproval>());
