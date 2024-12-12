@@ -15,6 +15,11 @@
 ## Fixes
 - NA
 
+## Identified Bugs
+-- Bug: user edit profile modal - closing confirm password modal freezing the site page
+-- Bug: admin dashboard font color - post updating Bootstrap to v5.3 overriding css to default
+-- Bug: application font - post updating Bootstrap to v5.3 excluded google font 
+
 
 ## Notes
 - removed independent login page
