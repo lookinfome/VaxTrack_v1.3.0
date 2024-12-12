@@ -19,7 +19,7 @@ html {
 
 body {
   margin-bottom: 60px;
-  background-color: #2A3335;
+  background-color: #2A3335 !important;
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -211,7 +211,7 @@ body {
 /* modal: user edit */
 
 #editProfileModal .modal-content, 
-#editProfileModal2 .modal-content, 
+#confirmPasswordModal .modal-content, 
 #dose1Book .modal-content,
 #dose2Book .modal-content {
   background-color: #2A3335;
@@ -346,9 +346,20 @@ body {
 }
 
 
+/* toast: alert messages */
+#welcomeMessage, #userProfileUpdateSuccessMsg {
+  color: #52734D;
+  box-shadow: 0px 0px 10px #9BEC00;
+}
 
+#userProfileUpdateErrorMsg {
+  color: #FF5200;
+  box-shadow: 0px 0px 10px #F90716;
+}
 
-
-
+#bookingStatusMsg {
+  color: #0E185F;
+  box-shadow: 0px 0px 10px #7DEDFF;
+}
 
 

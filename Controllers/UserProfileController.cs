@@ -96,18 +96,13 @@ namespace v1Remastered.Controllers
         [HttpPost("{userid}/Edit")]
         public async Task<IActionResult> UserProfileEdit(string userid, string phoneNumber, string dateOfBirth, IFormFile profileImage, string password)
         {
-
-            // fetch user details from asp-net-user table for authentication
+            // Fetch user details from asp-net-user table for authentication
             var loggedInUser = await _userManager.GetUserAsync(User);
 
-            // if user's record not found
+            // If user's record not found
             if (loggedInUser == null || loggedInUser.UserName != userid)
             {
-                TempData["UnauthorizedAction"] = "Hey hey hey, you can't really do that... ";
-                return RedirectToAction("Index", "Home");
-
-                // await _authService.LogoutUserAsync();
-                // return RedirectToAction("LoginUser", "Account");
+                return Json(new { success = false, message = "Unauthorized action." });
             }
 
             // Convert dateOfBirth string to DateTime
@@ -122,7 +117,6 @@ namespace v1Remastered.Controllers
             }
 
             // Add your logic to handle the form submission here
-
             string userPassword = string.IsNullOrEmpty(password) ? "" : password;
 
             bool isUserAuthentic = _authService.CheckUserAuthenticity(userid, userPassword).Result;
@@ -132,24 +126,20 @@ namespace v1Remastered.Controllers
                 bool result = _userProfileService.UpdateUserProfile(userid, phoneNumber, _dateOfBirth, profileImage);
                 string userName = _userProfileService.FetchUserName(userid);
 
-                TempData["userProfileUpdateSuccessMsg"] = $"{userName}'s profile have been updated successfully";
-
-                if(result)
+                if (result)
                 {
-                    TempData["userProfileUpdateSuccessMsg"] = $"{userName}'s profile have been updated successfully";
-                    return RedirectToAction("UserProfile", "UserProfile", new { userid = userid });
+                    TempData["userProfileUpdateSuccessMsg"] = $"Looks good, {userName}";
+                    return Json(new { success = true, message = $"{userName}'s profile has been updated successfully." });
                 }
-                else 
+                else
                 {
-                    // Redirect or return a view as needed
-                    TempData["userProfileUpdateErrorMsg"] = $"Oops something went wrong";
-                    return RedirectToAction("UserProfile", "UserProfile", new { userid = userid });
+                    TempData["userProfileUpdateErrorMsg"] = $"Oops something wrong";
+                    return Json(new { success = false, message = "Oops, something went wrong." });
                 }
             }
 
-            // Redirect or return a view as needed
-            TempData["userProfileUpdateErrorMsg"] = $"Incorrect password, hence update failed.";
-            return RedirectToAction("UserProfile", "UserProfile", new { userid = userid });
+            TempData["userProfileUpdateErrorMsg"] = $"Oops something wrong";
+            return Json(new { success = false, message = "Incorrect password, hence update failed." });
         }
 
         [HttpGet]

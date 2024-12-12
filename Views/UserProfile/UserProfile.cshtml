@@ -25,53 +25,6 @@
 
 <div class="container">
 
-    @* 0th row *@
-    @* alert messages *@
-    @if(!string.IsNullOrEmpty(ViewBag.WelcomeMessage))
-    {
-        <div class="row">
-            <div id="welcomeMessage" style="padding:none; box-shadow: 0px 1px 10px lime;" class="alert alert-success text-center" role="alert">
-                <span> 
-                    <b> @ViewBag.WelcomeMessage </b>
-                    <i class="far fa-smile"></i> 
-                </span>
-            </div>
-        </div>
-    }
-
-    @if(!string.IsNullOrEmpty(ViewBag.UserProfileUpdateSuccessMsg))
-    {
-        <div class="row">
-            <div id="updateStatusMsg" style="padding:none; box-shadow: 0px 1px 10px lime;" class="alert alert-success text-center">
-                <b> @ViewBag.UserProfileUpdateSuccessMsg </b>
-                <i class="far fa-smile"></i> 
-            </div>
-        </div>
-    }
-
-    @if(!string.IsNullOrEmpty(ViewBag.UserProfileUpdateErrorMsg))
-    {
-        <div class="row">
-            <div id="updateStatusMsg" style="padding:none; box-shadow: 0px 1px 10px lime;" class="alert alert-danger text-center">
-                <b> @ViewBag.UserProfileUpdateErrorMsg </b>
-                <i class="far fa-frown"></i>
-            </div>
-        </div>
-    }
-
-    @if(!string.IsNullOrEmpty(ViewBag.BookingStatusMsg))
-    {
-        <div class="row">
-            <div id="bookingStatusMsg" class="alert alert-info text-center">
-                <b> @ViewBag.BookingStatusMsg </b>
-                <i class="fas fa-exclamation-triangle"></i>
-            </div>
-        </div>
-    }
-    
-
-
-
     @* 1st row: identity details *@
     <div class="row justify-content-center mt-3">
         <div style="border-bottom: 1px solid #E6E9AF;" class="user-details-identity col col-lg-6 col-md-12 col-sm-12 d-flex justify-content-between">
@@ -172,7 +125,7 @@
     </div>
 
     @* 3rd row: vaccination details *@
-    <div class="user-details-vaccination row justify-content-center mt-3">
+    <div class="user-details-vaccination row justify-content-center mt-5">
         <div class="col col-lg-8 col-md-12 col-sm-12 justify-content-center">
 
             @* section header *@
@@ -264,7 +217,7 @@
     </div>
 
     @* 4th row: booking details *@
-    <div class="user-details-booking row justify-content-center mt-3">
+    <div class="user-details-booking row justify-content-center mt-5">
         <div class="col col-lg-8 col-md-12 col-sm-12 justify-content-center">
 
             @* section header *@
@@ -441,72 +394,83 @@
     
     @* modal: user profile edit *@
     <div>
-        <!-- edit form -->
-        <div class="modal fade" id="editProfileModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
+        <!-- modal: edit inputs form  -->
+        <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Edit Profile</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="UserProfileForm">
-                            <div class="mb-3">
-                                <label for="phoneNumber" class="form-label">Phone Number</label>
-                                <input type="text" class="form-control user-edit-profile-input" id="phoneNumber" name="phoneNumber" maxlength="10" pattern="\d{10}">
-                                <div class="invalid-feedback">
-                                    Please enter a valid 10-digit phone number.
-                                </div>
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="UserProfileForm">
+                        <!-- phone -->
+                        <div class="mb-3">
+                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control user-edit-profile-input" id="phoneNumber" name="phoneNumber" maxlength="10" pattern="\d{10}">
+                            <div class="invalid-feedback">
+                                Please enter a valid 10-digit phone number.
                             </div>
-                            <div class="mb-3">
-                                <label for="dateOfBirth" class="form-label">Date of Birth</label>
-                                <input type="date" class="form-control user-edit-profile-input" id="dateOfBirth" name="dateOfBirth" max="@currMonthYear">
-                                <div class="invalid-feedback">
-                                    Please enter a valid date of birth.
-                                </div>
+                        </div>
+
+                        <!-- birth date -->
+                        <div class="mb-3">
+                            <label for="dateOfBirth" class="form-label">Date of Birth</label>
+                            <input type="date" class="form-control user-edit-profile-input" id="dateOfBirth" name="dateOfBirth" max="@currMonthYear">
+                            <div class="invalid-feedback">
+                                Please enter a valid date of birth.
                             </div>
-                            <div class="mb-3">
-                                <label for="profileImage" class="form-label">Profile Image</label>
-                                <input type="file" class="form-control user-edit-profile-input" id="profileImage" name="profileImage" accept="image/*">
-                                <div class="invalid-feedback">
-                                    Please upload a valid image file.
-                                </div>
+                        </div>
+
+                        <!-- profile pic -->
+                        <div class="mb-3">
+                            <label for="profileImage" class="form-label">Profile Image</label>
+                            <input type="file" class="form-control user-edit-profile-input" id="profileImage" name="profileImage" accept="image/*">
+                            <div class="invalid-feedback">
+                                Please upload a valid image file.
                             </div>
-                            <button type="button" class="user-edit-profile-submit" id="saveChangesButton">Save Changes</button>
-                        </form>
-                    </div>
+                        </div>
+
+                        <!-- submit -->
+                        <button type="button" class="user-edit-profile-submit" id="saveChangesButton">Save Changes</button>
+                    </form>
+                </div>
+                <div class="modal-footer"></div>
                 </div>
             </div>
         </div>
 
-        <!-- confirm password -->
-        <div class="modal fade" id="editProfileModal2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
+        <!-- modal: confirm password form -->
+        <div class="modal" id="confirmPasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Confirm Changes</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="PasswordConfirmForm" method="post" enctype="multipart/form-data">
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control user-edit-profile-input" id="password" name="password" required>
-                                <div class="invalid-feedback">
-                                    Please enter your password to confirm changes.
-                                </div>
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="confirmPasswordForm" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control user-edit-profile-input" id="password" name="password" required>
+                            <div class="invalid-feedback">
+                                Please enter your password to confirm changes.
                             </div>
-                            <input type="hidden" id="hiddenPhoneNumber" name="phoneNumber">
-                            <input type="hidden" id="hiddenDateOfBirth" name="dateOfBirth">
-                            <input type="file" style="display: none;" id="hiddenProfileImage" name="profileImage">
-                            <button type="submit" class="user-edit-profile-submit">Submit</button>
-                        </form>
-                    </div>
+                        </div>
+                        <input type="hidden" id="hiddenPhoneNumber" name="phoneNumber">
+                        <input type="hidden" id="hiddenDateOfBirth" name="dateOfBirth">
+                        <input type="file" style="display: none;" id="hiddenProfileImage" name="profileImage">
+                        <button type="submit" class="user-edit-profile-submit">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer"></div>
                 </div>
             </div>
         </div>
+        
     </div>
 
+    
     @* modal: slot booking: dose 1 *@
     <div>
         <div class="modal" id="dose1Book" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
@@ -586,7 +550,69 @@
 
     </div>
 
+</div>
 
+@* 8th row: toast alert messages *@
+<div class="row">
+    @if(!string.IsNullOrEmpty(ViewBag.WelcomeMessage))
+    {
+        <div id="welcomeMessage" class="toast position-fixed top-1 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i style="color: #52734D;" class="far fa-smile"></i> 
+                <strong style="color: #52734D;" class="me-auto mx-2">Login Attempt: Success</strong>
+                @* <small>11 mins ago</small> *@
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @ViewBag.WelcomeMessage
+            </div>
+        </div>
+    }
+
+    @if(!string.IsNullOrEmpty(ViewBag.UserProfileUpdateSuccessMsg))
+    {
+        <div id="userProfileUpdateSuccessMsg" class="toast position-fixed top-1 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i style="color: #52734D;" class="far fa-smile"></i> 
+                <strong style="color: #52734D;" class="me-auto mx-2">Profile Update: Success</strong>
+                @* <small>11 mins ago</small> *@
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @ViewBag.UserProfileUpdateSuccessMsg
+            </div>
+        </div>
+    }
+
+    @if(!string.IsNullOrEmpty(ViewBag.UserProfileUpdateErrorMsg))
+    {
+        <div id="userProfileUpdateErrorMsg" class="toast position-fixed top-1 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i style="color: #FF5200;" class="far fa-frown"></i>
+                <strong style="color: #FF5200;" class="me-auto mx-2">Profile Update: Failed</strong>
+                @* <small>11 mins ago</small> *@
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @ViewBag.UserProfileUpdateErrorMsg
+            </div>
+        </div>
+    }
+
+    @if(!string.IsNullOrEmpty(ViewBag.BookingStatusMsg))
+    {
+        <div id="bookingStatusMsg" class="toast position-fixed top-1 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i style="color: #0E185F;" class="fas fa-exclamation-triangle"></i>
+                <strong style="color: #0E185F;" class="me-auto mx-2">Slot Booking: Success</strong>
+                @* <small>11 mins ago</small> *@
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @ViewBag.BookingStatusMsg
+            </div>
+        </div>
+    }
 
 </div>
 
@@ -596,6 +622,41 @@
 @section Scripts{
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    @* toast alert messages JS *@
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Show welcome message toast
+            var _welcomeMessage = document.getElementById('welcomeMessage');
+            if (_welcomeMessage) {
+                var welcomeToast = new bootstrap.Toast(_welcomeMessage);
+                welcomeToast.show();
+            }
+
+            // Show profile update success message toast
+            var _userProfileUpdateSuccessMsg = document.getElementById('userProfileUpdateSuccessMsg');
+            if (_userProfileUpdateSuccessMsg) {
+                var userProfileUpdateToast = new bootstrap.Toast(_userProfileUpdateSuccessMsg);
+                userProfileUpdateToast.show();
+            }
+
+            // Show profile update error message toast
+            var _userProfileUpdateErrorMsg = document.getElementById('userProfileUpdateErrorMsg');
+            if (_userProfileUpdateErrorMsg) {
+                var userProfileUpdateErrorMsg = new bootstrap.Toast(_userProfileUpdateErrorMsg);
+                userProfileUpdateErrorMsg.show();
+            }
+
+            // Show slot booking status message toast
+            var _bookingStatusMsg = document.getElementById('bookingStatusMsg');
+            if (_bookingStatusMsg) {
+                var bookingStatusMsg = new bootstrap.Toast(_bookingStatusMsg);
+                bookingStatusMsg.show();
+            }
+
+        });
+    </script>
+
 
     @* dose 1 slot booking JS *@
     <script type="text/javascript">
@@ -697,66 +758,73 @@
         });
     </script>
 
-
-
     @* user edit profile JS *@
     <script>
-        document.getElementById('saveChangesButton').addEventListener('click', function() {
-        var phoneNumber = document.getElementById('phoneNumber').value;
-        var dateOfBirth = document.getElementById('dateOfBirth').value;
-        var profileImage = document.getElementById('profileImage').files[0];
+        document.addEventListener('DOMContentLoaded', function () {
+        const saveChangesButton = document.getElementById('saveChangesButton');
+        const confirmPasswordModal = new bootstrap.Modal(document.getElementById('confirmPasswordModal'));
+        const editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
+        const userProfileForm = document.getElementById('UserProfileForm');
+        const confirmPasswordForm = document.getElementById('confirmPasswordForm');
 
-        if (phoneNumber || dateOfBirth || profileImage) {
-            // Set hidden fields in the second form
-            document.getElementById('hiddenPhoneNumber').value = phoneNumber;
-            document.getElementById('hiddenDateOfBirth').value = dateOfBirth;
+        saveChangesButton.addEventListener('click', function () {
+            if (userProfileForm.checkValidity()) {
+                // Hide the first modal
+                editProfileModal.hide();
 
-            if (profileImage) {
-                var hiddenProfileImageInput = document.getElementById('hiddenProfileImage');
-                hiddenProfileImageInput.files = document.getElementById('profileImage').files;
+                // Populate hidden fields in the confirm password form
+                document.getElementById('hiddenPhoneNumber').value = document.getElementById('phoneNumber').value;
+                document.getElementById('hiddenDateOfBirth').value = document.getElementById('dateOfBirth').value;
+                document.getElementById('hiddenProfileImage').files = document.getElementById('profileImage').files;
+
+                // Show the confirm password modal
+                confirmPasswordModal.show();
+            } else {
+                userProfileForm.classList.add('was-validated');
             }
+        });
 
-            // Extract the user ID from the URL
+        confirmPasswordForm.addEventListener('submit', function (event) {
+            event.preventDefault();
             var url = window.location.href;
             var userId = url.substring(url.lastIndexOf('/') + 1);
+            const formData = new FormData(confirmPasswordForm);
 
-            // Set the form action dynamically
-            var form = document.getElementById('PasswordConfirmForm');
-            form.action = '/UserProfile/' + userId + '/Edit';
+            // Append form data
+            formData.append('userid', userId);
+            formData.append('phoneNumber', document.getElementById('hiddenPhoneNumber').value);
+            formData.append('dateOfBirth', document.getElementById('hiddenDateOfBirth').value);
+            formData.append('profileImage', document.getElementById('hiddenProfileImage').files[0]);
+            formData.append('password', document.getElementById('password').value);
 
-            var modal = new bootstrap.Modal(document.getElementById('editProfileModal2'));
-            modal.show();
-        } else {
-            alert('Please provide at least one input.');
-        }
+            fetch(`/UserProfile/${userId}/Edit`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json().catch(() => {
+                    throw new Error('Invalid JSON response');
+                });
+            })
+            .then(data => {
+                if (data.success) {
+                    // Handle success (e.g., redirect to profile page)
+                    window.location.href = `/UserProfile/${userId}`;
+                } else {
+                    // Handle error (e.g., show error message)
+                    alert(`error:${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(`error:${data.message}`);
+            });
+        });
     });
     </script>
 
-
-    @* alert messages JS *@
-    <script>
-        window.onload = function() {
-            setTimeout(function() {
-                var welcomeMessage = document.getElementById('welcomeMessage');
-                if (welcomeMessage) {
-                    welcomeMessage.style.display = 'none';
-                }
-            }, 5000); // 5000 milliseconds = 5 seconds
-
-            setTimeout(function() {
-                var updateStatusMsg = document.getElementById('updateStatusMsg');
-                if (updateStatusMsg) {
-                    updateStatusMsg.style.display = 'none';
-                }
-            }, 5000); // 5000 milliseconds = 5 seconds
-
-            setTimeout(function() {
-                var bookingStatusMsg = document.getElementById('bookingStatusMsg');
-                if (bookingStatusMsg) {
-                    bookingStatusMsg.style.display = 'none';
-                }
-            }, 5000); // 5000 milliseconds = 5 seconds
-        };
-    </script>
 
 }
