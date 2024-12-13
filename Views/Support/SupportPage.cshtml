@@ -1,0 +1,140 @@
+@model v1Remastered.Dto.SupportDetailsDto_SupportForm
+
+@{
+
+}
+
+<style>
+    
+</style>
+
+<div class="container support">
+
+    
+    @* 1st row: page title and description *@
+    <div>
+        <div class="support-page-description">
+            <h5 style="color: #F0BB78;">Welcome, @ViewBag.UserName</h5>
+        </div>
+    </div>
+
+
+    @* 2nd row: raise new ticket form and ticket list *@
+    <div class="row d-flex justify-content-between">
+        
+        @* 1st col: new ticket form *@
+        <div class="col-lg-5 col-md-6 col-sm-12 mt-5">
+            <div class="support-new-ticket">
+
+                @* form: title and description *@
+                <div class="title">
+                    <h5>
+                        <i class="icon-ticket fas fa-ticket-alt mx-2"></i>
+                        Raise Ticket
+                    </h5>
+                </div>
+
+                @* form: raise new ticket *@
+                <div class="form mt-4">
+                    @using (Html.BeginForm("RaiseNewTicket", "Support", new { userid = ViewBag.UserId }, FormMethod.Post))
+                    {
+                        <div class="">
+                            @Html.LabelFor(model => model.SupportTitle, "Short Description") <br>
+                            @Html.TextBoxFor(model => model.SupportTitle, new { id = "shortDescription", @style = "width:100%;", @class = "form-input mt-1", placeholder = "Title/Short description" })
+                            @Html.ValidationMessageFor(model => model.SupportTitle, null, new { @class = "mx-2 validation-msg" })
+                        </div>
+
+                        <div class="mt-2">
+                            @Html.LabelFor(model => model.SupportDescription, "Description") <br>
+                            @Html.TextAreaFor(model => model.SupportDescription, new { id = "description", @style = "width:100%; height: 150px; overflow-y: auto;", @class = "form-input mt-1", placeholder = "Enter your issue" })
+                            @Html.ValidationMessageFor(model => model.SupportDescription, null, new { @class = "mx-2 validation-msg" })
+                        </div>
+
+                        <div class="mt-2">
+                            <button style="width: 100%;" class="form-submit"><i style="rotate: -45deg;" class="fas fa-ticket-alt mx-2"></i>Raise Ticket</button>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+        @* 2nd col: ticket list *@
+        <div class="col col-lg-5 col-md-5 col-sm-12 mt-5">
+            <div class="support-list-ticket">
+
+                @* list: title and description *@
+                <div class="title">
+                    <h5> 
+                        <i class="icon-receipt fas fa-receipt"></i> 
+                        Tickets 
+                    </h5>
+                </div>
+
+                @* list: tickets *@
+                <div class="list mt-4">
+                    @if(ViewBag.TicketsList != null && ViewBag.TicketsList.Count > 0)
+                    {
+                        foreach(var record in ViewBag.TicketsList)
+                        {
+                            <div class="raised-ticket" style="color: white;" class="">
+                                <small>Ticket Number: @record.SupportId</small> <br>
+                                <small>Ticket Title: @record.SupportTitle</small> <br>
+                                <small>Ticket Status: @record.SupportStatus.ToUpper()</small> <br>
+                                <small>Ticket Created On: @record.SupportRaisedDate</small> <br>
+
+                                <button class="btn btn-sm btn-info mt-2 mb-2">View More</button>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div style="color: white;">
+                            <small>No Tickets right now</small>
+                        </div>
+                    }
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    @if(!string.IsNullOrEmpty(ViewBag.TicketRaiseSuccessMsg))
+    {
+        <div id="ticketRaiseSuccessMsg" class="toast position-fixed top-0 end-0 m-5" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i style="color: #009990;" class="fas fa-people-carry"></i>
+                <strong style="color: #009990;" class="me-auto mx-2">Ticket Creation: Success</strong>
+                @* <small>11 mins ago</small> *@
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @ViewBag.TicketRaiseSuccessMsg
+            </div>
+        </div>
+    }
+</div>
+
+
+@* 2nd row: ticket list *@
+
+@* 3rd row: view ticket *@
+
+@section Scripts{
+    
+    @* toast alert messages JS *@
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Show welcome message toast
+            var _ticketRaiseSuccessMsg = document.getElementById('ticketRaiseSuccessMsg');
+            if (_ticketRaiseSuccessMsg) {
+                var ticketRaiseSuccessMsg = new bootstrap.Toast(_ticketRaiseSuccessMsg);
+                ticketRaiseSuccessMsg.show();
+            }
+        });
+    </script>
+}

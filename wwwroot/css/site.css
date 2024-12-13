@@ -345,6 +345,50 @@ body {
   color: white;
 }
 
+/* page: support */
+.support-new-ticket .title, .support-list-ticket .title {
+  color: #FFE6A9;
+  margin-bottom: 10px;
+  width: max-content;
+  border-bottom: 1px dashed #FFE6A9;
+}
+
+.support-new-ticket .form {
+  color: #FFE6A9;
+}
+
+.support-new-ticket .form-input {
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.support-new-ticket .form-submit {
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #E3F0AF;
+  transition: 0.5s ease-in-out;
+}
+
+.support-new-ticket .form-submit:hover {
+  border: none;
+  box-shadow: 0px 0px 5px #E1FFBB;
+  background-color: #FADA7A;
+}
+
+.icon-ticket {
+  color: #FFE6A9;
+  rotate: -45deg;
+}
+
+.icon-receipt {
+  color: #FFE6A9;
+  rotate: 45deg;
+}
+
+.support-list-ticket .raised-ticket {
+  border: 1px solid #98E4FF;
+}
 
 /* toast: alert messages */
 #welcomeMessage, #userProfileUpdateSuccessMsg, #adminWelcomeMessage {

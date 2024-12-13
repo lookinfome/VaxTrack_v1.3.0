@@ -13,4 +13,6 @@ public class AppDbContext : IdentityDbContext<AppUserIdentityModel>
     public DbSet<UserVaccineDetailsModel> UserVaccineDetails { get; set; }
     public DbSet<BookingDetailsModel> BookingDetails { get; set; }
     public DbSet<HospitalDetailsModel> HospitalDetails { get; set; }
+    public DbSet<SupportDetailsModel> SupportDetails {get; set;}
+    public DbSet<SupportConversationsModel> SupportConversations {get; set;}
 }

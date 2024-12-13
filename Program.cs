@@ -28,8 +28,8 @@ builder.Services.AddTransient<IHospitalService, HospitalService>();
 // Add admin details service - V2
 builder.Services.AddTransient<IAdminV2Service, AdminV2Service>();
 
-// Add user feedback service
-builder.Services.AddTransient<IUserFeedbackService, UserFeedbackService>();
+// Add support service
+builder.Services.AddTransient<ISupportService, SupportService>();
 
 
 // Add SQLite DB

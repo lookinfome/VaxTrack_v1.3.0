@@ -58,13 +58,17 @@
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="UserFeedback" asp-action="UserFeedbackPage" asp-route-userid="@User.Identity.Name">User Feedback</a>
+                                @* <a class="nav-link text-light" asp-area="" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">User Feedback</a> *@
+                                
+                                <a class="nav-link text-light" asp-area="" asp-controller="Support" asp-action="SupportPage" asp-route-userid="@User.Identity.Name">
+                                    <i class="fas fa-headset mx-2"></i>Support
+                                </a>
                             </li>
                             <li class="nav-item">
                                 @Html.AntiForgeryToken()
                                 <form asp-action="LogoutUser" asp-controller="Account" method="post">
                                     @Html.AntiForgeryToken()
-                                    <button type="submit" class="logout-submit">Logout</button>
+                                    <button type="submit" class="logout-submit"><i class="fas fa-sign-in-alt mx-2"></i>Logout</button>
                                 </form>
                             </li>
                         }
@@ -79,6 +83,20 @@
         </main>
     </div>
 
+    <div id="test"></div>
+
+    <!-- offcanvas : User Feedback -->
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasRightLabel">User Feedback From Nav<i class="fas fa-star-half-alt"></i></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <!-- Content will be loaded here via AJAX -->
+        </div>
+    </div>
+
+
     <!-- jQuery -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap JS -->
@@ -90,3 +108,28 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
+
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $('#userFeedbackLink').on('click', function(e) {
+                e.preventDefault();
+                console.log(`nav linked clicked 1`);
+                $.ajax({
+                    url: '@Url.Action("UserFeedbackPage", "UserFeedback")',
+                    type: 'GET',
+                    success: function(data) {
+                        console.log(`nav linked clicked 2`);
+                        alert('hi success');
+                        $('#test').html(data);
+                        var offcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasRight'));
+                        offcanvas.show();
+                    },
+                    error: {
+                        alert('hi error');
+                    }
+                });
+            });
+        });
+    </script>
+}

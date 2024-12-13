@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace v1Remastered.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241213083200_AddSupportDetailsModel")]
+    partial class AddSupportDetailsModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -217,9 +220,6 @@ namespace v1Remastered.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("SupportCommentDate")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("SupportId")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -240,9 +240,6 @@ namespace v1Remastered.Migrations
 
                     b.Property<string>("SupportDescription")
                         .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("SupportRaisedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SupportStatus")

@@ -1,7 +1,7 @@
 # Vax Track v1.2.0
 
 ## New Addition
-- NA
+- Support Module: to raise ticket and share feedbacks
 
 ## Updates (refer 'notes' section for more)
 - UI Update: Home Page - completed
