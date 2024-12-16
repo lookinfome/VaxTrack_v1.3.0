@@ -72,18 +72,25 @@
                 </div>
 
                 @* list: tickets *@
+
+
                 <div class="list mt-4">
                     @if(ViewBag.TicketsList != null && ViewBag.TicketsList.Count > 0)
                     {
-                        foreach(var record in ViewBag.TicketsList)
+                        @foreach(var record in ViewBag.TicketsList)
                         {
-                            <div class="raised-ticket" style="color: white;" class="">
-                                <small>Ticket Number: @record.SupportId</small> <br>
-                                <small>Ticket Title: @record.SupportTitle</small> <br>
-                                <small>Ticket Status: @record.SupportStatus.ToUpper()</small> <br>
-                                <small>Ticket Created On: @record.SupportRaisedDate</small> <br>
+                            <div class="raised-ticket mt-2" style="color: white;">
+                                <div class="header text-center">
+                                    <span>@record.SupportId</span>
+                                </div>
+                                <div class="body">
+                                    <span>Title: @record.SupportTitle</span> <br>
+                                    <span>Status: @record.SupportStatus.ToUpper()</span> <br>
+                                    <span>Created On:@record.SupportRaisedDate</span> <br>
+                                    <span>Closed On: NA</span> <br>
 
-                                <button class="btn btn-sm btn-info mt-2 mb-2">View More</button>
+                                    <button class="viewTicketDetails body-btn mt-2" data-support-id="@record.SupportId">View More</button>
+                                </div>
                             </div>
                         }
                     }
@@ -100,8 +107,21 @@
         </div>
 
     </div>
+
+    @* 3rd row: ticket list *@
+
+
+
+    @* 4th row: ticket view *@
+    <div class="row mt-5">
+        <div class="support-ticket-view">
+            <p style="color: #E1D7C6;" class="mt-5 text-center">Click On Ticket Form List Toast View </p>
+        </div>
+    </div>
+
 </div>
 
+@* alert: toast messages *@
 <div class="row">
     @if(!string.IsNullOrEmpty(ViewBag.TicketRaiseSuccessMsg))
     {
@@ -120,11 +140,41 @@
 </div>
 
 
-@* 2nd row: ticket list *@
-
-@* 3rd row: view ticket *@
-
 @section Scripts{
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    @* view selected ticket detials *@
+    <script>
+        $(document).ready(function() {
+            $('.viewTicketDetails').click(function() {
+
+                // Extract the user ID from the URL
+                var url = window.location.href;
+                var userId = url.substring(url.lastIndexOf('/') + 1);
+
+                // Extract the supportId value
+                var supportId = $(this).data('support-id');
+
+                // Make the AJAX call
+                $.ajax({
+                    url: `/support/${userId}/TicketDetails/${supportId}`,
+                    type: 'GET',
+                    success: function(response) {
+                        // Handle success
+                        console.log(`$success: ${userId}, ${supportId}`);
+                        console.log('Success:', response);
+                        $('.support-ticket-view').html(response);
+                    },
+                    error: function(error) {
+                        // Handle error
+                        console.log(`$error: ${userId}, ${supportId}, ${url}`);
+                        console.log('Error:', error);
+                    }
+                });
+            });
+        });
+    </script>
     
     @* toast alert messages JS *@
     <script>

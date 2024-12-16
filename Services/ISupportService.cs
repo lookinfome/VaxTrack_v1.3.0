@@ -14,13 +14,15 @@ namespace v1Remastered.Services
 
         // exposed to: support controller
         public List<SupportDetailsDto_SupportTicketsList> FetchTicketsListByUserId(string userid);
+    
+        // exposed to: support controller
+        public SupportDetailsDto_SupportTikcetDetailsView FetchTicketDetailsByUserIdTicketId(string userid, string supportid);
     }
 
     public class SupportService: ISupportService
     {
-        private static int _ticketCounters = 0;
         private readonly AppDbContext _v1RemDb;
-        
+        private static int _ticketCounters = 0;
 
         public SupportService(AppDbContext v1RemDb)
         {
@@ -64,9 +66,30 @@ namespace v1Remastered.Services
             return fetchedDetails;
         }
 
+        public SupportDetailsDto_SupportTikcetDetailsView FetchTicketDetailsByUserIdTicketId(string userid, string supportid)
+        {
+            var fetchedDetails = _v1RemDb.SupportDetails.FirstOrDefault(record=>record.UserId == userid && record.SupportId == supportid);
+
+            SupportDetailsDto_SupportTikcetDetailsView mappedDetails = new SupportDetailsDto_SupportTikcetDetailsView()
+            {
+                SupportId = fetchedDetails.SupportId,
+                SupportStatus = GetTicketStatus(fetchedDetails.SupportStatus),
+                SupportTitle = fetchedDetails.SupportTitle,
+                SupportDescription = fetchedDetails.SupportDescription,
+                SupportRaisedDate = fetchedDetails.SupportRaisedDate
+            };
+            
+            if(!string.IsNullOrEmpty(mappedDetails.SupportId))
+            {
+                return mappedDetails;
+            }
+
+            return new SupportDetailsDto_SupportTikcetDetailsView();
+        }
+        
         private string CreateNewTicketId()
         {
-            return $"INC{++SupportService._ticketCounters}";
+            return $"INC{(++_ticketCounters).ToString("D6")}";
         }
 
         private string GetTicketStatus(int status)

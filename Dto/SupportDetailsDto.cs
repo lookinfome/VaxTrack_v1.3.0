@@ -21,5 +21,14 @@ namespace v1Remastered.Dto
 
     }
 
+    public class SupportDetailsDto_SupportTikcetDetailsView
+    {
+        public string SupportId {get; set;} = "";
+        public string SupportStatus {get; set;} = "";
+        public string SupportTitle {get; set;} = "";
+        public string SupportDescription {get; set;} = "";
+        public DateTime SupportRaisedDate {get; set;} = DateTime.MinValue;
+    }
+
     
 }

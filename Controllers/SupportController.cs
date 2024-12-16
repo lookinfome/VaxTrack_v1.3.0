@@ -48,5 +48,15 @@ namespace v1Remastered.Controllers
             return View("SupportPage", submitedDetails);
         }
 
+    
+        [HttpGet("{userId}/TicketDetails/{supportId}")]
+        public IActionResult GetTicketDetailsById([FromRoute] string userId, [FromRoute] string supportId)
+        {
+            ViewBag.TicketDetails = _supportService.FetchTicketDetailsByUserIdTicketId(userId, supportId);
+
+            // You can add logic here to fetch the ticket details using userId and supportId
+            return PartialView("_TicketDetailsPartial");
+        }
+    
     }
 }
