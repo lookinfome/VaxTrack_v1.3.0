@@ -13,20 +13,27 @@ namespace v1Remastered.Services
         public bool SaveNewTicket(SupportDetailsDto_SupportForm submitedDetails, string userid);
 
         // exposed to: support controller
+        public bool SaveNewComment(string userid, string supportid, string submittedComment);
+        
+        // exposed to: support controller
         public List<SupportDetailsDto_SupportTicketsList> FetchTicketsListByUserId(string userid);
     
         // exposed to: support controller
-        public SupportDetailsDto_SupportTikcetDetailsView FetchTicketDetailsByUserIdTicketId(string userid, string supportid);
+        public SupportDetailsDto_SupportTicketDetailsView FetchTicketDetailsByUserIdTicketId(string userid, string supportid);
+
     }
 
     public class SupportService: ISupportService
     {
         private readonly AppDbContext _v1RemDb;
+        private readonly IUserProfileService _userProfileService;
         private static int _ticketCounters = 0;
+        private static int _commentCounters = 0;
 
-        public SupportService(AppDbContext v1RemDb)
+        public SupportService(AppDbContext v1RemDb, IUserProfileService userProfileService)
         {
             _v1RemDb = v1RemDb;
+            _userProfileService = userProfileService;
         }
         
         public bool SaveNewTicket(SupportDetailsDto_SupportForm submitedDetails, string userid)
@@ -45,6 +52,30 @@ namespace v1Remastered.Services
             return newIncidentSaveStatus <=0 ? false : true;
         }
 
+        public bool SaveNewComment(string userid, string supportid, string submittedComment)
+        {
+            // generate new comment id
+            string newCommentId = CreateNewCommentId();
+
+            // map details
+            SupportConversationsModel mappedDetails = new SupportConversationsModel()
+            {
+                SupportCommentId = newCommentId,
+                SupportId = supportid,
+                SupportComment = submittedComment,
+                SupportCommentDate = DateTime.UtcNow,
+                UserId = userid
+            }; 
+            
+            // save to DB
+            _v1RemDb.SupportConversations.Add(mappedDetails);
+
+            // update DB
+            int saveNewCommentStatus = _v1RemDb.SaveChanges();
+
+            return saveNewCommentStatus >0 ? true : false;
+        }
+
         public List<SupportDetailsDto_SupportTicketsList> FetchTicketsListByUserId(string userid)
         {
             if (_v1RemDb.SupportDetails == null)
@@ -54,7 +85,7 @@ namespace v1Remastered.Services
 
             var fetchedDetails = _v1RemDb.SupportDetails
                 .Where(record => record.UserId == userid)
-                .ToList() // Fetch data first
+                .ToList().OrderBy(record=>record.SupportRaisedDate).Reverse() // Fetch data first
                 .Select(record => new SupportDetailsDto_SupportTicketsList
                 {
                     SupportId = record.SupportId,
@@ -66,30 +97,83 @@ namespace v1Remastered.Services
             return fetchedDetails;
         }
 
-        public SupportDetailsDto_SupportTikcetDetailsView FetchTicketDetailsByUserIdTicketId(string userid, string supportid)
+        public SupportDetailsDto_SupportTicketDetailsView FetchTicketDetailsByUserIdTicketId(string userid, string supportid)
         {
-            var fetchedDetails = _v1RemDb.SupportDetails.FirstOrDefault(record=>record.UserId == userid && record.SupportId == supportid);
+            var fetchedTicketDetails = _v1RemDb.SupportDetails.FirstOrDefault(record => record.UserId == userid && record.SupportId == supportid);
+            var fetchedCommentDetails = _v1RemDb.SupportConversations
+                                                .Where(record => record.UserId == userid && record.SupportId == supportid)
+                                                .OrderByDescending(record => record.SupportCommentDate)
+                                                .ToList();
 
-            SupportDetailsDto_SupportTikcetDetailsView mappedDetails = new SupportDetailsDto_SupportTikcetDetailsView()
+            List<SupportDetailsDto_SupportCommentsDetails> mappedCommentDetailsList = new List<SupportDetailsDto_SupportCommentsDetails>();
+
+            if (fetchedCommentDetails.Count > 0)
             {
-                SupportId = fetchedDetails.SupportId,
-                SupportStatus = GetTicketStatus(fetchedDetails.SupportStatus),
-                SupportTitle = fetchedDetails.SupportTitle,
-                SupportDescription = fetchedDetails.SupportDescription,
-                SupportRaisedDate = fetchedDetails.SupportRaisedDate
+                foreach (var comment in fetchedCommentDetails)
+                {
+                    string _username = _userProfileService.FetchUserName(comment.UserId);
+
+                    SupportDetailsDto_SupportCommentsDetails mappedCommentDetails = new SupportDetailsDto_SupportCommentsDetails
+                    {
+                        UserName = _username,
+                        SupportCommentId = comment.SupportCommentId,
+                        SupportId = comment.SupportId,
+                        SupportComment = comment.SupportComment,
+                        SupportCommentDate = comment.SupportCommentDate
+                    };
+
+                    mappedCommentDetailsList.Add(mappedCommentDetails);
+                }
+            }
+
+            SupportDetailsDto_SupportTicketDetailsView mappedDetails = new SupportDetailsDto_SupportTicketDetailsView
+            {
+                SupportId = fetchedTicketDetails.SupportId,
+                SupportStatus = GetTicketStatus(fetchedTicketDetails.SupportStatus),
+                SupportTitle = fetchedTicketDetails.SupportTitle,
+                SupportDescription = fetchedTicketDetails.SupportDescription,
+                SupportRaisedDate = fetchedTicketDetails.SupportRaisedDate,
+                SupportComments = mappedCommentDetailsList
             };
-            
-            if(!string.IsNullOrEmpty(mappedDetails.SupportId))
+
+            if (!string.IsNullOrEmpty(mappedDetails.SupportId))
             {
                 return mappedDetails;
             }
 
-            return new SupportDetailsDto_SupportTikcetDetailsView();
+            return new SupportDetailsDto_SupportTicketDetailsView();
         }
         
+
+
         private string CreateNewTicketId()
         {
-            return $"INC{(++_ticketCounters).ToString("D6")}";
+            string _newSupportId;
+            bool isDuplicate;
+
+            do
+            {
+                _newSupportId = $"INC{(++_ticketCounters).ToString("D6")}";
+                var fetchedDetails = _v1RemDb.SupportDetails.FirstOrDefault(record => record.SupportId == _newSupportId);
+                isDuplicate = fetchedDetails != null;
+            } while (isDuplicate);
+
+            return _newSupportId;
+        }
+
+        private string CreateNewCommentId()
+        {
+            string _newCommentId;
+            bool isDuplicate;
+
+            do
+            {
+                _newCommentId = $"CMT{(++_commentCounters).ToString("D6")}";
+                var fetchedCommentDetails = _v1RemDb.SupportConversations.FirstOrDefault(record=>record.SupportCommentId == _newCommentId);
+                isDuplicate = fetchedCommentDetails != null;
+            } while (isDuplicate);
+
+            return _newCommentId;
         }
 
         private string GetTicketStatus(int status)

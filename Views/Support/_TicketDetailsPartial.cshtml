@@ -1,6 +1,5 @@
-
 @{
-    var details = @ViewBag.TicketDetails;
+    var details = ViewBag.TicketDetails;
 }
 
 <div class="ticket-view">
@@ -17,11 +16,59 @@
 
         <div class="mt-2">
             <div>Title: @details.SupportTitle</div>
-            <div style="height:100px; overflow-y: auto;" class="mt-3">Description: <br> @details.SupportDescription</div>
+            <div style="overflow-y: auto; height: 150px;" class="mt-3">Description: <br> @details.SupportDescription</div>
+        </div>
+
+        <hr>
+
+        <div class="ticket-comments">
+            
+            @* introduction *@
+            <div>
+                <i class="far fa-comments"></i>
+                <b class="mx-1">Comments:</b>
+            </div>
+            
+            @* comment form *@
+            <div class="support-comments-form">
+                <form id="SupportCommentForm">
+                    <input type="hidden" name="userid" value="hardcodedUserId" />
+                    <input type="hidden" readonly name="supportid" value="@details.SupportId" />
+                    <input type="text" id="submittedComment" name="submittedComment" placeholder="add your comment..." required />
+                    <button type="submit" class="mt-3">Add Comment</button>
+                </form>
+            </div>
+
+            @* comments list *@
+            <div class="comments-list mt-4">
+                <div class="comments" style="overflow-y: auto; height: 150px;">
+                    @if(details.SupportComments.Count > 0)
+                    {
+                        @foreach(var comment in details.SupportComments)
+                        {
+                            <div class="d-flex justify-content-between">
+                                <p>@comment.UserName: @comment.SupportComment</p>
+                                <p>
+                                    @comment.SupportCommentDate
+                                    @* <button class="comment-delete">delete</button>  *@
+                                </p>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>No Comments Available...</p>
+                    }
+                </div>
+            </div>
         </div>
     }
     else
     {
-
+        <p>Ticket details not available.</p>
     }
 </div>
+
+@section Scripts {
+    
+}

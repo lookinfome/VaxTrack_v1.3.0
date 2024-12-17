@@ -1,0 +1,21 @@
+@{
+    var comments = @ViewBag.TicketDetails;
+}
+
+
+<div class="comments" style="overflow-y: auto; height: 150px;">
+    @if(comments.SupportComments.Count > 0)
+    {
+        @foreach(var comment in comments.SupportComments)
+        {
+            <div class="d-flex justify-content-between">
+                <p>@comment.UserName: @comment.SupportComment</p>
+                <p>@comment.SupportCommentDate</p>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No Comments Available...</p>
+    }
+</div>

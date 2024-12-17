@@ -4,7 +4,7 @@ using v1Remastered.Dto;
 
 namespace v1Remastered.Controllers
 {
-    [Route("Support")]
+    [Route("Support/{userid}")]
     public class SupportController:Controller
     {
         private readonly ISupportService _supportService;
@@ -17,7 +17,7 @@ namespace v1Remastered.Controllers
         }
 
 
-        [HttpGet("{userid}")]
+        [HttpGet("")]
         public IActionResult SupportPage([FromRoute] string userid)
         {
             ViewBag.UserId = userid;
@@ -29,7 +29,7 @@ namespace v1Remastered.Controllers
         }
         
         [HttpPost]
-        [Route("{userid}/RaiseNewTicket")]
+        [Route("RaiseNewTicket")]
         public IActionResult RaiseNewTicket(SupportDetailsDto_SupportForm submitedDetails, [FromRoute] string userid)
         {
             if (ModelState.IsValid)
@@ -48,8 +48,28 @@ namespace v1Remastered.Controllers
             return View("SupportPage", submitedDetails);
         }
 
-    
-        [HttpGet("{userId}/TicketDetails/{supportId}")]
+        [HttpPost("TicketDetails/{supportid}/AddNewComment")]
+        public IActionResult AddNewComment([FromRoute] string userid, string supportid, string submittedComment)
+        {
+            try
+            {
+                bool isNewCommentAdded = _supportService.SaveNewComment(userid, supportid, submittedComment);
+
+                if (isNewCommentAdded)
+                {
+                    ViewBag.TicketDetails = _supportService.FetchTicketDetailsByUserIdTicketId(userid, supportid);
+                    return PartialView("_TicketCommentsPartial", ViewBag.TicketDetails);
+                }
+                return Ok("Failed to add comment.");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("TicketDetails/{supportId}")]
         public IActionResult GetTicketDetailsById([FromRoute] string userId, [FromRoute] string supportId)
         {
             ViewBag.TicketDetails = _supportService.FetchTicketDetailsByUserIdTicketId(userId, supportId);
