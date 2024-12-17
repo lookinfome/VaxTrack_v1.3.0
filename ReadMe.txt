@@ -1,7 +1,8 @@
 # Vax Track v1.2.0
 
 ## New Addition
-- Support Module: to raise ticket and share feedbacks
+- Support Module: to raise ticket and add follow-up comments - completed
+- Support Management Module: to update/modify/manage/close tickets raised by user
 
 ## Updates (refer 'notes' section for more)
 - UI Update: Home Page - completed
@@ -32,5 +33,6 @@
 - added user profile edit modal on user profile page
 - added slot booking modal on user profile page
 - added v2 admin page with different tabs promoting seperation and UI friendliness
+- added support module with Support View and Controller
 - replaced alert messages to toast messages
 - performed css cleanup 
