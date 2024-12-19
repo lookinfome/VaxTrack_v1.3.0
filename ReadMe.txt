@@ -29,7 +29,7 @@
 - removed independent login page
 - removed independent registration page
 - removed independent user profile edit page 
-- removed slot booking page 
+- removed independent slot booking page 
 - removed v1 admin page
 - added partial login view on home page
 - added partial registration view on home page

@@ -258,41 +258,6 @@ body {
   text-shadow: 0px 0px 2px #F72C5B;
 }
 
-/* modal: user edit - need to remove [not in use anymore] */
-
-#editProfileModal .modal-content, 
-#confirmPasswordModal .modal-content, 
-#dose1Book .modal-content,
-#dose2Book .modal-content {
-  background-color: #2A3335;
-  box-shadow: 0px 0px 5px gainsboro;
-}
-
-#editProfileModal, #confirmPasswordModal {
-  color: #FFD369;
-}
-
-.user-edit-profile-input:hover, .user-edit-profile-input:focus {
-  border-color: #FFD369;
-  box-shadow: 0px 1px 10px #FFD369;
-  outline: none;
-}
-
-.user-edit-profile-submit {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid gray;
-  background-color: gray;
-  transition: 0.5s ease-in-out;
-}
-
-.user-edit-profile-submit:hover {
-  border: 1px solid gold;
-  background-color: gold;
-  box-shadow: 0px 1px 10px gold;
-}
-
 /* modal: slot book */
 #dose1Book, #dose2Book {
   color: aqua;

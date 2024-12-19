@@ -360,16 +360,6 @@
     @* 5th row: action buttons *@
     <div class="text-center mt-5">
 
-        @* button: edit user profile R&D - need to remove [not in use anymore] *@
-        @* <button id="user-edit-profile-button-id" class="user-edit-profile-button">
-            edit profile
-        </button> *@
-        
-        @* button: edit user profile - need to remove [not in use anymore] *@
-        @* <button type="button" class="user-edit-profile-button" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-            Edit Profile
-        </button> *@
-
         @* button: book slots *@
         @if(ViewBag.IsD1Booked == false)
         {
@@ -430,86 +420,7 @@
     </div>
 
     @* 6th row: modals *@
-    
-    @* modal: user profile edit - need to remove [not in use anymore] *@
-    <div>
-        <!-- modal: edit inputs form  -->
-        <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="UserProfileForm">
-                        <!-- phone -->
-                        <div class="mb-3">
-                            <label for="phoneNumber" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control user-edit-profile-input" id="phoneNumber" name="phoneNumber" maxlength="10" pattern="\d{10}">
-                            <div class="invalid-feedback">
-                                Please enter a valid 10-digit phone number.
-                            </div>
-                        </div>
-
-                        <!-- birth date -->
-                        <div class="mb-3">
-                            <label for="dateOfBirth" class="form-label">Date of Birth</label>
-                            <input type="date" class="form-control user-edit-profile-input" id="dateOfBirth" name="dateOfBirth" max="@currMonthYear">
-                            <div class="invalid-feedback">
-                                Please enter a valid date of birth.
-                            </div>
-                        </div>
-
-                        <!-- profile pic -->
-                        <div class="mb-3">
-                            <label for="profileImage" class="form-label">Profile Image</label>
-                            <input type="file" class="form-control user-edit-profile-input" id="profileImage" name="profileImage" accept="image/*">
-                            <div class="invalid-feedback">
-                                Please upload a valid image file.
-                            </div>
-                        </div>
-
-                        <!-- submit -->
-                        <button type="button" class="user-edit-profile-submit" id="saveChangesButton">Save Changes</button>
-                    </form>
-                </div>
-                <div class="modal-footer"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- modal: confirm password form -->
-        <div class="modal" id="confirmPasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirm Password</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="confirmPasswordForm" method="post" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control user-edit-profile-input" id="password" name="password" required>
-                            <div class="invalid-feedback">
-                                Please enter your password to confirm changes.
-                            </div>
-                        </div>
-                        <input type="hidden" id="hiddenPhoneNumber" name="phoneNumber">
-                        <input type="hidden" id="hiddenDateOfBirth" name="dateOfBirth">
-                        <input type="file" style="display: none;" id="hiddenProfileImage" name="profileImage">
-                        <button type="submit" class="user-edit-profile-submit">Submit</button>
-                    </form>
-                </div>
-                <div class="modal-footer"></div>
-                </div>
-            </div>
-        </div>
         
-    </div>
-
-    
     @* modal: slot booking: dose 1 *@
     <div>
         <div class="modal" id="dose1Book" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
@@ -582,11 +493,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    @* 7th row: dose booking - need to remove [not in use anymore]  *@
-    <div id="slot-booking" class="d-flex justify-content-center mt-3">
-
     </div>
 
 </div>
@@ -949,74 +855,5 @@
             }
         });
     </script>
-
-    @* user edit profile JS - need to remove [not in use anymore] *@
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-        const saveChangesButton = document.getElementById('saveChangesButton');
-        const confirmPasswordModal = new bootstrap.Modal(document.getElementById('confirmPasswordModal'));
-        const editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
-        const userProfileForm = document.getElementById('UserProfileForm');
-        const confirmPasswordForm = document.getElementById('confirmPasswordForm');
-
-        saveChangesButton.addEventListener('click', function () {
-            if (userProfileForm.checkValidity()) {
-                // Hide the first modal
-                editProfileModal.hide();
-
-                // Populate hidden fields in the confirm password form
-                document.getElementById('hiddenPhoneNumber').value = document.getElementById('phoneNumber').value;
-                document.getElementById('hiddenDateOfBirth').value = document.getElementById('dateOfBirth').value;
-                document.getElementById('hiddenProfileImage').files = document.getElementById('profileImage').files;
-
-                // Show the confirm password modal
-                confirmPasswordModal.show();
-            } else {
-                userProfileForm.classList.add('was-validated');
-            }
-        });
-
-        confirmPasswordForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-            var url = window.location.href;
-            var userId = url.substring(url.lastIndexOf('/') + 1);
-            const formData = new FormData(confirmPasswordForm);
-
-            // Append form data
-            formData.append('userid', userId);
-            formData.append('phoneNumber', document.getElementById('hiddenPhoneNumber').value);
-            formData.append('dateOfBirth', document.getElementById('hiddenDateOfBirth').value);
-            formData.append('profileImage', document.getElementById('hiddenProfileImage').files[0]);
-            formData.append('password', document.getElementById('password').value);
-
-            fetch(`/UserProfile/${userId}/Edit`, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json().catch(() => {
-                    throw new Error('Invalid JSON response');
-                });
-            })
-            .then(data => {
-                if (data.success) {
-                    // Handle success (e.g., redirect to profile page)
-                    window.location.href = `/UserProfile/${userId}`;
-                } else {
-                    // Handle error (e.g., show error message)
-                    alert(`error:${data.message}`);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert(`error:${data.message}`);
-            });
-        });
-    });
-    </script>
-
 
 }
