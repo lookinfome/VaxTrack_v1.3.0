@@ -50,6 +50,8 @@ namespace v1Remastered.Controllers
                 // slot booking details
                 ViewBag.IsD1Booked = _bookingService.IsD1Booked(userid, userProfileDetails.UserBookingDetails.BookingId);
                 ViewBag.IsD2Booked = _bookingService.IsD2Booked(userid, userProfileDetails.UserBookingDetails.BookingId);
+                ViewBag.IsD1Approved = _bookingService.IsD1Approved(userid, userProfileDetails.UserBookingDetails.BookingId);
+                ViewBag.IsD2Approved = _bookingService.IsD2Approved(userid, userProfileDetails.UserBookingDetails.BookingId);
                 ViewBag.D1BookedDate = _bookingService.FetchD1BookedDate(userid, userProfileDetails.UserBookingDetails.BookingId);
                 
                 // welcome message: login

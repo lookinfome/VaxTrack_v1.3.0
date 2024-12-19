@@ -360,13 +360,14 @@
     @* 5th row: action buttons *@
     <div class="text-center mt-5">
 
-        @* button: book slots *@
-        @if(ViewBag.IsD1Booked == false)
+        @* button: book slots updated logic *@
+
+        @* dose 1 not booked and approved *@
+        @if(ViewBag.IsD1Booked == false && ViewBag.IsD1Approved == false)
         {
+            // display button for dose 1
             @if(ViewBag.AvailableHospitalLocations.Count > 0)
             {
-
-                // enable slot booking button: dose 1
                 <button type="button" class="slot-book-submit" data-bs-toggle="modal" data-bs-target="#dose1Book">
                     Book Slot 1
                 </button>
@@ -378,45 +379,48 @@
                     <span style="font-size: 15px;">No Slots Available Now</span>
                 </button>
             }
-            else
-            {
-                <br> 
-                <button type="button" disabled  style="border-radius: 10px;" class="mt-3 btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#dose2Book">
-                    <span style="font-size: 15px;">Waiting for booked dose approval</span>
-                </button>
-            }
         }
-        else if(ViewBag.IsD1Booked == true && ViewBag.IsD2Booked == false)
-        {
-            @if(ViewBag.AvailableHospitalLocations.Count > 0)
-            {
-                // enable slot booking button: dose 2
-                <button type="button" class="slot-book-submit" data-bs-toggle="modal" data-bs-target="#dose2Book">
-                    Book Slot 2
-                </button>
-            }
-            else if(ViewBag.AvailableHospitalLocations.Count <= 0)
-            {
-                <br> 
-                <button type="button" disabled  style="border-radius: 10px;" class="mt-3 btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#dose2Book">
-                    <span style="font-size: 15px;">No Slots Available Now</span>
-                </button>
-            }
-            else
-            {
-                <br> 
-                <button type="button" disabled  style="border-radius: 10px;" class="mt-3 btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#dose2Book">
-                    <span style="font-size: 15px;">Waiting for booked dose approval</span>
-                </button>
-            }
 
+        @* dose 1 booked and not approved *@
+        else if(ViewBag.IsD1Booked == true && ViewBag.IsD1Approved == false)
+        {
+            // display message to wait till dose 1 approval
+            <button type="button" disabled  style="border-radius: 10px;" class="mt-3 btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#dose2Book">
+                <span style="font-size: 15px;">Waiting for booked dose approval</span>
+            </button>
         }
+
+        @* dose 1 booked, approved but dose 2 not booked *@
+        else if((ViewBag.IsD1Booked == true && ViewBag.IsD1Approved == true) && ViewBag.IsD2Booked == false)
+        {
+            // display button for dose 2
+            <button type="button" class="slot-book-submit" data-bs-toggle="modal" data-bs-target="#dose2Book">
+                Book Slot 2
+            </button>
+        }
+
+        @* dose 2 booked and not approved *@
+        else if(ViewBag.IsD2Booked == true && ViewBag.IsD2Approved == false)
+        {
+            // display message to wait till dose 2 approval
+            <button type="button" disabled  style="border-radius: 10px;" class="mt-3 btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#dose2Book">
+                <span style="font-size: 15px;">Waiting for booked dose approval</span>
+            </button>
+        }
+
+        else if(ViewBag.IsD2Booked == true && ViewBag.IsD2Approved == true)
+        {
+            // display message that you're vaccinated
+            <button type="button" disabled  style="border-radius: 10px;" class="mt-3 btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#dose2Book">
+                <span style="font-size: 15px;">Yay... you're vaccinated.</span>
+            </button>
+        }
+
         else
         {
-            //
-            
+            // do nothing
         }
-
+        
     </div>
 
     @* 6th row: modals *@

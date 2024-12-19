@@ -259,6 +259,10 @@ body {
 }
 
 /* modal: slot book */
+#dose1Book .modal-content, #dose2Book .modal-content {
+  background-color: #3C3D37 !important;
+}
+
 #dose1Book, #dose2Book {
   color: aqua;
 }

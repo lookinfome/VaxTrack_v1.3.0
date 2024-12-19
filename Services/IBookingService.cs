@@ -13,6 +13,8 @@ namespace v1Remastered.Services
         // exposed to: user profile controller
         public bool IsD1Booked(string userId, string bookingId);
         public bool IsD2Booked(string userId, string bookingId);
+        public bool IsD1Approved(string userId, string bookingId);
+        public bool IsD2Approved(string userId, string bookingId);
         public DateTime FetchD1BookedDate(string userId, string bookingId);
 
         // exposed to: booking controller, user profile service
@@ -66,7 +68,7 @@ namespace v1Remastered.Services
             return new BookingDetailsDto_UserBookingDetails();
         }
 
-        // service method: to fetch dose 1 booking status
+        // service method: to check if dose 1 booked
         public bool IsD1Booked(string userId, string bookingId)
         {
             var fetchedDetails = _v1RemDb.BookingDetails.FirstOrDefault(record=>record.UserId == userId && record.BookingId == bookingId);
@@ -77,24 +79,42 @@ namespace v1Remastered.Services
             return false;
         }
 
-        // service method: to fetch dose 2 booking status
+        // service method: to check if dose 2 booked
         public bool IsD2Booked(string userId, string bookingId)
         {
             var fetchedDetails = _v1RemDb.BookingDetails.FirstOrDefault(record=>record.UserId == userId && record.BookingId == bookingId);
             if(fetchedDetails != null)
             {
-                bool d1Status = IsD1Booked(userId, bookingId);
-                if(d1Status && fetchedDetails.Dose1ApproveDate != DateTime.MinValue)
-                {
-                    return fetchedDetails.Dose2BookDate != DateTime.MinValue;
-                }
-
-                return true;
+                return fetchedDetails.Dose2BookDate != DateTime.MinValue;
             }
 
             return false;
         }
     
+        // service method: to check if dose 1 approved
+        public bool IsD1Approved(string userId, string bookingId)
+        {
+            var fetchedDetails = _v1RemDb.BookingDetails.FirstOrDefault(record=>record.UserId == userId && record.BookingId == bookingId);
+            if(fetchedDetails != null)
+            {
+                return fetchedDetails.Dose1ApproveDate != DateTime.MinValue;
+            }
+
+            return false;
+        }
+
+        // service method: to check if dose 2 approved
+        public bool IsD2Approved(string userId, string bookingId)
+        {
+            var fetchedDetails = _v1RemDb.BookingDetails.FirstOrDefault(record=>record.UserId == userId && record.BookingId == bookingId);
+            if(fetchedDetails != null)
+            {
+                return fetchedDetails.Dose2ApproveDate != DateTime.MinValue;
+            }
+
+            return false;
+        }
+        
         // service method: to fetch date of dose 1 booking date
         public DateTime FetchD1BookedDate(string userId, string bookingId)
         {
@@ -203,10 +223,7 @@ namespace v1Remastered.Services
         // utility method: generate new booking id
         private string GenerateBookingId(string userid)
         {
-            Random rnd = new Random();
-            int randomNum = rnd.Next(100,1000);
-
-            return $"{userid}_B{randomNum}";
+            return $"BKID_{userid}";
         }
     
     } 

@@ -88,10 +88,7 @@ namespace v1Remastered.Services
         // utility method: generate user vaccine id
         private string GenerateUserVaccineId(string userid)
         {
-            Random rnd = new Random();
-            int randomNum = rnd.Next(0,99);
-
-            return $"{userid}_{randomNum}";
+            return $"VAXID_{userid}";
         }
     }
 }

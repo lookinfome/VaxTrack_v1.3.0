@@ -31,6 +31,7 @@ namespace v1Remastered.Services
         private readonly IAuthService _authService;
         private readonly IUserVaccineDetailsService _userVaccineDetailsService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private static int _userSequenceCounter = 0;
         
         public AccountService(AppDbContext v1RemDb, IAuthService authService, IUserVaccineDetailsService userVaccineDetailsService, IWebHostEnvironment webHostEnvironment)
         {
@@ -78,11 +79,28 @@ namespace v1Remastered.Services
         // utility method: generate new user id
         private string GenerateUserId(string username, string userUid)
         {
-            Random rnd = new Random();
-            string rndNum = rnd.Next(0,99).ToString();
-            string userId = username.Substring(0,2) + userUid.Substring(4,6) + rndNum; 
+            string _newUserId;
+            bool isDuplicate;
 
-            return userId.ToUpper();
+            // Extract initials
+            string[] nameParts = username.Split(' ');
+            string initials = string.Empty;
+            foreach (string part in nameParts)
+            {
+                if (!string.IsNullOrEmpty(part))
+                {
+                    initials += part[0];
+                }
+            }
+
+            do
+            {
+                _newUserId = $"{initials}_U{(++_userSequenceCounter).ToString("D2")}";
+                var fetchedDetails = _v1RemDb.UserDetails.FirstOrDefault(record => record.UserId == _newUserId);
+                isDuplicate = fetchedDetails != null;
+            } while (isDuplicate);
+
+            return _newUserId.ToUpper();
         }
 
         // utility method: save new user record
