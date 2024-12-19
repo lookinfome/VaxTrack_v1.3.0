@@ -47,14 +47,21 @@ namespace v1Remastered.Services
         public async Task<string> LoginUserAsync(string userid, string password)
         {
             var user = await _userManager.FindByNameAsync(userid);
-            if (user?.UserName == null)
+            if (user == null)
             {
                 return "";
             }
 
-            await _signInManager.PasswordSignInAsync(user, password, isPersistent: false, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(user, password, isPersistent: false, lockoutOnFailure: false);
             
-            return userid;
+            if (result.Succeeded)
+            {
+                return userid;
+            }
+            else
+            {
+                return "";
+            }
         }
         
         // service: register new user

@@ -64,6 +64,12 @@
             <div class="d-flex justify-content-between">
                 @* personal details *@
                 <div class="mt-4">
+
+                    @* user unique id *@
+                    <div style="">
+                        <span style="font-weight: 600;"> <i class="fas fa-id-card"></i> Unique ID: </span>
+                        <b>@FormattedUid</b>
+                    </div>
                     
                     @* user gender *@
                     <div style=">
@@ -83,40 +89,68 @@
                     </div>
 
                     @* user contact *@
-                    <div style="">
+                    <div class="d-flex">
                         <span style=" font-weight: 600;"> <i class="fas fa-phone"></i> Contact: </span>
-                        <b>@Model.UserPhone</b>
-                    </div>
-
-                    @* user unique id *@
-                    <div style="">
-                        <span style="font-weight: 600;"> <i class="fas fa-id-card"></i> Unique ID: </span>
-                        <b>@FormattedUid</b>
+                        <div id="userphone-non-editable-field" class="mx-2">
+                            <b>@Model.UserPhone</b>
+                            <button id="userphone-enable-edit"><i class="fas fa-pencil-alt"></i></button>
+                        </div>
+                        <div id="userphone-editable-field" class="mx-2" style="display: none;">
+                            <div class="d-flex">
+                                <form id="update-userphone-form" method="post">
+                                    <div class="d-flex">
+                                        <input type="text" class="form-control" id="update-userphone-value" name="" maxlength="10" value="@Model.UserPhone">
+                                        <button id="update-userphone-submit" class="mx-2"><i class="fas fa-check"></i></button>
+                                    </div>
+                                </form>
+                                <button id="userphone-disable-edit" class=""><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
                     </div>
 
                     @* user birthdate *@
-                    <div style="">
-                        <span style="font-weight: 600;">
-                            <i class="fas fa-birthday-cake"></i> Date of Birth:
-                        </span>
-                        @Model.UserBirthdate.ToString("yyyy-MM-dd")
-                    </div>
-                
+                    <div class="d-flex">
+                        <span style="font-weight: 600;"><i class="fas fa-birthday-cake"></i> Date of Birth:</span>
+                        <div id="userbirthdate-non-editable-field" class="mx-2">                            
+                            <b>@Model.UserBirthdate.ToString("yyyy-MM-dd")</b>
+                            <button id="userbirthdate-enable-edit"><i class="fas fa-pencil-alt"></i></button>
+                        </div>
+                        <div id="userbirthdate-editable-field" class="mx-2" style="display: none;">
+                            <div class="d-flex">
+                                <form id="update-userbirthdate-form" method="post">
+                                    <div class="d-flex">
+                                        <input type="date" class="form-control" id="update-userbirthdate-value" name="" max="@currMonthYear" placeholder="@Model.UserBirthdate.ToString("yyyy-MM-dd")">
+                                        <button id="update-userbirthdate-submit" class="mx-2"><i class="fas fa-check"></i></button>
+                                    </div>
+                                </form>
+                                <button id="userbirthdate-disable-edit" class=""><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>                
                 </div>
 
                 @* profile picture *@
                 <div>
                     @if (!string.IsNullOrEmpty(Model.ProfilePicturePath))
                     {
-                        <div class="">
+                        <div>
                             <img class="user-profile-img" style="box-shadow:0px 0px 10px gainsboro; width: 150px; height: 150px;" src="../@Model.ProfilePicturePath" alt="Profile Picture"/>
                         </div>
+                        <div class="text-center" style="margin-top: -30px;">
+                            <button id="user-profile-enable-edit" onclick="triggerFileInput()"><i class="fas fa-pencil-alt"></i></button>
+                        </div>
+                        <div>
+                            <form id="user-edit-profile-form" action="post">
+                                <input type="file" class="form-control user-edit-profile-field" id="profileImage" name="profileImage" accept="image/*" style="display: none;" onchange="handleFileChange(event)">
+                            </form>
+                        </div>   
                     }
                     else
                     {
                         <div class="mb-2">
                             <span style="color: white;">No profile picture uploaded</span>
                         </div>
+                        
                     }
                 </div>
             </div>
@@ -325,11 +359,16 @@
 
     @* 5th row: action buttons *@
     <div class="text-center mt-5">
+
+        @* button: edit user profile R&D - need to remove [not in use anymore] *@
+        @* <button id="user-edit-profile-button-id" class="user-edit-profile-button">
+            edit profile
+        </button> *@
         
-        @* button: edit user profile *@
-        <button type="button" class="user-edit-profile-button" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+        @* button: edit user profile - need to remove [not in use anymore] *@
+        @* <button type="button" class="user-edit-profile-button" data-bs-toggle="modal" data-bs-target="#editProfileModal">
             Edit Profile
-        </button>
+        </button> *@
 
         @* button: book slots *@
         @if(ViewBag.IsD1Booked == false)
@@ -392,7 +431,7 @@
 
     @* 6th row: modals *@
     
-    @* modal: user profile edit *@
+    @* modal: user profile edit - need to remove [not in use anymore] *@
     <div>
         <!-- modal: edit inputs form  -->
         <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -545,7 +584,7 @@
         </div>
     </div>
 
-    @* 7th row: dose booking *@
+    @* 7th row: dose booking - need to remove [not in use anymore]  *@
     <div id="slot-booking" class="d-flex justify-content-center mt-3">
 
     </div>
@@ -556,7 +595,7 @@
 <div class="row">
     @if(!string.IsNullOrEmpty(ViewBag.WelcomeMessage))
     {
-        <div id="welcomeMessage" class="toast position-fixed top-1 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="welcomeMessage" class="toast position-fixed top-0 end-0 m-5" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                 <i style="color: #52734D;" class="far fa-smile"></i> 
                 <strong style="color: #52734D;" class="me-auto mx-2">Login Attempt: Success</strong>
@@ -571,7 +610,7 @@
 
     @if(!string.IsNullOrEmpty(ViewBag.UserProfileUpdateSuccessMsg))
     {
-        <div id="userProfileUpdateSuccessMsg" class="toast position-fixed top-1 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="userProfileUpdateSuccessMsg" class="toast position-fixed top-0 end-0 m-5" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                 <i style="color: #52734D;" class="far fa-smile"></i> 
                 <strong style="color: #52734D;" class="me-auto mx-2">Profile Update: Success</strong>
@@ -586,7 +625,7 @@
 
     @if(!string.IsNullOrEmpty(ViewBag.UserProfileUpdateErrorMsg))
     {
-        <div id="userProfileUpdateErrorMsg" class="toast position-fixed top-1 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="userProfileUpdateErrorMsg" class="toast position-fixed top-0 end-0 m-5" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                 <i style="color: #FF5200;" class="far fa-frown"></i>
                 <strong style="color: #FF5200;" class="me-auto mx-2">Profile Update: Failed</strong>
@@ -601,7 +640,7 @@
 
     @if(!string.IsNullOrEmpty(ViewBag.BookingStatusMsg))
     {
-        <div id="bookingStatusMsg" class="toast position-fixed top-1 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="bookingStatusMsg" class="toast position-fixed top-0 end-0 m-5" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                 <i style="color: #0E185F;" class="fas fa-exclamation-triangle"></i>
                 <strong style="color: #0E185F;" class="me-auto mx-2">Slot Booking: Success</strong>
@@ -655,6 +694,159 @@
             }
 
         });
+    </script>
+
+    @* show userprofile editable field and update user profile picture *@
+    <script type="text/javascript">
+        function triggerFileInput() {
+            document.getElementById('profileImage').click();
+        }
+
+        function handleFileChange(event) {
+            // user profile pic
+            const fileInput = event.target;
+            const file = fileInput.files[0];
+
+            // user id
+            var url = window.location.href;
+            var userId = url.substring(url.lastIndexOf('/') + 1);
+
+            if (file) {
+                // Create FormData object
+                var formData = new FormData();
+                formData.append('userid', userId);
+                formData.append('profileImage', file);
+                formData.append('password', 'Abc!123'); 
+
+                // Send the data using AJAX
+                $.ajax({
+                    url: '/UserProfile/' + userId + '/Edit',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        if (data.success) {
+                            window.location.href = '/UserProfile/' + userId; // Redirect to UserProfile page
+                        } else {
+                            alert(data.message);
+                        }
+                    },
+                    error: function(data) {
+                        alert('An error occurred.');
+                    }
+                });
+            }
+        }
+    </script>
+
+    @* show userphone editable fields *@
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var userphoneEnableEditButton = $('#userphone-enable-edit');
+            var userphoneDisableEditButton = $('#userphone-disable-edit'); 
+            var userphoneNonEditableField = document.getElementById('userphone-non-editable-field');
+            var userPhoneEditableField = document.getElementById('userphone-editable-field');
+
+            var userbirthdateEnableEditButton = $('#userbirthdate-enable-edit');
+            var userbirthdateDisableEditButton = $('#userbirthdate-disable-edit'); 
+            var userbirthdateNonEditableField = document.getElementById('userbirthdate-non-editable-field');
+            var userbirthdateEditableField = document.getElementById('userbirthdate-editable-field');
+
+            userphoneEnableEditButton.on('click', function(){
+                userphoneNonEditableField.style.display = 'none';
+                userPhoneEditableField.style.display = 'block';
+            });
+
+            userphoneDisableEditButton.on('click', function(){
+                userphoneNonEditableField.style.display = 'block';
+                userPhoneEditableField.style.display = 'none';
+            })
+
+            userbirthdateEnableEditButton.on('click', function(){
+                userbirthdateNonEditableField.style.display = 'none';
+                userbirthdateEditableField.style.display = 'block';
+            });
+
+            userbirthdateDisableEditButton.on('click', function(){
+                userbirthdateNonEditableField.style.display = 'block';
+                userbirthdateEditableField.style.display = 'none';
+            });
+
+        });
+    </script>
+
+    @* submit updated userphone and userbirthdate values *@
+    <script type="text/javascript">
+
+        // update user phone
+        document.getElementById('update-userphone-submit').addEventListener('click', function(event){
+            event.preventDefault(); // Prevent the default form submission
+
+            // Collect values
+            const updatedValue = document.getElementById('update-userphone-value').value;
+
+            // User ID
+            var url = window.location.href;
+            var userId = url.substring(url.lastIndexOf('/') + 1);
+
+            // Send the data using AJAX
+            $.ajax({
+                url: '/UserProfile/' + userId + '/Edit',
+                type: 'POST',
+                data: {
+                    userid: userId,
+                    phoneNumber: updatedValue,
+                    profileImage: null,
+                    password: 'Abc!123'
+                },
+                success: function(data) {
+                    if (data.success) {
+                        window.location.href = '/UserProfile/' + userId; // Redirect to UserProfile page
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function(data) {
+                    alert('An error occurred.');
+                }
+            });
+        });
+
+        // update user birthdate
+        document.getElementById('update-userbirthdate-submit').addEventListener('click', function(event){
+            event.preventDefault(); // Prevent the default form submission
+
+            // Collect values
+            const updatedValue = document.getElementById('update-userbirthdate-value').value;
+
+            // User ID
+            var url = window.location.href;
+            var userId = url.substring(url.lastIndexOf('/') + 1);
+
+            // Send the data using AJAX
+            $.ajax({
+                url: '/UserProfile/' + userId + '/Edit',
+                type: 'POST',
+                data: {
+                    userid: userId,
+                    dateOfBirth: updatedValue,
+                    profileImage: null,
+                    password: 'Abc!123'
+                },
+                success: function(data) {
+                    if (data.success) {
+                        window.location.href = '/UserProfile/' + userId; // Redirect to UserProfile page
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function(data) {
+                    alert('An error occurred.');
+                }
+            });
+        });
+
     </script>
 
 
@@ -758,7 +950,7 @@
         });
     </script>
 
-    @* user edit profile JS *@
+    @* user edit profile JS - need to remove [not in use anymore] *@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
         const saveChangesButton = document.getElementById('saveChangesButton');

@@ -31,6 +31,9 @@ builder.Services.AddTransient<IAdminV2Service, AdminV2Service>();
 // Add support service
 builder.Services.AddTransient<ISupportService, SupportService>();
 
+// Add support manager service
+builder.Services.AddTransient<ISupportManagerService, SupportManagerService>();
+
 
 // Add SQLite DB
 builder.Services.AddDbContext<AppDbContext>(options => 

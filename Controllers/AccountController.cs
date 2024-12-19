@@ -114,9 +114,24 @@ namespace v1Remastered.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogoutUser()
         {
-            var result = await _authService.LogoutUserAsync();
+            try
+            {
+                var result = await _authService.LogoutUserAsync();
 
-            return result!=false ? RedirectToAction("Index", "Home") : NotFound(new {systemMessage = "something went wrong while logging you out"});
+                if (result)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return NotFound(new { systemMessage = "Something went wrong while logging you out" });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (ex) here if needed
+                return StatusCode(500, new { systemMessage = "An error occurred while logging you out" });
+            }
         }
 
     }

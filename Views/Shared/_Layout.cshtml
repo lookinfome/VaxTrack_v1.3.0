@@ -68,7 +68,7 @@
                                 @Html.AntiForgeryToken()
                                 <form asp-action="LogoutUser" asp-controller="Account" method="post">
                                     @Html.AntiForgeryToken()
-                                    <button type="submit" class="logout-submit"><i class="fas fa-sign-in-alt mx-2"></i>Logout</button>
+                                    <button class="logout-submit"><i class="fas fa-sign-in-alt mx-2"></i>Logout</button>
                                 </form>
                             </li>
                         }
@@ -83,18 +83,7 @@
         </main>
     </div>
 
-    <div id="test"></div>
 
-    <!-- offcanvas : User Feedback -->
-    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasRightLabel">User Feedback From Nav<i class="fas fa-star-half-alt"></i></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <!-- Content will be loaded here via AJAX -->
-        </div>
-    </div>
 
 
     <!-- jQuery -->
@@ -110,26 +99,5 @@
 </html>
 
 @section Scripts{
-    <script>
-        $(document).ready(function() {
-            $('#userFeedbackLink').on('click', function(e) {
-                e.preventDefault();
-                console.log(`nav linked clicked 1`);
-                $.ajax({
-                    url: '@Url.Action("UserFeedbackPage", "UserFeedback")',
-                    type: 'GET',
-                    success: function(data) {
-                        console.log(`nav linked clicked 2`);
-                        alert('hi success');
-                        $('#test').html(data);
-                        var offcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasRight'));
-                        offcanvas.show();
-                    },
-                    error: {
-                        alert('hi error');
-                    }
-                });
-            });
-        });
-    </script>
+
 }

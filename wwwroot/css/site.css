@@ -208,7 +208,57 @@ body {
   box-shadow: 0px 1px 10px aquamarine;
 }
 
-/* modal: user edit */
+#update-userbirthdate-value {
+  border: none;
+  padding: 0px;
+  color: white;
+  border-radius: 0px;
+  border-bottom: 1px solid white;
+  background-color: transparent;
+}
+
+#update-userphone-value {
+  border: none;
+  padding: 0px;
+  width: 100px;
+  color: white;
+  border-radius: 0px;
+  border-bottom: 1px solid white;
+  background-color: transparent;
+}
+
+#userphone-enable-edit, 
+#update-userphone-submit,
+#userphone-disable-edit,
+#userbirthdate-enable-edit,
+#update-userbirthdate-submit,
+#userbirthdate-disable-edit {
+  border: none;
+  color: #D7D3BF;
+  transition: 0.5s ease-in-out;
+  background-color: transparent;
+}
+
+#user-profile-enable-edit {
+  border: none;
+  color: #0E185F;
+  border-radius: 10px;
+  background-color: rgba(215, 211, 191, 0.6);
+}
+
+#update-userphone-submit:hover,
+#update-userbirthdate-submit:hover {
+  color: #9BEC00;
+  text-shadow: 0px 0px 2px #9BEC00;
+}
+
+#userphone-disable-edit:hover,
+#userbirthdate-disable-edit:hover {
+  color: #F72C5B;
+  text-shadow: 0px 0px 2px #F72C5B;
+}
+
+/* modal: user edit - need to remove [not in use anymore] */
 
 #editProfileModal .modal-content, 
 #confirmPasswordModal .modal-content, 
@@ -409,7 +459,7 @@ body {
   background-color: #5DB996;
 }
 
-.support-ticket-view {
+.support-ticket-view, .support-ticket-list-empty {
   background-color: #3C3D37;
 }
 

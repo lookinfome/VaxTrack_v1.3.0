@@ -1,25 +1,40 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using v1Remastered.Services;
 using v1Remastered.Dto;
+using Microsoft.AspNetCore.Identity;
 
 namespace v1Remastered.Controllers
 {
     [Route("Support/{userid}")]
+    [Authorize]
     public class SupportController:Controller
     {
         private readonly ISupportService _supportService;
         private readonly IUserProfileService _userProfileService;
+        private readonly UserManager<AppUserIdentityModel> _userManager;
 
-        public SupportController(ISupportService supportService, IUserProfileService userProfileService)
+        public SupportController(ISupportService supportService, IUserProfileService userProfileService, UserManager<AppUserIdentityModel> userManager)
         {
+            _userManager = userManager;
             _supportService = supportService;
             _userProfileService = userProfileService;
         }
 
 
         [HttpGet("")]
-        public IActionResult SupportPage([FromRoute] string userid)
+        public async Task<IActionResult> SupportPage([FromRoute] string userid)
         {
+            // fetch user details from asp-net-user table for authentication
+                var loggedInUser = await _userManager.GetUserAsync(User);
+
+            // if user's record not found
+            if (loggedInUser == null || loggedInUser.UserName != userid)
+            {
+                TempData["UnauthorizedAction"] = "Hey hey hey, you can't really do that... ";
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewBag.UserId = userid;
             ViewBag.UserName = _userProfileService.FetchUserName(userid);
             ViewBag.TicketRaiseSuccessMsg = TempData["TicketRaiseSuccessMsg"];
@@ -28,8 +43,7 @@ namespace v1Remastered.Controllers
             return View();
         }
         
-        [HttpPost]
-        [Route("RaiseNewTicket")]
+        [HttpPost("RaiseNewTicket")]
         public IActionResult RaiseNewTicket(SupportDetailsDto_SupportForm submitedDetails, [FromRoute] string userid)
         {
             if (ModelState.IsValid)

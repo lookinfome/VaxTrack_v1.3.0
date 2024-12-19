@@ -26,6 +26,7 @@
         <div>
             <button id="admin-dash-usages" class="admin-usages-btn"><i class="fas fa-tachometer-alt mx-2"></i>Usage Analytics</button>
             <button id="admin-dash-actions" class="admin-actions-btn"><i class="fas fa-pen-fancy mx-2"></i>Admin Actions</button>
+            <button id="admin-dash-support" class="admin-support-btn"><i class="fas fa-envelope-open-text mx-2"></i>Support Manager</button>
         </div>
     </div>
 
@@ -62,9 +63,9 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 
+    @* toast and alert messages *@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Show welcome message toast
             var _adminWelcomeMessage = document.getElementById('adminWelcomeMessage');
             if (_adminWelcomeMessage) {
                 var adminWelcomeMessage = new bootstrap.Toast(_adminWelcomeMessage);
@@ -133,9 +134,11 @@
                         $('#admin-dash-content').html(data);
                         var dashUsages = document.getElementById('admin-dash-usages');
                         var dashActions = document.getElementById('admin-dash-actions');
+                        var dashSupport = document.getElementById('admin-dash-support');
 
                         dashUsages.style.background = '#9BEC00';
                         dashActions.style.background = '#FBF8EF';
+                        dashSupport.style.background = '#FBF8EF';
 
                         // slot booking chart
                         var totalUsersCount = @ViewBag.TotalUserCount;
@@ -250,8 +253,10 @@
                         $('#admin-dash-content').html(data);
                         var dashUsages = document.getElementById('admin-dash-usages');
                         var dashActions = document.getElementById('admin-dash-actions');
+                        var dashSupport = document.getElementById('admin-dash-support');
 
                         dashActions.style.background = '#9BEC00';
+                        dashSupport.style.background = '#FBF8EF';
                         dashUsages.style.background = '#FBF8EF';
                     },
                     error: function(response) {
@@ -259,10 +264,32 @@
                     }
                 });
             });
-        
-        
-            
 
+            // load support tab 
+            $(document).on('click', '#admin-dash-support', function() {
+                var url = window.location.href;
+                var userId = url.substring(url.lastIndexOf('/') + 1);
+
+                $.ajax({
+                    url:'/SupportManager/'+userId,
+                    type:'GET',
+                    success: function(data) {
+                        var dashUsages = document.getElementById('admin-dash-usages');
+                        var dashActions = document.getElementById('admin-dash-actions');
+                        var dashSupport = document.getElementById('admin-dash-support');
+
+                        dashActions.style.background = '#FBF8EF';
+                        dashUsages.style.background = '#FBF8EF';
+                        dashSupport.style.background = '#9BEC00';
+
+                        $('#admin-dash-content').html(data);
+                    },
+                    error:function(response) {
+
+                    }
+                });
+            });
+        
         });
     </script>
  
