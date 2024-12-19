@@ -23,6 +23,7 @@
 -- Bug: application font - post updating Bootstrap to v5.3 excluded google font - completed
 -- Bug: hospital slot updates - post adding support manager tab on admin dashboard, slot is not updating - completed
 -- Bug: toggling active tabs - post adding support manager tab on admin dashboard, toggling is not consistent - completed 
+-- Bug: toggling slot book buttons - post slot booking messages and buttons are not consistent while getting displayed - completed
 
 
 ## Notes
