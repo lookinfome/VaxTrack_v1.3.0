@@ -23,6 +23,10 @@ namespace v1Remastered.Services
 
         // exposed to: account controller
         public string RegisterUser(UserDetailsDto_Register submittedDetails);
+
+        // exposed to: account controller
+        public Task<bool> ResetPassword(string userid, string newPassword);
+        
     }
 
     public class AccountService : IAccountService
@@ -49,6 +53,27 @@ namespace v1Remastered.Services
             return !string.IsNullOrEmpty(result.Result.ToString()) && result.Result.ToString() == submittedDetails.UserId ? submittedDetails.UserId : "";
         }
 
+        // service method: reset user password
+        public async Task<bool> ResetPassword(string userid, string newPassword)
+        {
+            if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(newPassword))
+            {
+                Console.WriteLine($"Need valid inputs for userid: {userid} and password: {newPassword}");
+                return false;
+            }
+
+            try
+            {
+                bool resetPasswordStatus = await _authService.ResetUserPassword(userid, newPassword);
+                return resetPasswordStatus;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return false;
+            }
+        }
+        
         // service method: register new user
         public string RegisterUser(UserDetailsDto_Register submittedDetails)
         {

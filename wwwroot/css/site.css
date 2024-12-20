@@ -110,9 +110,7 @@ body {
 }
 
 .icon-wink {
-  color: #9BEC00;
-  border-radius: 50%;
-  box-shadow: 0px 0px 10px #9BEC00;
+  text-shadow: 0px 0px 10px #9BEC00;
 }
 
 /* page: register partial */
@@ -147,14 +145,55 @@ body {
 }
 
 .icon-handshake {
-  color: #FFD369;
-  border-radius: 50%;
   text-shadow: 0px 1px 10px #FFD369;
+}
+
+/* page: reset password partial */
+#reset-password-link {
+  border: none;
+  color: #FFFFFF;
+  background-color: transparent;
+  transition: 0.5s ease-in-out;
+}
+
+#reset-password-link:hover {
+  color: #97FEED;
+}
+
+.reset-password-input:focus {
+  border-color: #97FEED;
+  box-shadow: 0px 1px 10px #97FEED;
+  outline: none;
+}
+
+.reset-password-content, .reset-password-body-content {
+  color: #97FEED;
+  font-weight: 450;
+}
+
+.reset-password-submit {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  background-color: gray;
+  transition: 0.5s ease-in-out;
+}
+
+.reset-password-submit:hover {
+  border: 1px solid #97FEED;
+  background-color: #97FEED;
+  box-shadow: 0px 1px 10px #97FEED;
+}
+
+.icon-sync {
+  text-shadow: 0px 1px 10px #97FEED;
 }
 
 /* form inputs: login, register, slot book */
 .login-input,
 .register-input,
+.reset-password-input,
 .book-form-input,
 .user-edit-profile-input {
   padding: 10px;

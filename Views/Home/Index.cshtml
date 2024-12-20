@@ -52,15 +52,42 @@
         <!-- space for partial view -->
     </div>
 
+
+    <!-- alert: toast message -->
+    <div class="row">
+        @if(!string.IsNullOrEmpty(ViewBag.PasswordResetSuccessMsg))
+        {
+            <div id="passwordResetSuccessMsg" class="toast position-fixed top-0 end-0 m-5" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <i style="color: #35A29F;" class="fas fa-check-circle"></i> 
+                    <strong style="color: #35A29F;" class="me-auto mx-2">Password Reset Attempt: Success</strong>
+                    @* <small>11 mins ago</small> *@
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    @ViewBag.PasswordResetSuccessMsg
+                </div>
+            </div>
+        }
+    </div>
+
 </div>
 
 
 @section Scripts{
 
-    @* 
-        load:   login and register partial view
-        submit: login and register form 
-    *@
+    @* display toast alert message *@
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var _passwordResetSuccessMsg = document.getElementById('passwordResetSuccessMsg');
+            if (_passwordResetSuccessMsg) {
+                var passwordResetSuccessMsg = new bootstrap.Toast(_passwordResetSuccessMsg);
+                passwordResetSuccessMsg.show();
+            }
+        });
+    </script>
+
+    @* load and submit login and rgistration form, and submit password reset form *@
     <script>
         $(document).ready(function(){
             $(document).on('click', '#home-btn-signin', function() {
@@ -147,6 +174,51 @@
         });
     </script>
 
+    @* load and submit reset password form *@
+    <script>
+        $(document).ready(function(){
+            $(document).on('click', '#reset-password-link', function() {
+                $.ajax({
+                    url: '@Url.Action("ResetPassword", "Account")',
+                    type: 'GET',
+                    success: function(data){
+                        
+                        var btnSignup = document.getElementById('home-btn-signup');
+                        btnSignup.style.color = '#FFFFFF'; // text color: white
+                        btnSignup.style.backgroundColor = 'rgba(0,0,0,0)'; // bg color: none
+                        btnSignup.addEventListener('mouseover', function() {
+                            btnSignup.style.color = '#FFEA20';
+                        });
+                        btnSignup.addEventListener('mouseout', function() {
+                            if (!btnSignup.classList.contains('active')) {
+                                btnSignup.style.color = '#FFFFFF';
+                            }
+                        });
+
+                        var btnSignin = document.getElementById('home-btn-signin');
+                        btnSignin.style.color = '#FFFFFF';
+                        btnSignin.style.backgroundColor = 'rgba(0,0,0,0)';
+                        btnSignin.addEventListener('mouseover', function() {
+                            btnSignin.style.color = '#9BEC00';
+                        });
+                        btnSignin.addEventListener('mouseout', function() {
+                            if (!btnSignin.classList.contains('active')) {
+                                btnSignin.style.color = '#FFFFFF';
+                            }
+                        });
+
+
+                        $('#home-action-body').html(data);
+                    },
+                    error: function(xhr, status, error){
+                        alert("Error loading password reset form: " + error);
+                    }
+                });
+            });
+        });
+    </script>
+
+    @* check password strength *@
     <script>
         $(document).on('input', '#Password', function () {
             var password = this.value;

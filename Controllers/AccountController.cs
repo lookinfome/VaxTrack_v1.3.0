@@ -64,7 +64,6 @@ namespace v1Remastered.Controllers
             }
         }
 
-
         [HttpGet("RegisterUser")]
         public IActionResult RegisterUser()
         {
@@ -110,6 +109,35 @@ namespace v1Remastered.Controllers
             }
         }
     
+        [HttpGet("ResetPassword")]
+        public IActionResult ResetPassword()
+        {
+            return PartialView("_ResetPasswordPartial");
+        }
+
+        [HttpPost("ResetPassword")]
+        public IActionResult ResetPassword(UserDetailsDto_PasswordReset submittedDetails)
+        {
+            if (ModelState.IsValid)
+            {
+                var isPasswordReset = _accountService.ResetPassword(submittedDetails.UserId, submittedDetails.UserPassword);
+
+                if (isPasswordReset.Result == true)
+                {
+                    TempData["PasswordResetSuccessMsg"] = "Tip: always change password after every 30 days";
+                    // return PartialView("_LoginUserPartial");
+                    return Json(new { success = true, redirectUrl = Url.Action("Index", "Home") });
+                }
+
+                return Ok("Password reset operation failed");
+            }
+            else
+            {
+                // Handle invalid model state
+                return BadRequest(ModelState);
+            }
+        }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogoutUser()

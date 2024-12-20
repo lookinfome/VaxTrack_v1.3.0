@@ -20,6 +20,7 @@ public class HomeController : Controller
         ViewBag.appVersion = "v2";
         ViewBag.appDescription = "Launching VaxTrack v2, as an open source platform for India to operate successful vaccination with efficient monitoring with an aim of achieving win over Covid-19."; 
         ViewBag.unauthorizedAction = TempData["UnauthorizedAction"];
+        ViewBag.PasswordResetSuccessMsg = TempData["PasswordResetSuccessMsg"];
 
         return View();
     }

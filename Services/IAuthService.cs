@@ -9,11 +9,14 @@ namespace v1Remastered.Services
         // exposed to: account service
         public Task<string> LoginUserAsync(string userid, string password);
 
-        // exposed to: user profile controller
-        public Task<bool> CheckUserAuthenticity(string userid, string password);
+        // exposed to: account service
+        public Task<bool> ResetUserPassword(string userid, string newPassword);
         
         // exposed to: account service
         public Task<string> RegisterUserAsync(string userid, string password, string role);
+        
+        // exposed to: user profile controller
+        public Task<bool> CheckUserAuthenticity(string userid, string password);
 
         /* exposed to: 
             account controller, 
@@ -61,6 +64,28 @@ namespace v1Remastered.Services
             else
             {
                 return "";
+            }
+        }
+
+        // service: reset user password
+        public async Task<bool> ResetUserPassword(string userid, string newPassword)
+        {
+            var user = await _userManager.FindByNameAsync(userid);
+            if(user == null)
+            {
+                return false;
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+            if(result.Succeeded)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Ase2W+SW51k0O09jkscdJ4NeoAc6/TMPS/JLOigHBbw=",
+  "Hash": "S6tZKNLLtZFXUvCxybRn8cZ8aGTuV8Ol+jPd2I4WiSU=",
   "Source": "v1Remastered",
   "BasePath": "_content/v1Remastered",
   "Mode": "Default",
@@ -169,6 +169,25 @@
       "OriginalItemSpec": "wwwroot\\assets\\35e84481-478b-4781-b671-0464b81873a6_img-2.jpg"
     },
     {
+      "Identity": "C:\\Users\\vivek.kumar162\\VaxTrack_v1.3.0\\VaxTrack_v1.3.0\\wwwroot\\assets\\37fb1b58-8589-4ef5-8e38-c51fe8d51517_img-0.jpg",
+      "SourceId": "v1Remastered",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\vivek.kumar162\\VaxTrack_v1.3.0\\VaxTrack_v1.3.0\\wwwroot\\",
+      "BasePath": "_content/v1Remastered",
+      "RelativePath": "assets/37fb1b58-8589-4ef5-8e38-c51fe8d51517_img-0.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\37fb1b58-8589-4ef5-8e38-c51fe8d51517_img-0.jpg"
+    },
+    {
       "Identity": "C:\\Users\\vivek.kumar162\\VaxTrack_v1.3.0\\VaxTrack_v1.3.0\\wwwroot\\assets\\70d12706-2062-4f79-aae1-071611f30935_img-1.jpg",
       "SourceId": "v1Remastered",
       "SourceType": "Discovered",
@@ -319,6 +338,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\cebce4b0-b872-4f8b-a1f2-ac521a833cf3_man.png"
+    },
+    {
+      "Identity": "C:\\Users\\vivek.kumar162\\VaxTrack_v1.3.0\\VaxTrack_v1.3.0\\wwwroot\\assets\\celebration-icon.png",
+      "SourceId": "v1Remastered",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\vivek.kumar162\\VaxTrack_v1.3.0\\VaxTrack_v1.3.0\\wwwroot\\",
+      "BasePath": "_content/v1Remastered",
+      "RelativePath": "assets/celebration-icon.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\celebration-icon.png"
     },
     {
       "Identity": "C:\\Users\\vivek.kumar162\\VaxTrack_v1.3.0\\VaxTrack_v1.3.0\\wwwroot\\assets\\default-0.png",

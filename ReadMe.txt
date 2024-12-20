@@ -1,6 +1,7 @@
 # Vax Track v1.2.0
 
 ## New Addition
+- Password Reset Feature: to reset password - completed
 - Support Module: to raise ticket and add follow-up comments - completed
 - Support Management Module: to update/modify/manage/close tickets raised by user - work in progress
 

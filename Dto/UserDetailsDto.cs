@@ -91,19 +91,17 @@ namespace v1Remastered.Dto
     }
 
     // currently not in use
-    public class UserDetailsDto_UserProfileEdit
+    public class UserDetailsDto_PasswordReset
     {
-        [DataType(DataType.Date)]
-        public DateTime UserBirthdate { get; set; } = DateTime.MinValue;
+        [Required(ErrorMessage = "user id is required")]
+        public string UserId {get; set;} = "";
 
-        [DataType(DataType.PhoneNumber)]
-        [Phone(ErrorMessage = "Invalid phone number")]
-        [StringLength(10, ErrorMessage = "Phone number cannot be longer than 10 digits")]
-        [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits")]
-        public string UserPhone { get; set; } = "";
-
-        public IFormFile? ProfilePicture { get; set; }
-
+        [Required(ErrorMessage = "user password is required")]
+        [DataType(DataType.Password)]
         public string UserPassword {get; set;}="";
+
+        [NotMapped]
+        [Compare("UserPassword", ErrorMessage = "password and confirm password should must match.")]
+        public string UserConfirmPassword { get; set; } = "";
     }
 }
