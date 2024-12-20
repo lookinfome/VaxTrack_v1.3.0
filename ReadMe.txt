@@ -1,4 +1,4 @@
-# Vax Track v1.2.0
+# Vax Track v1.3.0
 
 ## New Addition
 - Password Reset Feature: to reset password - completed
@@ -35,6 +35,7 @@
 - removed v1 admin page
 - added partial login view on home page
 - added partial registration view on home page
+- added partial password reset view on home page
 - added user profile edit modal on user profile page    : scrapped before final deployment
 - added user profile edit inline buttons on user profile page
 - added slot booking modal on user profile page
