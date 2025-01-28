@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "S6tZKNLLtZFXUvCxybRn8cZ8aGTuV8Ol+jPd2I4WiSU=",
+  "Hash": "Ly9V7/aN5WW3S9u4SiTYGjDyJNfOlIVITbuuLYeon30=",
   "Source": "v1Remastered",
   "BasePath": "_content/v1Remastered",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\1031c36c-b4ed-45c3-977c-37b831ccd22c_img-2.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\vivek.kumar162\\VaxTrack_v1.3.0\\VaxTrack_v1.3.0\\wwwroot\\assets\\1c533056-0732-4e80-9d8f-e7703d4fe697_img-4.jpg",
+      "SourceId": "v1Remastered",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\vivek.kumar162\\VaxTrack_v1.3.0\\VaxTrack_v1.3.0\\wwwroot\\",
+      "BasePath": "_content/v1Remastered",
+      "RelativePath": "assets/1c533056-0732-4e80-9d8f-e7703d4fe697_img-4.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\1c533056-0732-4e80-9d8f-e7703d4fe697_img-4.jpg"
     },
     {
       "Identity": "C:\\Users\\vivek.kumar162\\VaxTrack_v1.3.0\\VaxTrack_v1.3.0\\wwwroot\\assets\\1edb6e34-25af-4b2d-ba8f-496a5f1cc286_woman.png",

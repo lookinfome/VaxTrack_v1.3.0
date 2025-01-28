@@ -1,11 +1,88 @@
-<div class="contaier">
+<div class="container">
 
     <div class="row mt-5">
-        <div>
-            <h5 class="text-info">
-            Support Manager Page !
-        </h5>
+
+        <!-- 1st row : title and description  -->
+
+        <!-- 2nd row : status tile -->
+        <div class="row mt-2">
+            
+            <div class="col col-lg-2 col-md-4 col-sm-4">
+                <div class="support-total-ticket-count">
+                    <h5>Total Ticket Count</h5>
+                    <span style="font-size: 30px;">@ViewBag.TotalTicketsCount</span>
+                </div>
+            </div>
+
         </div>
+
+        <!-- 3rd row : ticket list -->
+        <div class="row mt-5">
+
+            <div class="support-manager-tickets-list col col-lg-5 col-md-12 col-sm-12">
+                <div class="title">
+                    <h5>
+                        Tickets - List
+                        <i class="icon-receipt fas fa-receipt"></i> 
+                    </h5>
+                </div>
+
+                <div class="mt-1" style="height:300px; overflow-y: auto;">
+                    @if(ViewBag.SupportTicketManagerList.Count > 0)
+                    {
+                        <table class="table table-hover">
+                            <thead>
+                                <th>Id</th>
+                                <th>Status</th>
+                                <th>Title</th>
+                                <th>Created Date</th>
+                            </thead>
+                            <tbody>
+                                @foreach(var record in ViewBag.SupportTicketManagerList)
+                                {
+                                    <tr class="viewTicketDetails" data-support-id="@record.SupportId">
+                                        <td>@record.SupportId</td>
+                                        <td>@record.SupportStatus</td>
+                                        <td>@record.SupportTitle</td>
+                                        <td>@record.SupportRaisedDate</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="support-manager-ticket-list-empty">
+                            <p style="color: #E1D7C6;" class="text-center">No Tickets For Now</p>
+                        </div>
+                    }
+
+                </div>
+            
+            </div>
+
+            <div class="col col-lg-6 col-md-12 col-sm-12">
+                <div class="title">
+                    <h5>
+                        Ticket - View
+                        <i class="icon-invoice fas fa-file-invoice"></i>
+                    </h5>
+                </div>
+                
+                <div class="support-manager-ticket-view">
+                    <p style="color: #E1D7C6;" class="text-center">Click On Ticket Form List Toast View </p>
+                </div>
+            </div>
+
+
+            
+
+        </div>
+
     </div>
 
 </div>
+
+
+
+

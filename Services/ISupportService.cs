@@ -21,6 +21,9 @@ namespace v1Remastered.Services
         // exposed to: support controller
         public SupportDetailsDto_SupportTicketDetailsView FetchTicketDetailsByUserIdTicketId(string userid, string supportid);
 
+        // exposed to: support controller, support manager controller
+        public SupportDetailsDto_SupportTicketDetailsView FetchTicketDetailsByTicketId(string supportid);
+
     }
 
     public class SupportService: ISupportService
@@ -144,7 +147,51 @@ namespace v1Remastered.Services
             return new SupportDetailsDto_SupportTicketDetailsView();
         }
         
+        public SupportDetailsDto_SupportTicketDetailsView FetchTicketDetailsByTicketId(string supportid)
+        {
+            var fetchedTicketDetails = _v1RemDb.SupportDetails.FirstOrDefault(record => record.SupportId == supportid);
+            if (fetchedTicketDetails == null)
+            {
+                return new SupportDetailsDto_SupportTicketDetailsView();
+            }
 
+            var fetchedCommentDetails = _v1RemDb.SupportConversations
+                                                .Where(record => record.SupportId == supportid)
+                                                .OrderByDescending(record => record.SupportCommentDate)
+                                                .ToList();
+
+            List<SupportDetailsDto_SupportCommentsDetails> mappedCommentDetailsList = new List<SupportDetailsDto_SupportCommentsDetails>();
+            if (fetchedCommentDetails.Count > 0)
+            {
+                foreach (var comment in fetchedCommentDetails)
+                {
+                    string username = _userProfileService.FetchUserName(comment.UserId);
+
+                    SupportDetailsDto_SupportCommentsDetails mappedCommentDetails = new SupportDetailsDto_SupportCommentsDetails
+                    {
+                        UserName = username,
+                        SupportCommentId = comment.SupportCommentId,
+                        SupportId = comment.SupportId,
+                        SupportComment = comment.SupportComment,
+                        SupportCommentDate = comment.SupportCommentDate
+                    };
+
+                    mappedCommentDetailsList.Add(mappedCommentDetails);
+                }
+            }
+
+            SupportDetailsDto_SupportTicketDetailsView mappedDetails = new SupportDetailsDto_SupportTicketDetailsView
+            {
+                SupportId = fetchedTicketDetails.SupportId,
+                SupportStatus = GetTicketStatus(fetchedTicketDetails.SupportStatus),
+                SupportTitle = fetchedTicketDetails.SupportTitle,
+                SupportDescription = fetchedTicketDetails.SupportDescription,
+                SupportRaisedDate = fetchedTicketDetails.SupportRaisedDate,
+                SupportComments = mappedCommentDetailsList
+            };
+
+            return mappedDetails;
+        }
 
         private string CreateNewTicketId()
         {

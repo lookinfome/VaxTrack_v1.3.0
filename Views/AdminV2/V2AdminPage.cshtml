@@ -265,7 +265,7 @@
                 });
             });
 
-            // load support tab 
+            // load support manager tab 
             $(document).on('click', '#admin-dash-support', function() {
                 var url = window.location.href;
                 var userId = url.substring(url.lastIndexOf('/') + 1);
@@ -292,5 +292,43 @@
         
         });
     </script>
- 
+
+    @* support manager: ticket details view *@
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.viewTicketDetails', function() {
+
+                // Extract the user ID from the URL
+                var url = window.location.href;
+                var userId = url.substring(url.lastIndexOf('/') + 1);
+
+                // Extract the supportId value
+                var supportId = $(this).data('support-id');
+
+                // Log the extracted values
+                console.log(`User ID: ${userId}`);
+                console.log(`Support ID: ${supportId}`);
+
+                // Make the AJAX call
+                $.ajax({
+                    url: `/SupportManager/${userId}/TicketDetails/${supportId}`,
+                    type: 'GET',
+                    success: function(response) {
+                        console.log('AJAX call successful');
+                        $('.support-manager-ticket-view').html(response);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error
+                        console.log(`Error: ${userId}, ${supportId}, ${url}`);
+                        console.log('Status:', status);
+                        console.log('Error:', error);
+                        console.log('Response:', xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+    
+    @* support manager: add new comment *@
+
 }

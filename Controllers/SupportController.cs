@@ -71,7 +71,8 @@ namespace v1Remastered.Controllers
 
                 if (isNewCommentAdded)
                 {
-                    ViewBag.TicketDetails = _supportService.FetchTicketDetailsByUserIdTicketId(userid, supportid);
+                    // ViewBag.TicketDetails = _supportService.FetchTicketDetailsByUserIdTicketId(userid, supportid);
+                    ViewBag.TicketDetails = _supportService.FetchTicketDetailsByTicketId(supportid);
                     return PartialView("_TicketCommentsPartial", ViewBag.TicketDetails);
                 }
                 return Ok("Failed to add comment.");
@@ -86,7 +87,8 @@ namespace v1Remastered.Controllers
         [HttpGet("TicketDetails/{supportId}")]
         public IActionResult GetTicketDetailsById([FromRoute] string userId, [FromRoute] string supportId)
         {
-            ViewBag.TicketDetails = _supportService.FetchTicketDetailsByUserIdTicketId(userId, supportId);
+            // ViewBag.TicketDetails = _supportService.FetchTicketDetailsByUserIdTicketId(userId, supportId);
+            ViewBag.TicketDetails = _supportService.FetchTicketDetailsByTicketId(supportId);
 
             // You can add logic here to fetch the ticket details using userId and supportId
             return PartialView("_TicketDetailsPartial");

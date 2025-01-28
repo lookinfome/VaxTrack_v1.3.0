@@ -467,7 +467,10 @@ body {
   background-color: #5DB996;
 }
 
-.support-ticket-view, .support-ticket-list-empty {
+.support-ticket-view, 
+.support-ticket-list-empty,
+.support-manager-ticket-view,
+.support-manager-tickets-empty {
   background-color: #3C3D37;
 }
 
@@ -482,14 +485,15 @@ body {
   font-size: 12px;
 }
 
-#SupportCommentForm input {
+#SupportCommentForm input, #SupportCommentAdminForm input {
   border: none;
   font-size: 12px;
+  color: #D7D3BF;
   border-bottom: 1px solid #FBF8EF;
   background-color: transparent;
 }
 
-#SupportCommentForm button, .comment-delete {
+#SupportCommentForm button, #SupportCommentAdminForm button, .comment-delete {
   border: none;
   font-size: 12px;
   border-radius: 10px;
@@ -497,14 +501,31 @@ body {
   transition: 0.5s ease-in-out;
 }
 
-#SupportCommentForm button:hover, .comment-delete:hover {
+#SupportCommentForm button:hover, #SupportCommentAdminForm button:hover, .comment-delete:hover {
   background-color: tan;
 }
 
-#SupportCommentForm input:focus {
-  outline: none;
-  color: #FBF8EF;
+#SupportCommentForm input:focus #SupportCommentAdminForm button:focus {
+  outline:none;
 }
+
+/* page: support manager partial */
+.support-total-ticket-count {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #97FEED;
+  transition: 0.5s ease-in-out;
+}
+
+.support-total-ticket-count:hover {
+  color: #000000;
+  box-shadow: 0px 0px 15px #5DB996;
+  background-color: #97FEED;
+}
+
+.icon-invoice {
+  color: #FFE6A9;
+} 
 
 /* toast: alert messages */
 #welcomeMessage, #userProfileUpdateSuccessMsg, #adminWelcomeMessage {

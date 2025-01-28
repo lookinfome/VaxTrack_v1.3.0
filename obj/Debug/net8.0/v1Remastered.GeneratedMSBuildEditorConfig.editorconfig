@@ -90,6 +90,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcG9ydE1hbmFnZXJcX1N1cHBvcnRNYW5hZ2VyUGFnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/vivek.kumar162/VaxTrack_v1.3.0/VaxTrack_v1.3.0/Views/SupportManager/_TicketAdminCommentsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcG9ydE1hbmFnZXJcX1RpY2tldEFkbWluQ29tbWVudHNQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/vivek.kumar162/VaxTrack_v1.3.0/VaxTrack_v1.3.0/Views/SupportManager/_TicketDetailsManagePartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcG9ydE1hbmFnZXJcX1RpY2tldERldGFpbHNNYW5hZ2VQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/vivek.kumar162/VaxTrack_v1.3.0/VaxTrack_v1.3.0/Views/Support/SupportPage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcG9ydFxTdXBwb3J0UGFnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

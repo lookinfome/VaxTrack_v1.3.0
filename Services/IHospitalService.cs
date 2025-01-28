@@ -78,7 +78,7 @@ namespace v1Remastered.Services
         // fetch available hospital locations
         public List<string> FetchAvailableHospitalLocations()
         {
-            var fetchedDetails = _v1RemDb.HospitalDetails.Where(record=>record.HospitalAvailableSlots >=1).Select(record=>record.HospitalLocation).ToList();
+            var fetchedDetails = _v1RemDb.HospitalDetails.Where(record=>record.HospitalAvailableSlots >=1).Select(record=>record.HospitalLocation).Distinct().ToList();
 
             if(fetchedDetails != null)
             {
